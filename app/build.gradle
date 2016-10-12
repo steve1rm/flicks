@@ -33,4 +33,6 @@ dependencies {
 
     /** View dependency */
 
+    /** Logging */
+    compile 'com.jakewharton.timber:timber:4.3.1'
 }
