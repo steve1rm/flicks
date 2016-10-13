@@ -10,6 +10,8 @@ public class DaggerInjector extends Application {
     private static AppComponent sAppComponent = DaggerAppComponent
             .builder()
             .retrofitModule(new RetrofitModule())
+            .presenterModule(new PresenterModule())
+            .modelModule(new ModelModule())
             .build();
 
     public static AppComponent getsAppComponent() {
