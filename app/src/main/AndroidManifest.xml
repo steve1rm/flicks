@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="me.androidbox.flicks">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name=".di.FlicksApplication"
         android:allowBackup="true"

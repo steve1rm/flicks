@@ -24,10 +24,10 @@ public class Movie {
         String original_language;
         String title;
         String backdrop_path;
-        int popularity;
+        float popularity;
         int vote_count;
         boolean video;
-        int vote_average;
+        float vote_average;
     }
 
     static class Dates {
