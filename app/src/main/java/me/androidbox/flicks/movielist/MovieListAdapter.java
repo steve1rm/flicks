@@ -65,7 +65,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 
         Glide.with(mContext.get())
                 .load(stringBuilder.toString())
-                .placeholder(R.drawable.ellie_300)
+                .placeholder(R.drawable.placeholder_poster)
                 .centerCrop()
                 .crossFade()
                 .into(holder.mIvMovieHeader);
