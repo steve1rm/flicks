@@ -10,5 +10,8 @@ import retrofit2.http.Query;
 
 public interface FlicksMovieService {
     @GET("movie/upcoming")
-    Call<Movie> getUpcomingMovies(@Query("api_key") String apiKey);
+    Call<Movies> getUpcomingMovies(@Query("api_key") String apiKey);
+
+    @GET("movie")
+    Call<MovieDetail> getMovieDetail(@Query("movie_id") String movieId, @Query("api_key") String apiKey);
 }

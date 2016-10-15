@@ -1,7 +1,5 @@
 package me.androidbox.flicks.movielist;
 
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
-
 /**
  * Created by steve on 10/12/16.
  */
@@ -9,14 +7,14 @@ import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
 public interface MovieListPresenterContract {
 
     /* Presenter <<-- view */
-    interface MoviePresenterOps<MovieListView> {
+    interface MovieListPresenterOps<MovieListView> {
         void attachView(MovieListView view);
         void detachView();
         void loadUpcomingMovies();
     }
 
     /* Model -->> Presenter */
-    interface PresenterEvents {
+    interface MovieListPresenterEvents {
         void onLoadUpComingMoviesSuccess();
         void onLoadUpComingMoviesFailure();
     }

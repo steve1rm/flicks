@@ -6,14 +6,14 @@ import java.util.List;
  * Created by steve on 10/12/16.
  */
 
-public class Movie {
+public class Movies {
     String page;
     List<Results> results;
     Dates dates;
     int total_pages;
     int total_results;
 
-    static class Results {
+    private static class Results {
         String poster_path;
         boolean adult;
         String overview;
@@ -30,7 +30,7 @@ public class Movie {
         float vote_average;
     }
 
-    static class Dates {
+    private static class Dates {
         String maximum;
         String minimum;
     }

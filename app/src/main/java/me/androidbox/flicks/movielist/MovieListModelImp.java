@@ -1,16 +1,10 @@
 package me.androidbox.flicks.movielist;
 
-import android.content.Context;
-import android.content.res.Resources;
-
-import java.util.List;
-
 import javax.inject.Inject;
 
-import me.androidbox.flicks.R;
 import me.androidbox.flicks.di.DaggerInjector;
 import me.androidbox.flicks.model.FlicksMovieService;
-import me.androidbox.flicks.model.Movie;
+import me.androidbox.flicks.model.Movies;
 import me.androidbox.flicks.utils.Constants;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,18 +29,20 @@ public class MovieListModelImp implements MovieListModelContract {
     }
 
     @Override
-    public void getUpComingMovies(UpComingMovieListener upComingMovieListener) {
+    public void getUpComingMovies(final UpComingMovieListener upComingMovieListener) {
         Timber.d("getUpComingMovies");
 
-        mFlicksMoveService.getUpcomingMovies(Constants.API_KEY).enqueue(new Callback<Movie>() {
+        mFlicksMoveService.getUpcomingMovies(Constants.API_KEY).enqueue(new Callback<Movies>() {
             @Override
-            public void onResponse(Call<Movie> call, Response<Movie> response) {
-                Timber.d(response.body().toString());
+            public void onResponse(Call<Movies> call, Response<Movies> response) {
+                Timber.d("onResponse: %s", response.body().toString());
+                upComingMovieListener.onGetMovieSuccess();
             }
 
             @Override
-            public void onFailure(Call<Movie> call, Throwable t) {
+            public void onFailure(Call<Movies> call, Throwable t) {
                 Timber.e(t, "onFailure");
+                upComingMovieListener.onGetMovieFailed();
             }
         });
     }

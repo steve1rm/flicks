@@ -4,7 +4,7 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import me.androidbox.flicks.movielist.MovieListModelImp;
-import me.androidbox.flicks.movielist.MovieListPresenterImp;
+import me.androidbox.flicks.movielist.MovieListListPresenterImp;
 import me.androidbox.flicks.movielist.MovieListView;
 
 /**
@@ -15,5 +15,5 @@ import me.androidbox.flicks.movielist.MovieListView;
 public interface AppComponent {
     void inject(MovieListModelImp target);
     void inject(MovieListView target);
-    void inject(MovieListPresenterImp target);
+    void inject(MovieListListPresenterImp target);
 }

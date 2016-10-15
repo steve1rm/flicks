@@ -19,7 +19,7 @@ import timber.log.Timber;
 public class MovieListView extends Fragment implements MovieListViewContract {
 
     @Inject
-    MovieListPresenterImp mMovieListPresenterImp;
+    MovieListListPresenterImp mMovieListPresenterImp;
 
     public MovieListView() {
         // Required empty public constructor
@@ -32,7 +32,7 @@ public class MovieListView extends Fragment implements MovieListViewContract {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_list_view, container, false);
+        return inflater.inflate(R.layout.movie_list_view, container, false);
     }
 
     @Override
