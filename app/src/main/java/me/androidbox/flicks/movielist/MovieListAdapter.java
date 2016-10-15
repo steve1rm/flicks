@@ -1,21 +1,16 @@
 package me.androidbox.flicks.movielist;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
 import java.lang.ref.WeakReference;
-import java.util.Collections;
-import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import me.androidbox.flicks.R;
 import me.androidbox.flicks.model.Movies;
 import me.androidbox.flicks.utils.Constants;
@@ -24,10 +19,12 @@ import me.androidbox.flicks.utils.Constants;
  * Created by steve on 10/15/16.
  */
 
-public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieViewHolder> {
+public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Movies mMoviesList;
     private WeakReference<Context> mContext;
+    private final int PORTRAIT = 0;
+    private final int LANDSCAPE = 1;
 
     public MovieListAdapter(Movies movies, Context context) {
         mMoviesList = movies;
@@ -36,15 +33,45 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 
     @Override
     public int getItemCount() {
-        return 20; //mMoviesList.getResults().size();
+        return (mMoviesList == null) ? 0 : mMoviesList.getResults().size();
     }
 
     @Override
-    public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        final View view = layoutInflater.inflate(R.layout.movie_info, parent, false);
+    public int getItemViewType(int position) {
+        /* Set default to portrait */
+        int orientation = PORTRAIT;
 
-        return new MovieViewHolder(view);
+        if(mContext.get().getResources().getConfiguration().orientation
+                == Configuration.ORIENTATION_PORTRAIT) {
+            orientation = PORTRAIT;
+        }
+        else if(mContext.get().getResources().getConfiguration().orientation
+                == Configuration.ORIENTATION_LANDSCAPE) {
+            orientation = LANDSCAPE;
+        }
+
+        return orientation;
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        RecyclerView.ViewHolder viewHolder = null;
+        View view;
+
+        switch(viewType) {
+            case PORTRAIT:
+                view = layoutInflater.inflate(R.layout.movie_info, parent, false);
+                viewHolder = new MovieViewHolderPortrait(view);
+                break;
+
+            case LANDSCAPE:
+                view = layoutInflater.inflate(R.layout.movie_info_landscape, parent, false);
+                viewHolder = new MovieViewHolderLandscape(view);
+                break;
+        }
+
+        return viewHolder;
     }
 
     public void updateMovieList(Movies movies) {
@@ -53,9 +80,23 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
     }
 
     @Override
-    public void onBindViewHolder(MovieViewHolder holder, int position) {
-        holder.mTvMovieTitle.setText(mMoviesList.getResults().get(position).getTitle());
-   //     holder.mTvMovieOverview.setText(mMoviesList.getResults().get(position).getOverview());
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        switch(holder.getItemViewType()) {
+            case PORTRAIT:
+                MovieViewHolderPortrait viewHolderPortrait = (MovieViewHolderPortrait)holder;
+                bindPortraitMode(viewHolderPortrait, position);
+                break;
+
+            case LANDSCAPE:
+                MovieViewHolderLandscape viewHolderLandscape = (MovieViewHolderLandscape)holder;
+                bindLandscapeMode(viewHolderLandscape, position);
+                break;
+        }
+    }
+
+    private void bindPortraitMode(MovieViewHolderPortrait viewHolderPortrait, int position) {
+        viewHolderPortrait.mTvMovieTitle.setText(mMoviesList.getResults().get(position).getTitle());
+        //     holder.mTvMovieOverview.setText(mMoviesList.getResults().get(position).getOverview());
 
         /* Build image path to display associated image */
         StringBuilder stringBuilder = new StringBuilder();
@@ -68,18 +109,24 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
                 .placeholder(R.drawable.placeholder_poster)
                 .centerCrop()
                 .crossFade()
-                .into(holder.mIvMovieHeader);
+                .into(viewHolderPortrait.mIvMovieHeader);
     }
 
-    static class MovieViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tvMovieTitle) TextView mTvMovieTitle;
-        @BindView(R.id.tvMovieOverview) TextView mTvMovieOverview;
-        @BindView(R.id.ivMovieHeader) ImageView mIvMovieHeader;
+    private void bindLandscapeMode(MovieViewHolderLandscape viewHolderLandscape, int position) {
+        viewHolderLandscape.mTvMovieTitle.setText(mMoviesList.getResults().get(position).getTitle());
+        viewHolderLandscape.mTvMovieOverview.setText(mMoviesList.getResults().get(position).getOverview());
 
-        public MovieViewHolder(View itemView) {
-            super(itemView);
+        /* Build image path to display associated image */
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(Constants.CONFIGURATION);
+        stringBuilder.append(Constants.W300);
+        stringBuilder.append(mMoviesList.getResults().get(position).getBackdrop_path());
 
-            ButterKnife.bind(MovieViewHolder.this, itemView);
-        }
+        Glide.with(mContext.get())
+                .load(stringBuilder.toString())
+                .placeholder(R.drawable.placeholder_poster)
+                .centerCrop()
+                .crossFade()
+                .into(viewHolderLandscape.mIvBackdropImage);
     }
 }

@@ -1,11 +1,13 @@
 package me.androidbox.flicks.movielist;
 
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -79,8 +81,12 @@ public class MovieListView extends Fragment implements MovieListViewContract {
     private void setRecyclerView() {
         mMovieListAdapter = new MovieListAdapter(new Movies(), getActivity());
         mRvMovieList.setAdapter(mMovieListAdapter);
-  //      GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
-        mRvMovieList.setLayoutManager(new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false));
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            mRvMovieList.setLayoutManager(new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false));
+        }
+        else {
+            mRvMovieList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        }
     }
 
     @Override
