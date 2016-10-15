@@ -18,6 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.androidbox.flicks.R;
 import me.androidbox.flicks.model.Movies;
+import me.androidbox.flicks.utils.Constants;
 
 /**
  * Created by steve on 10/15/16.
@@ -54,13 +55,18 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
     @Override
     public void onBindViewHolder(MovieViewHolder holder, int position) {
         holder.mTvMovieTitle.setText(mMoviesList.getResults().get(position).getTitle());
-        holder.mTvMovieTitle.setText(mMoviesList.getResults().get(position).getOverview());
+   //     holder.mTvMovieOverview.setText(mMoviesList.getResults().get(position).getOverview());
+
+        /* Build image path to display associated image */
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(Constants.CONFIGURATION);
+        stringBuilder.append(Constants.W185);
+        stringBuilder.append(mMoviesList.getResults().get(position).getPoster_path());
 
         Glide.with(mContext.get())
-                .load(mMoviesList.getResults().get(position).getPoster_path())
+                .load(stringBuilder.toString())
                 .placeholder(R.drawable.ellie_300)
                 .centerCrop()
-                .override(100, 200)
                 .crossFade()
                 .into(holder.mIvMovieHeader);
     }

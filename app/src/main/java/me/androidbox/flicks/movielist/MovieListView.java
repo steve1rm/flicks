@@ -79,6 +79,7 @@ public class MovieListView extends Fragment implements MovieListViewContract {
     private void setRecyclerView() {
         mMovieListAdapter = new MovieListAdapter(new Movies(), getActivity());
         mRvMovieList.setAdapter(mMovieListAdapter);
+  //      GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
         mRvMovieList.setLayoutManager(new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false));
     }
 

@@ -7,4 +7,10 @@ package me.androidbox.flicks.utils;
 public final class Constants {
     public static final String BASE_URL = "https://api.themoviedb.org/3/";
     public static final String API_KEY = "548c69a01f777b7f16db88b053bbc903";
+    public static final String CONFIGURATION = "https://image.tmdb.org/t/p/";
+    public static final String W92 = "w92";
+    public static final String W154 = "w154";
+    public static final String W185 = "w185";
+    public static final String W300 = "w300";
+    public static final String W500 = "w500";
 }
