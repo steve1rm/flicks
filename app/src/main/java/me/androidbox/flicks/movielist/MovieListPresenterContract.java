@@ -1,5 +1,7 @@
 package me.androidbox.flicks.movielist;
 
+import me.androidbox.flicks.model.Movies;
+
 /**
  * Created by steve on 10/12/16.
  */
@@ -15,7 +17,7 @@ public interface MovieListPresenterContract {
 
     /* Model -->> Presenter */
     interface MovieListPresenterEvents {
-        void onLoadUpComingMoviesSuccess();
+        void onLoadUpComingMoviesSuccess(Movies moviesList);
         void onLoadUpComingMoviesFailure();
     }
 }

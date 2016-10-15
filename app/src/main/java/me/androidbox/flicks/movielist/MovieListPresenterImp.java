@@ -1,8 +1,11 @@
 package me.androidbox.flicks.movielist;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import me.androidbox.flicks.di.DaggerInjector;
+import me.androidbox.flicks.model.Movies;
 import timber.log.Timber;
 
 /**
@@ -43,8 +46,8 @@ public class MovieListPresenterImp implements
     }
 
     @Override
-    public void onLoadUpComingMoviesSuccess() {
-        mMovieListView.loadUpcomingMovies();
+    public void onLoadUpComingMoviesSuccess(Movies moviesList) {
+        mMovieListView.loadUpcomingMovies(moviesList);
     }
 
     @Override
@@ -58,7 +61,10 @@ public class MovieListPresenterImp implements
     }
 
     @Override
-    public void onGetMovieSuccess() {
+    public void onGetMovieSuccess(Movies moviesList) {
         Timber.e("onGetMovieSuccess");
+        mMovieListView.loadUpcomingMovies(moviesList);
     }
+
+
 }

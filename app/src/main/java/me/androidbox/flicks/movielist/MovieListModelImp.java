@@ -1,5 +1,7 @@
 package me.androidbox.flicks.movielist;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import me.androidbox.flicks.di.DaggerInjector;
@@ -35,8 +37,8 @@ public class MovieListModelImp implements MovieListModelContract {
         mFlicksMoveService.getUpcomingMovies(Constants.API_KEY).enqueue(new Callback<Movies>() {
             @Override
             public void onResponse(Call<Movies> call, Response<Movies> response) {
+                upComingMovieListener.onGetMovieSuccess(response.body());
                 Timber.d("onResponse: %s", response.body().toString());
-                upComingMovieListener.onGetMovieSuccess();
             }
 
             @Override
