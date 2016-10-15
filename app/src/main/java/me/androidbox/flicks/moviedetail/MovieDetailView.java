@@ -43,7 +43,7 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
 
         if(mMovieDetailPresenterImp != null) {
             Timber.d("mMovieDetailPresenterImp != null");
-            mMovieDetailPresenterImp.loadMovieDetail("302946");
+            mMovieDetailPresenterImp.loadMovieDetail(302946L);
         }
     }
 

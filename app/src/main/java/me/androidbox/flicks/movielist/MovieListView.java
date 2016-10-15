@@ -3,12 +3,18 @@ package me.androidbox.flicks.movielist;
 
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.design.widget.TabLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import me.androidbox.flicks.R;
 import me.androidbox.flicks.di.DaggerInjector;
 import timber.log.Timber;
@@ -17,6 +23,9 @@ import timber.log.Timber;
  * A simple {@link Fragment} subclass.
  */
 public class MovieListView extends Fragment implements MovieListViewContract {
+
+    @BindView(R.id.tool_bar) Toolbar mToolBar;
+    private Unbinder mUnbinder;
 
     @Inject
     MovieListPresenterImp mMovieListPresenterImp;
@@ -32,7 +41,29 @@ public class MovieListView extends Fragment implements MovieListViewContract {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.movie_list_view, container, false);
+        final View view = inflater.inflate(R.layout.movie_list_view, container, false);
+
+        /* View Injection */
+        mUnbinder = ButterKnife.bind(MovieListView.this, view);
+
+        setupToolBar();
+        setupTabs(view);
+
+        return view;
+    }
+
+    /** Setup the toolbar */
+    private void setupToolBar() {
+        AppCompatActivity appCompatActivity = (AppCompatActivity)getActivity();
+        appCompatActivity.setSupportActionBar(mToolBar);
+    }
+
+    /** Setup the tabs */
+    private void setupTabs(View view) {
+        TabLayout tabLayout = (TabLayout)view.findViewById(R.id.tabLayout);
+        tabLayout.addTab(tabLayout.newTab().setCustomView(R.layout.tab_nowshowing));
+        tabLayout.addTab(tabLayout.newTab().setCustomView(R.layout.tab_upcoming));
+
     }
 
     @Override
@@ -46,6 +77,12 @@ public class MovieListView extends Fragment implements MovieListViewContract {
             mMovieListPresenterImp.attachView(MovieListView.this);
             mMovieListPresenterImp.loadUpcomingMovies();
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mUnbinder.unbind();
     }
 
     @Override
