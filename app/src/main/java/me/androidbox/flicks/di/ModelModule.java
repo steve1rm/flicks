@@ -4,6 +4,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import me.androidbox.flicks.moviedetail.MovieDetailModelImp;
 import me.androidbox.flicks.movielist.MovieListModelImp;
 
 /**
@@ -13,7 +14,12 @@ import me.androidbox.flicks.movielist.MovieListModelImp;
 public class ModelModule {
 
     @Provides @Singleton
-    public MovieListModelImp providesMovieModel() {
+    public MovieListModelImp providesMovieListModel() {
         return new MovieListModelImp();
+    }
+
+    @Provides @Singleton
+    public MovieDetailModelImp providesMovieDetailModel() {
+        return new MovieDetailModelImp();
     }
 }

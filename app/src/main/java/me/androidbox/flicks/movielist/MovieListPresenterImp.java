@@ -9,7 +9,7 @@ import timber.log.Timber;
  * Created by steve on 10/12/16.
  */
 
-public class MovieListListPresenterImp implements
+public class MovieListPresenterImp implements
         MovieListPresenterContract.MovieListPresenterOps<MovieListViewContract>,
         MovieListPresenterContract.MovieListPresenterEvents,
         MovieListModelContract.UpComingMovieListener {
@@ -19,8 +19,8 @@ public class MovieListListPresenterImp implements
 
     private MovieListViewContract mMovieListView;
 
-    public MovieListListPresenterImp() {
-        DaggerInjector.getsAppComponent().inject(MovieListListPresenterImp.this);
+    public MovieListPresenterImp() {
+        DaggerInjector.getsAppComponent().inject(MovieListPresenterImp.this);
 
         if(mMovieListModelImp != null) {
             Timber.d("mMovieListModelImp != null");
@@ -39,7 +39,7 @@ public class MovieListListPresenterImp implements
 
     @Override
     public void loadUpcomingMovies() {
-        mMovieListModelImp.getUpComingMovies(MovieListListPresenterImp.this);
+        mMovieListModelImp.getUpComingMovies(MovieListPresenterImp.this);
     }
 
     @Override

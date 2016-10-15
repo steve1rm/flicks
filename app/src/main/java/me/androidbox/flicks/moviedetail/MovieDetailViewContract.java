@@ -4,6 +4,6 @@ package me.androidbox.flicks.moviedetail;
  * Created by steve on 10/14/16.
  */
 
-public interface MovieDetailViewContrct {
+public interface MovieDetailViewContract {
     void loadMovieDetail(String id);
 }

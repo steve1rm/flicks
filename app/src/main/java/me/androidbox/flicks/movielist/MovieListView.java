@@ -19,7 +19,7 @@ import timber.log.Timber;
 public class MovieListView extends Fragment implements MovieListViewContract {
 
     @Inject
-    MovieListListPresenterImp mMovieListPresenterImp;
+    MovieListPresenterImp mMovieListPresenterImp;
 
     public MovieListView() {
         // Required empty public constructor
