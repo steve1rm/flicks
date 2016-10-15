@@ -62,7 +62,7 @@ public class MovieListPresenterImp implements
 
     @Override
     public void onGetMovieSuccess(Movies moviesList) {
-        Timber.e("onGetMovieSuccess");
+        Timber.d("onGetMovieSuccess");
         mMovieListView.loadUpcomingMovies(moviesList);
     }
 

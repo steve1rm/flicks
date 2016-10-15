@@ -4,8 +4,11 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import me.androidbox.flicks.BuildConfig;
 import me.androidbox.flicks.model.FlicksMovieService;
 import me.androidbox.flicks.utils.Constants;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -14,16 +17,30 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 @Module
 public class RetrofitModule {
-    private Retrofit retrofit() {
+
+    private OkHttpClient httpLogging() {
+        HttpLoggingInterceptor logger = new HttpLoggingInterceptor();
+
+        /* Only use logging for RESTFul when running debug versions only */
+        logger.setLevel((BuildConfig.DEBUG) ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE);
+
+        return new OkHttpClient
+                .Builder()
+                .addInterceptor(logger)
+                .build();
+    }
+
+    private Retrofit retrofit(OkHttpClient okHttpClient) {
         return new Retrofit
                 .Builder()
                 .baseUrl(Constants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient)
                 .build();
     }
 
     @Provides @Singleton
     public FlicksMovieService providesMovieService() {
-        return retrofit().create(FlicksMovieService.class);
+        return retrofit(httpLogging()).create(FlicksMovieService.class);
     }
 }
