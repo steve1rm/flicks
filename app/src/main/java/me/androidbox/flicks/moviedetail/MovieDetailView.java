@@ -1,6 +1,7 @@
 package me.androidbox.flicks.moviedetail;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -9,6 +10,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerFragment;
 
 import javax.inject.Inject;
 
@@ -41,7 +46,7 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
         // Required empty public constructor
     }
 
-    public static MovieDetailView getInstance(int data) {
+    public static MovieDetailView getNewInstance(int data) {
         MovieDetailView movieDetailView = new MovieDetailView();
         Bundle bundle = new Bundle();
         bundle.putInt(MovieViewHolderPortrait.MOVIEID_KEY, data);
@@ -51,10 +56,33 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.movie_detail_view, container, false);
         mUnbinder = ButterKnife.bind(MovieDetailView.this, view);
+
+        YouTubePlayerFragment youTubePlayerFragment = YouTubePlayerFragment.newInstance();
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.youtubePlayerFragment, youTubePlayerFragment);
+        fragmentTransaction.commit();
+
+        youTubePlayerFragment.initialize("AIzaSyBKQN1qEQAouJ-xUgtbyLg433VrlqD_pxo", new YouTubePlayer.OnInitializedListener() {
+            @Override
+            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+                Timber.d("onInitializationSuccess");
+                youTubePlayer.loadVideo("wtZXHhUjev0");
+            }
+
+            @Override
+            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+                Timber.e("Youtube initialization failure: %s is recoverable: %b", youTubeInitializationResult.name(), youTubeInitializationResult.isUserRecoverableError());
+            }
+        });
 
         if(getArguments() != null) {
             Bundle bundle = getArguments();

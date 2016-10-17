@@ -45,7 +45,7 @@ public class MovieListView extends Fragment implements MovieListViewContract {
         // Required empty public constructor
     }
 
-    public static MovieListView getInstance() {
+    public static MovieListView getNewInstance() {
         return new MovieListView();
     }
 
