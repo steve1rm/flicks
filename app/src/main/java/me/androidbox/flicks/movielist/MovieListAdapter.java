@@ -94,6 +94,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
+    /* Change layout to display in portrait mode */
     private void bindPortraitMode(MovieViewHolderPortrait viewHolderPortrait, int position) {
         viewHolderPortrait.mTvMovieTitle.setText(mMoviesList.getResults().get(position).getTitle());
         //     holder.mTvMovieOverview.setText(mMoviesList.getResults().get(position).getOverview());
@@ -112,6 +113,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 .into(viewHolderPortrait.mIvMovieHeader);
     }
 
+    /* Change layout to display in landscape mode */
     private void bindLandscapeMode(MovieViewHolderLandscape viewHolderLandscape, int position) {
         viewHolderLandscape.mTvMovieTitle.setText(mMoviesList.getResults().get(position).getTitle());
         viewHolderLandscape.mTvMovieOverview.setText(mMoviesList.getResults().get(position).getOverview());
