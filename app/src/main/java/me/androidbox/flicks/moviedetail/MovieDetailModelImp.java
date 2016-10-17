@@ -27,16 +27,18 @@ public class MovieDetailModelImp implements MovieDetailModelContract {
     }
 
     @Override
-    public void getMovieDetail(final int movie_id, GetMovieDetailListener getMovieDetailListener) {
+    public void getMovieDetail(final int movie_id, final GetMovieDetailListener getMovieDetailListener) {
         mFlicksMovieService.getMovieDetail(movie_id, Constants.API_KEY).enqueue(new Callback<MovieDetail>() {
             @Override
             public void onResponse(Call<MovieDetail> call, Response<MovieDetail> response) {
-                Timber.d("%s onResponse: %s", movie_id, response.body());
+                Timber.d("onResponse: %d %d", movie_id, response.body().getId());
+                getMovieDetailListener.onGetMovieDetailSuccess(response.body());
             }
 
             @Override
             public void onFailure(Call<MovieDetail> call, Throwable t) {
                 Timber.e(t, "onFailure");
+                getMovieDetailListener.onGetMovieDetailFailure(t.getMessage());
             }
         });
     }

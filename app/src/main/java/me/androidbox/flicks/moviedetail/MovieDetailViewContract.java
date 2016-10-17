@@ -5,5 +5,10 @@ package me.androidbox.flicks.moviedetail;
  */
 
 public interface MovieDetailViewContract {
-    void loadMovieDetail(String id);
+    void displayTagline(String tagline);
+    void displayTitle(String title);
+    void displayReleasedate(String releasedate);
+  //  void displayPopularity(String popularity);
+    void displayOverview(String overview);
+    void displayFailureMessage();
 }

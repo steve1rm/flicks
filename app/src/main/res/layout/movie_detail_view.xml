@@ -26,7 +26,9 @@
             android:layout_marginBottom="16dp"
             android:text="TAGLINE"
             android:textColor="@android:color/white"
-            android:textSize="22sp"
+            android:textSize="16sp"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-condensed"
             app:layout_anchor="@id/ivMovieHeader"
             app:layout_anchorGravity="bottom|right"/>
     </android.support.design.widget.CoordinatorLayout>
@@ -35,28 +37,42 @@
         android:id="@+id/tvMovieTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:layout_below="@id/coordinator"
         android:text="title"
+        android:fontFamily="sans-serif-light"
         android:textColor="@android:color/white"
         android:textSize="22sp"/>
+
+    <RatingBar
+        android:id="@+id/rbMovieRatings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_below="@id/tvMovieTitle"
+        style="?android:attr/ratingBarStyleIndicator"/>
 
     <TextView
         android:id="@+id/tvReleaseDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tvMovieTitle"
+        android:layout_marginTop="16dp"
+        android:layout_below="@id/rbMovieRatings"
         android:text="releasedatae"
+        android:fontFamily="sans-serif"
         android:textColor="@android:color/white"
-        android:textSize="22sp"/>
+        android:textSize="16sp"/>
 
     <TextView
         android:id="@+id/tvMovieOverview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:layout_below="@id/tvReleaseDate"
         android:text="Overview"
+        android:fontFamily="sans-serif"
         android:textColor="@android:color/white"
-        android:textSize="22sp"/>
+        android:textSize="18sp"/>
 
 
 </RelativeLayout>
