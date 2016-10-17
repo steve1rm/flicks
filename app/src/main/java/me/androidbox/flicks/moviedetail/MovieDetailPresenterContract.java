@@ -9,7 +9,7 @@ public interface MovieDetailPresenterContract {
     interface MovieDetailPresneterOps<MovieDetailView> {
         void attachView(MovieDetailView view);
         void detachView();
-        void loadMovieDetail(Long movieId);
+        void loadMovieDetail(int movieId);
     }
 
     /* Model -->> Presenter */

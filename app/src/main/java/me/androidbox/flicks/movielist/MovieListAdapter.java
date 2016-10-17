@@ -62,7 +62,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         switch(viewType) {
             case PORTRAIT:
                 view = layoutInflater.inflate(R.layout.movie_info, parent, false);
-                viewHolder = new MovieViewHolderPortrait(view);
+                viewHolder = new MovieViewHolderPortrait(view, MovieListAdapter.this, mContext.get());
                 break;
 
             case LANDSCAPE:
@@ -77,6 +77,10 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void updateMovieList(Movies movies) {
         mMoviesList= movies;
         notifyDataSetChanged();
+    }
+
+    public int getMovieId(int position) {
+        return mMoviesList.getResults().get(position).getId();
     }
 
     @Override

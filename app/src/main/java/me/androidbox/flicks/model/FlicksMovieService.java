@@ -14,5 +14,5 @@ public interface FlicksMovieService {
     Call<Movies> getUpcomingMovies(@Query("api_key") String apiKey);
 
     @GET("movie/{movie_id}")
-    Call<MovieDetail> getMovieDetail(@Path("movie_id") Long movieId, @Query("api_key") String apiKey);
+    Call<MovieDetail> getMovieDetail(@Path("movie_id") int movieId, @Query("api_key") String apiKey);
 }

@@ -10,5 +10,5 @@ public interface MovieDetailModelContract {
         void onGetMovieDetailFailure();
     }
 
-    void getMovieDetail(Long movie_id, GetMovieDetailListener getMovieDetailListener);
+    void getMovieDetail(int movie_id, GetMovieDetailListener getMovieDetailListener);
 }

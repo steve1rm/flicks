@@ -36,7 +36,7 @@ public class MovieDetailPresenterImp implements
     }
 
     @Override
-    public void loadMovieDetail(Long movieId) {
+    public void loadMovieDetail(int movieId) {
         mMovieDetailModelImp.getMovieDetail(movieId, MovieDetailPresenterImp.this);
     }
 

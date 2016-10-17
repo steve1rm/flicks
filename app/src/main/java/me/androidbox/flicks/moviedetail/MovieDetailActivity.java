@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import me.androidbox.flicks.R;
+import me.androidbox.flicks.movielist.MovieViewHolderPortrait;
 
 public class MovieDetailActivity extends AppCompatActivity {
 
@@ -15,7 +16,9 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         if(savedInstanceState == null) {
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.add(R.id.activity_detail_container, MovieDetailView.getInstance(), "moviedetailview");
+            getIntent().hasExtra(MovieViewHolderPortrait.MOVIEID_KEY);
+            int movieId = getIntent().getIntExtra(MovieViewHolderPortrait.MOVIEID_KEY, -1);
+            fragmentTransaction.add(R.id.activity_detail_container, MovieDetailView.getInstance(movieId), "moviedetailview");
             fragmentTransaction.commit();
         }
     }
