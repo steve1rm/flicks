@@ -4,6 +4,7 @@ import javax.inject.Inject;
 
 import me.androidbox.flicks.di.DaggerInjector;
 import me.androidbox.flicks.model.MovieDetail;
+import me.androidbox.flicks.model.Videos;
 import timber.log.Timber;
 
 /**
@@ -11,9 +12,9 @@ import timber.log.Timber;
  */
 
 public class MovieDetailPresenterImp implements
-        MovieDetailPresenterContract.MovieDetailPresenterEvents,
         MovieDetailPresenterContract.MovieDetailPresneterOps<MovieDetailView>,
-        MovieDetailModelContract.GetMovieDetailListener {
+        MovieDetailModelContract.GetMovieDetailListener,
+        MovieDetailModelContract.GetMovieTrailerListener {
 
     private MovieDetailViewContract mMovieDetailViewContract;
 
@@ -42,8 +43,18 @@ public class MovieDetailPresenterImp implements
     }
 
     @Override
-    public void onGetMovieDetailFailure(String errMessage) {
+    public void loadMovieTrailer(int movieId) {
+        mMovieDetailModelImp.getMovieVideo(movieId, MovieDetailPresenterImp.this);
+    }
 
+    @Override
+    public void onGetMovieDetailFailure(String errMessage) {
+        if(mMovieDetailViewContract != null) {
+            mMovieDetailViewContract.displayFailureMessage();
+        }
+        else {
+            Timber.e("mMovieDetailViewContract == null, check attachView as been called");
+        }
     }
 
     @Override
@@ -60,13 +71,29 @@ public class MovieDetailPresenterImp implements
     }
 
     @Override
-    public void onLoadMovieDetailSuccess() {
+    public void onGetMovieTrailerFailure(String errMessage) {
+        if(mMovieDetailViewContract != null) {
+            mMovieDetailViewContract.playMovieTrailerFailure();
+        }
+        else {
+            Timber.e("mMovieDetailViewContract == null, check attachView as been called");
+        }
 
     }
 
     @Override
-    public void onLoadMovieDetailFailure() {
+    public void onGetMovieTrailerSuccess(Videos videos) {
+        if(mMovieDetailViewContract != null) {
+            if(videos.getResults().size() > 0) {
+                mMovieDetailViewContract.playMovieTrailer(videos.getResults().get(0).getKey());
+            }
+            else {
+                mMovieDetailViewContract.playMovieTrailerFailure();
+            }
+        }
+        else {
+            Timber.e("mMovieDetailViewContract == null, check attachView as been called");
+        }
 
     }
-
 }

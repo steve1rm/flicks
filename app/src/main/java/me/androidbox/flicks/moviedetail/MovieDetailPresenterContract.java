@@ -10,11 +10,6 @@ public interface MovieDetailPresenterContract {
         void attachView(MovieDetailView view);
         void detachView();
         void loadMovieDetail(int movieId);
-    }
-
-    /* Model -->> Presenter */
-    interface MovieDetailPresenterEvents {
-        void onLoadMovieDetailSuccess();
-        void onLoadMovieDetailFailure();
+        void loadMovieTrailer(int movieId);
     }
 }

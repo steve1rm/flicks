@@ -10,33 +10,6 @@
         android:layout_height="180dp">
     </FrameLayout>
 
-    <!--   <android.support.design.widget.CoordinatorLayout
-           android:id="@+id/coordinator"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content">
-
-           <FrameLayout
-               android:id="@+id/youtubePlayerFragment"
-               android:layout_width="match_parent"
-               android:layout_height="180dp">
-           </FrameLayout>
-
-           <TextView
-               android:id="@+id/tvTagLine"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:layout_marginStart="16dp"
-               android:layout_marginLeft="16dp"
-               android:layout_marginBottom="16dp"
-               android:text="TAGLINE"
-               android:textColor="@android:color/white"
-               android:textSize="16sp"
-               android:ellipsize="end"
-               android:fontFamily="sans-serif-condensed"
-               app:layout_anchor="@id/ivMovieHeader"
-               app:layout_anchorGravity="bottom|right"/>
-       </android.support.design.widget.CoordinatorLayout>
-   -->
     <TextView
         android:id="@+id/tvMovieTitle"
         android:layout_width="match_parent"
@@ -77,6 +50,5 @@
         android:fontFamily="sans-serif"
         android:textColor="@android:color/white"
         android:textSize="18sp"/>
-
 
 </RelativeLayout>

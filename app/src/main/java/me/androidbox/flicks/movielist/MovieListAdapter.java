@@ -121,6 +121,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private void bindLandscapeMode(MovieViewHolderLandscape viewHolderLandscape, int position) {
         viewHolderLandscape.mTvMovieTitle.setText(mMoviesList.getResults().get(position).getTitle());
         viewHolderLandscape.mTvMovieOverview.setText(mMoviesList.getResults().get(position).getOverview());
+        viewHolderLandscape.mTvTagline.setText(mMoviesList.getResults().get(position).getRelease_date());
 
         /* Build image path to display associated image */
         StringBuilder stringBuilder = new StringBuilder();

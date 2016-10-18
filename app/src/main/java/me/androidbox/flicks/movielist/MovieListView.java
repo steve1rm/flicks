@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Optional;
 import butterknife.Unbinder;
 import me.androidbox.flicks.R;
 import me.androidbox.flicks.di.DaggerInjector;
@@ -58,7 +60,10 @@ public class MovieListView extends Fragment implements MovieListViewContract {
         mUnbinder = ButterKnife.bind(MovieListView.this, view);
 
         setupToolBar();
-        setupTabs(view);
+        /* Don't display the tabs on the landscape for the space constaint, the tab selected on the portrait will display the match list of movies */
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            setupTabs(view);
+        }
 
         return view;
     }
@@ -67,9 +72,12 @@ public class MovieListView extends Fragment implements MovieListViewContract {
     private void setupToolBar() {
         AppCompatActivity appCompatActivity = (AppCompatActivity)getActivity();
         appCompatActivity.setSupportActionBar(mToolBar);
-        appCompatActivity.getSupportActionBar().setDisplayShowTitleEnabled(false);
         appCompatActivity.getSupportActionBar().setDisplayShowHomeEnabled(true);
         appCompatActivity.getSupportActionBar().setHomeButtonEnabled(true);
+
+      //  if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            appCompatActivity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+       // }
     }
 
     /** Setup the tabs */

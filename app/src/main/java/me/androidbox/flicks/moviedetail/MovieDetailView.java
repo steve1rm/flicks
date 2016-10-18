@@ -38,6 +38,7 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
 
     private Unbinder mUnbinder;
     private int mMovieId;
+    private YouTubePlayerFragment mYouTubePlayerFragment;
 
     public MovieDetailView() {
         // Required empty public constructor
@@ -63,29 +64,16 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
         final View view = inflater.inflate(R.layout.movie_detail_view, container, false);
         mUnbinder = ButterKnife.bind(MovieDetailView.this, view);
 
-        YouTubePlayerFragment youTubePlayerFragment = YouTubePlayerFragment.newInstance();
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.youtubePlayerFragment, youTubePlayerFragment);
-        fragmentTransaction.commit();
-
-        youTubePlayerFragment.initialize("AIzaSyBKQN1qEQAouJ-xUgtbyLg433VrlqD_pxo", new YouTubePlayer.OnInitializedListener() {
-            @Override
-            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-                Timber.d("onInitializationSuccess");
-                youTubePlayer.loadVideo("wtZXHhUjev0");
-            }
-
-            @Override
-            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-                Timber.e("Youtube initialization failure: %s is recoverable: %b", youTubeInitializationResult.name(), youTubeInitializationResult.isUserRecoverableError());
-            }
-        });
-
         if(getArguments() != null) {
             Bundle bundle = getArguments();
             mMovieId = bundle.getInt(MovieViewHolderPortrait.MOVIEID_KEY, -1);
             Timber.d("movieId: %d", mMovieId);
         }
+
+        mYouTubePlayerFragment = YouTubePlayerFragment.newInstance();
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.youtubePlayerFragment, mYouTubePlayerFragment);
+        fragmentTransaction.commit();
 
         return view;
     }
@@ -102,8 +90,30 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
             if(mMovieId != -1) {
                 /* As the presenter to get the movie detail */
                 mMovieDetailPresenterImp.loadMovieDetail(mMovieId);
+                mMovieDetailPresenterImp.loadMovieTrailer(mMovieId);
             }
         }
+    }
+
+    @Override
+    public void playMovieTrailer(final String videoCode) {
+        mYouTubePlayerFragment.initialize("AIzaSyBKQN1qEQAouJ-xUgtbyLg433VrlqD_pxo", new YouTubePlayer.OnInitializedListener() {
+            @Override
+            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+                Timber.d("onInitializationSuccess %s", videoCode);
+                youTubePlayer.loadVideo(videoCode);
+            }
+
+            @Override
+            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+                Timber.e("Youtube initialization failure: %s is recoverable: %b", youTubeInitializationResult.name(), youTubeInitializationResult.isUserRecoverableError());
+            }
+        });
+    }
+
+    @Override
+    public void playMovieTrailerFailure() {
+        Toast.makeText(getActivity(), "Failed to get video trailer", Toast.LENGTH_SHORT).show();
     }
 
     @Override

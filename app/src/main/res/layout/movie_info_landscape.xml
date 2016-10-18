@@ -1,24 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:id="@+id/ivBackDropImage"
-        android:layout_width="220dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:adjustViewBounds="true"
-        android:src="@drawable/placeholder_poster"
-        android:scaleType="centerCrop"/>
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/ivBackDropImage"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/placeholder_poster"
+            android:scaleType="centerCrop"/>
+
+        <TextView
+            android:id="@+id/tvTagLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/ivBackDropImage"
+            android:layout_toEndOf="@id/ivBackDropImage"
+            android:layout_below="@id/tvMovieOverview"
+            android:textSize="14sp"
+            android:text="This is the tag to be displayed"
+            android:lines="2"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-light"
+            android:textColor="@android:color/white"
+            app:layout_anchor="@id/ivBackDropImage"
+            app:layout_anchorGravity="top|left"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"/>
+
+    </android.support.design.widget.CoordinatorLayout>
 
     <TextView
         android:id="@+id/tvMovieTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/ivBackDropImage"
-        android:layout_toEndOf="@id/ivBackDropImage"
+        android:layout_toRightOf="@id/coordinator"
+        android:layout_toEndOf="@id/coordinator"
         android:textSize="22sp"
         android:textColor="@android:color/white"/>
 
@@ -26,20 +53,11 @@
         android:id="@+id/tvMovieOverview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/ivBackDropImage"
-        android:layout_toEndOf="@id/ivBackDropImage"
+        android:layout_toRightOf="@id/coordinator"
+        android:layout_toEndOf="@id/coordinator"
         android:layout_below="@id/tvMovieTitle"
         android:textSize="18sp"
         android:textColor="@android:color/white"/>
 
-    <TextView
-        android:id="@+id/tvTagLine"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/ivBackDropImage"
-        android:layout_toEndOf="@id/ivBackDropImage"
-        android:layout_below="@id/tvMovieOverview"
-        android:textSize="16sp"
-        android:textColor="@android:color/white"/>
 
 </RelativeLayout>

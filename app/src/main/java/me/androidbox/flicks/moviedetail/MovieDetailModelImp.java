@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import me.androidbox.flicks.di.DaggerInjector;
 import me.androidbox.flicks.model.FlicksMovieService;
 import me.androidbox.flicks.model.MovieDetail;
+import me.androidbox.flicks.model.Videos;
 import me.androidbox.flicks.utils.Constants;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,6 +40,23 @@ public class MovieDetailModelImp implements MovieDetailModelContract {
             public void onFailure(Call<MovieDetail> call, Throwable t) {
                 Timber.e(t, "onFailure");
                 getMovieDetailListener.onGetMovieDetailFailure(t.getMessage());
+            }
+        });
+    }
+
+    @Override
+    public void getMovieVideo(int movie_id, final GetMovieTrailerListener getMovieTrailerListener) {
+        mFlicksMovieService.getMovieVideos(movie_id, Constants.API_KEY).enqueue(new Callback<Videos>() {
+            @Override
+            public void onResponse(Call<Videos> call, Response<Videos> response) {
+                Timber.d("onResponse");
+                getMovieTrailerListener.onGetMovieTrailerSuccess(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<Videos> call, Throwable t) {
+                Timber.e(t, "onFailure");
+                getMovieTrailerListener.onGetMovieTrailerFailure(t.getMessage());
             }
         });
     }

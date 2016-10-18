@@ -11,4 +11,6 @@ public interface MovieDetailViewContract {
   //  void displayPopularity(String popularity);
     void displayOverview(String overview);
     void displayFailureMessage();
+    void playMovieTrailer(String videoCode);
+    void playMovieTrailerFailure();
 }
