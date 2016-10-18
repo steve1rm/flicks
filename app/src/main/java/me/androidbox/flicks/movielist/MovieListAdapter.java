@@ -83,6 +83,18 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return mMoviesList.getResults().get(position).getId();
     }
 
+    /* Clean all items for a refresh */
+    public void clearMovies() {
+        mMoviesList.getResults().clear();
+        notifyDataSetChanged();
+    }
+
+    /* All fresh movies */
+    public void addFreshMovies(Movies movies) {
+        mMoviesList.getResults().addAll(movies.getResults());
+        notifyDataSetChanged();
+    }
+
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         switch(holder.getItemViewType()) {

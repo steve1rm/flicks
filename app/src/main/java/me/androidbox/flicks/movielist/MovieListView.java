@@ -4,7 +4,9 @@ package me.androidbox.flicks.movielist;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -33,15 +35,14 @@ import timber.log.Timber;
  * A simple {@link Fragment} subclass.
  */
 public class MovieListView extends Fragment implements MovieListViewContract {
+    @Inject MovieListPresenterImp mMovieListPresenterImp;
 
     @BindView(R.id.tool_bar) Toolbar mToolBar;
     @BindView(R.id.rvMovieList) RecyclerView mRvMovieList;
+    @BindView(R.id.swipeContainer) SwipeRefreshLayout mSWipeContainer;
 
     private Unbinder mUnbinder;
     private MovieListAdapter mMovieListAdapter;
-
-    @Inject
-    MovieListPresenterImp mMovieListPresenterImp;
 
     public MovieListView() {
         // Required empty public constructor
@@ -65,7 +66,31 @@ public class MovieListView extends Fragment implements MovieListViewContract {
             setupTabs(view);
         }
 
+        setupSwipeRefresh();
+
         return view;
+    }
+
+    /** Setup swipe to refresh */
+    private void setupSwipeRefresh() {
+        mSWipeContainer.setColorSchemeResources(
+                android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+        mSWipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                fetchTimeLineAsync();
+            }
+        });
+    }
+
+    public void fetchTimeLineAsync() {
+        mMovieListAdapter.clearMovies();
+        mMovieListPresenterImp.loadUpcomingMovies();
+        mSWipeContainer.setRefreshing(false);
     }
 
     /** Setup the toolbar */
