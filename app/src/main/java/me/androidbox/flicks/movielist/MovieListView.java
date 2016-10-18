@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -39,7 +40,7 @@ public class MovieListView extends Fragment implements MovieListViewContract {
 
     @BindView(R.id.tool_bar) Toolbar mToolBar;
     @BindView(R.id.rvMovieList) RecyclerView mRvMovieList;
-    @BindView(R.id.swipeContainer) SwipeRefreshLayout mSWipeContainer;
+    @Nullable @BindView(R.id.swipeContainer) SwipeRefreshLayout mSWipeContainer;
 
     private Unbinder mUnbinder;
     private MovieListAdapter mMovieListAdapter;
@@ -66,7 +67,10 @@ public class MovieListView extends Fragment implements MovieListViewContract {
             setupTabs(view);
         }
 
-        setupSwipeRefresh();
+        /* We won't do pull to refresh in landscape mode */
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            setupSwipeRefresh();
+        }
 
         return view;
     }
