@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/coordinator"
         android:layout_width="wrap_content"
@@ -58,6 +59,4 @@
         android:layout_below="@id/tvMovieTitle"
         android:textSize="18sp"
         android:textColor="@android:color/white"/>
-
-
 </RelativeLayout>

@@ -2,6 +2,7 @@ package me.androidbox.flicks.movielist;
 
 
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Handler;
@@ -16,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -51,6 +53,15 @@ public class MovieListView extends Fragment implements MovieListViewContract {
 
     public static MovieListView getNewInstance() {
         return new MovieListView();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
     }
 
     @Override
