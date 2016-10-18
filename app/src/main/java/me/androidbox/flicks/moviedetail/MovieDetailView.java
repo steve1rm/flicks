@@ -30,11 +30,8 @@ import timber.log.Timber;
  */
 public class MovieDetailView extends Fragment implements MovieDetailViewContract {
 
-    @Inject
-    MovieDetailPresenterImp mMovieDetailPresenterImp;
+    @Inject MovieDetailPresenterImp mMovieDetailPresenterImp;
 
-    @BindView(R.id.ivMovieHeader) ImageView mIvMovieHeader;
-    @BindView(R.id.tvTagLine) TextView mTvTagline;
     @BindView(R.id.tvMovieTitle) TextView mTvMovieTitle;
     @BindView(R.id.tvReleaseDate) TextView mTvReleaseDate;
     @BindView(R.id.tvMovieOverview) TextView mTvMovieOverview;
@@ -116,7 +113,7 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
 
     @Override
     public void displayTagline(String tagline) {
-        mTvTagline.setText(tagline);
+
     }
 
     @Override

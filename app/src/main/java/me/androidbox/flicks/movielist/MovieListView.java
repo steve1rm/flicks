@@ -59,7 +59,6 @@ public class MovieListView extends Fragment implements MovieListViewContract {
 
         setupToolBar();
         setupTabs(view);
-     //   setRecyclerView();
 
         return view;
     }
@@ -68,6 +67,9 @@ public class MovieListView extends Fragment implements MovieListViewContract {
     private void setupToolBar() {
         AppCompatActivity appCompatActivity = (AppCompatActivity)getActivity();
         appCompatActivity.setSupportActionBar(mToolBar);
+        appCompatActivity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+        appCompatActivity.getSupportActionBar().setDisplayShowHomeEnabled(true);
+        appCompatActivity.getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     /** Setup the tabs */
