@@ -15,4 +15,5 @@ public interface MovieListModelContract {
     }
 
     void getUpComingMovies(UpComingMovieListener upComingMovieListener);
+    void releaseResources();
 }
