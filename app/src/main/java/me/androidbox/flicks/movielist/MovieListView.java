@@ -75,6 +75,8 @@ public class MovieListView extends Fragment implements MovieListViewContract {
         mUnbinder = ButterKnife.bind(MovieListView.this, view);
 
         setupToolBar();
+        setRecyclerView();
+
         /* Don't display the tabs on the landscape for the space constaint, the tab selected on the portrait will display the match list of movies */
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             setupTabs(view);
@@ -84,6 +86,8 @@ public class MovieListView extends Fragment implements MovieListViewContract {
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             setupSwipeRefresh();
         }
+
+
 
         return view;
     }
@@ -166,7 +170,8 @@ public class MovieListView extends Fragment implements MovieListViewContract {
     @Override
     public void loadUpcomingMovies(Movies moviesList) {
         Timber.d("LoadUpcomingMovies");
-        setRecyclerView();
+       // setRecyclerView();
+
         mMovieListAdapter.updateMovieList(moviesList);
     }
 }

@@ -33,7 +33,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public int getItemCount() {
-        return (mMoviesList == null) ? 0 : mMoviesList.getResults().size();
+        return (mMoviesList.getResults() == null) ? 0 : mMoviesList.getResults().size();
     }
 
     @Override
