@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -32,6 +33,7 @@ import butterknife.Unbinder;
 import me.androidbox.flicks.R;
 import me.androidbox.flicks.di.DaggerInjector;
 import me.androidbox.flicks.model.Movies;
+import me.androidbox.flicks.utils.DividerItemDecorator;
 import timber.log.Timber;
 
 /**
@@ -132,6 +134,9 @@ public class MovieListView extends Fragment implements MovieListViewContract {
         mMovieListAdapter = new MovieListAdapter(new Movies(), getActivity());
         mRvMovieList.setAdapter(mMovieListAdapter);
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            final DividerItemDecorator dividerItemDecorator = new DividerItemDecorator(16);
+            mRvMovieList.addItemDecoration(dividerItemDecorator);
+
             mRvMovieList.setLayoutManager(new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false));
         }
         else {
