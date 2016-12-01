@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerFragment;
@@ -20,10 +21,14 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import me.androidbox.flicks.R;
 import me.androidbox.flicks.di.DaggerInjector;
 import me.androidbox.flicks.movielist.MovieViewHolderPortrait;
+import me.androidbox.flicks.utils.ImageBuilder;
 import timber.log.Timber;
+
+import static android.view.KeyCharacterMap.load;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,6 +40,7 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
     @BindView(R.id.tvMovieTitle) TextView mTvMovieTitle;
     @BindView(R.id.tvReleaseDate) TextView mTvReleaseDate;
     @BindView(R.id.tvMovieOverview) TextView mTvMovieOverview;
+    @BindView(R.id.ivMovieDetailThumbnail) ImageView mIvMovieDetailThumbnail;
 
     private Unbinder mUnbinder;
     private int mMovieId;
@@ -88,7 +94,7 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
             Timber.d("mMovieDetailPresenterImp != null");
             mMovieDetailPresenterImp.attachView(MovieDetailView.this);
             if(mMovieId != -1) {
-                /* As the presenter to get the movie detail */
+                /* Ask the presenter to get the movie detail */
                 mMovieDetailPresenterImp.loadMovieDetail(mMovieId);
                 mMovieDetailPresenterImp.loadMovieTrailer(mMovieId);
             }
@@ -119,6 +125,14 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
     @Override
     public void displayOverview(String overview) {
         mTvMovieOverview.setText(overview);
+    }
+
+    @Override
+    public void displayMovieThumbnail(String imageUrl) {
+        Glide.with(getActivity())
+                .load(ImageBuilder.buildImagePath(0, imageUrl))
+                .bitmapTransform(new RoundedCornersTransformation(getActivity(), 8, 0))
+                .into(mIvMovieDetailThumbnail);
     }
 
     @Override

@@ -22,6 +22,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -48,6 +49,7 @@ public class MovieListView extends Fragment implements MovieListViewContract {
 
     private Unbinder mUnbinder;
     private MovieListAdapter mMovieListAdapter;
+    private List<Movies> mMoviesList = Collections.emptyList();
 
     public MovieListView() {
         // Required empty public constructor
@@ -135,7 +137,8 @@ public class MovieListView extends Fragment implements MovieListViewContract {
 
     /** Setup recycler view */
     private void setRecyclerView() {
-        mMovieListAdapter = new MovieListAdapter(new Movies(), getActivity());
+        mMoviesList = new ArrayList<>();
+        mMovieListAdapter = new MovieListAdapter(mMoviesList, getActivity());
         mRvMovieList.setAdapter(mMovieListAdapter);
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             final DividerItemDecorator dividerItemDecorator = new DividerItemDecorator(16);
@@ -170,8 +173,6 @@ public class MovieListView extends Fragment implements MovieListViewContract {
     @Override
     public void loadUpcomingMovies(Movies moviesList) {
         Timber.d("LoadUpcomingMovies");
-       // setRecyclerView();
-
         mMovieListAdapter.updateMovieList(moviesList);
     }
 }

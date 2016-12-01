@@ -52,16 +52,29 @@
         android:textColor="@android:color/white"
         android:textSize="16sp"/>
 
+    <ImageView
+        android:id="@+id/ivMovieDetailThumbnail"
+        android:layout_width="140dp"
+        android:layout_height="160dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:layout_below="@id/youtubePlayerFragment"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
+
     <TextView
         android:id="@+id/tvMovieOverview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginLeft="6dp"
-        android:layout_marginEnd="6dp"
-        android:layout_marginRight="6dp"
-        android:layout_below="@id/tvReleaseDate"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_below="@id/ivMovieDetailThumbnail"
         android:text="Overview"
         android:fontFamily="sans-serif"
         android:textColor="@android:color/white"

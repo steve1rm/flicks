@@ -65,20 +65,5 @@ public class MovieListModelImp implements MovieListModelContract {
                         Timber.d("onNext: %d", movies.getResults().size());
                     }
                 });
-
-     /*
-        mFlicksMoveService.getUpcomingMovies(Constants.API_KEY).enqueue(new Callback<Movies>() {
-            @Override
-            public void onResponse(Call<Movies> call, Response<Movies> response) {
-                upComingMovieListener.onGetMovieSuccess(response.body());
-                Timber.d("onResponse: %s", response.body().toString());
-            }
-
-            @Override
-            public void onFailure(Call<Movies> call, Throwable t) {
-                Timber.e(t, "onFailure");
-                upComingMovieListener.onGetMovieFailed();
-            }
-        });*/
     }
 }

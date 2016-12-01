@@ -64,6 +64,7 @@ public class MovieDetailPresenterImp implements
             mMovieDetailViewContract.displayReleasedate(movieDetail.getRelease_date());
             mMovieDetailViewContract.displayTagline(movieDetail.getTagline());
             mMovieDetailViewContract.displayTitle(movieDetail.getTitle());
+            mMovieDetailViewContract.displayMovieThumbnail(movieDetail.getPoster_path());
         }
         else {
             Timber.e("mMovieDetailViewContract == null, check attachView as been called");
@@ -85,7 +86,7 @@ public class MovieDetailPresenterImp implements
     public void onGetMovieTrailerSuccess(Videos videos) {
         if(mMovieDetailViewContract != null) {
             if(videos.getResults().size() > 0) {
-                mMovieDetailViewContract.playMovieTrailer(videos.getResults().get(0).getKey());
+      //          mMovieDetailViewContract.playMovieTrailer(videos.getResults().get(0).getKey());
             }
             else {
                 mMovieDetailViewContract.playMovieTrailerFailure();

@@ -8,6 +8,7 @@ public interface MovieDetailViewContract {
     void displayTagline(String tagline);
     void displayTitle(String title);
     void displayReleasedate(String releasedate);
+    void displayMovieThumbnail(String imageUrl);
   //  void displayPopularity(String popularity);
     void displayOverview(String overview);
     void displayFailureMessage();
