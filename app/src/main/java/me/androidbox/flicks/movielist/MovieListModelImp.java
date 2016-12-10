@@ -1,10 +1,14 @@
 package me.androidbox.flicks.movielist;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import me.androidbox.flicks.di.DaggerInjector;
 import me.androidbox.flicks.model.FlicksMovieService;
 import me.androidbox.flicks.model.Movies;
+import me.androidbox.flicks.model.Pages;
+import me.androidbox.flicks.model.Results;
 import me.androidbox.flicks.utils.Constants;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,13 +45,40 @@ public class MovieListModelImp implements MovieListModelContract {
     }
 
     @Override
+    public void getNowPlayingMovies(final NowPlayingListener nowPlayingListener) {
+        Timber.d("getUpComingMovies");
+
+        mSubscription = mFlicksMoveService.getNowPlayingMovies(Constants.API_KEY)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Pages>() {
+                    @Override
+                    public void onCompleted() {
+                        Timber.d("onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Timber.e(e, "onFailure");
+                        nowPlayingListener.onGetNowPlayingFailed();
+                    }
+
+                    @Override
+                    public void onNext(Pages pages) {
+                        nowPlayingListener.onGetNowPlayingSuccess(pages);
+                        Timber.d("onNext %d", pages.getResults().size());
+                    }
+                });
+    }
+
+    @Override
     public void getUpComingMovies(final UpComingMovieListener upComingMovieListener) {
         Timber.d("getUpComingMovies");
 
         mSubscription = mFlicksMoveService.getUpcomingMovies(Constants.API_KEY)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Movies>() {
+                .subscribe(new Subscriber<List<Results>>() {
                     @Override
                     public void onCompleted() {
                         Timber.d("onCompleted");
@@ -60,9 +91,9 @@ public class MovieListModelImp implements MovieListModelContract {
                     }
 
                     @Override
-                    public void onNext(Movies movies) {
+                    public void onNext(List<Results> movies) {
                         upComingMovieListener.onGetMovieSuccess(movies);
-                        Timber.d("onNext: %d", movies.getResults().size());
+                        Timber.d("onNext %d", movies.size());
                     }
                 });
     }

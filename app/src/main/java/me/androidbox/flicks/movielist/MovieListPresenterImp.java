@@ -5,7 +5,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import me.androidbox.flicks.di.DaggerInjector;
-import me.androidbox.flicks.model.Movies;
+import me.androidbox.flicks.model.Pages;
+import me.androidbox.flicks.model.Results;
 import timber.log.Timber;
 
 /**
@@ -15,7 +16,8 @@ import timber.log.Timber;
 public class MovieListPresenterImp implements
         MovieListPresenterContract.MovieListPresenterOps<MovieListViewContract>,
         MovieListPresenterContract.MovieListPresenterEvents,
-        MovieListModelContract.UpComingMovieListener {
+        MovieListModelContract.UpComingMovieListener,
+        MovieListModelContract.NowPlayingListener {
 
     @Inject
     MovieListModelImp mMovieListModelImp;
@@ -41,12 +43,22 @@ public class MovieListPresenterImp implements
     }
 
     @Override
-    public void loadUpcomingMovies() {
-        mMovieListModelImp.getUpComingMovies(MovieListPresenterImp.this);
+    public void onGetNowPlayingFailed() {
+
     }
 
     @Override
-    public void onLoadUpComingMoviesSuccess(Movies moviesList) {
+    public void onGetNowPlayingSuccess(Pages pages) {
+
+    }
+
+    @Override
+    public void loadUpcomingMovies() {
+        mMovieListModelImp.getNowPlayingMovies(MovieListPresenterImp.this);
+    }
+
+    @Override
+    public void onLoadUpComingMoviesSuccess(List<Results> moviesList) {
         mMovieListView.loadUpcomingMovies(moviesList);
     }
 
@@ -55,13 +67,14 @@ public class MovieListPresenterImp implements
 
     }
 
+
     @Override
     public void onGetMovieFailed() {
         Timber.e("onGetMovieFailed");
     }
 
     @Override
-    public void onGetMovieSuccess(Movies moviesList) {
+    public void onGetMovieSuccess(List<Results> moviesList) {
         Timber.d("onGetMovieSuccess");
         mMovieListView.loadUpcomingMovies(moviesList);
     }

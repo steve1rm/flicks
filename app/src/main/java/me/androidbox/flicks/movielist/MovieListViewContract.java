@@ -1,11 +1,13 @@
 package me.androidbox.flicks.movielist;
 
-import me.androidbox.flicks.model.Movies;
+import java.util.List;
+
+import me.androidbox.flicks.model.Results;
 
 /**
  * Created by steve on 10/12/16.
  */
 
 public interface MovieListViewContract {
-    void loadUpcomingMovies(Movies moviesList);
+    void loadUpcomingMovies(List<Results> moviesList);
 }

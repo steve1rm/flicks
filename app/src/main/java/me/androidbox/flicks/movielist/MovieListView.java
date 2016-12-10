@@ -34,6 +34,7 @@ import butterknife.Unbinder;
 import me.androidbox.flicks.R;
 import me.androidbox.flicks.di.DaggerInjector;
 import me.androidbox.flicks.model.Movies;
+import me.androidbox.flicks.model.Results;
 import me.androidbox.flicks.utils.DividerItemDecorator;
 import timber.log.Timber;
 
@@ -49,7 +50,7 @@ public class MovieListView extends Fragment implements MovieListViewContract {
 
     private Unbinder mUnbinder;
     private MovieListAdapter mMovieListAdapter;
-    private List<Movies> mMoviesList = Collections.emptyList();
+    private List<Results> mMoviesList = Collections.emptyList();
 
     public MovieListView() {
         // Required empty public constructor
@@ -171,7 +172,7 @@ public class MovieListView extends Fragment implements MovieListViewContract {
     }
 
     @Override
-    public void loadUpcomingMovies(Movies moviesList) {
+    public void loadUpcomingMovies(List<Results> moviesList) {
         Timber.d("LoadUpcomingMovies");
         mMovieListAdapter.updateMovieList(moviesList);
     }

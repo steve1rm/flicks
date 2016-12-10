@@ -15,7 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 import me.androidbox.flicks.R;
-import me.androidbox.flicks.model.Movies;
+import me.androidbox.flicks.model.Results;
 import me.androidbox.flicks.utils.Constants;
 import me.androidbox.flicks.utils.ImageBuilder;
 
@@ -25,12 +25,12 @@ import me.androidbox.flicks.utils.ImageBuilder;
 
 public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<Movies> mMoviesList = Collections.emptyList();
+    private List<Results> mMoviesList = Collections.emptyList();
     private WeakReference<Context> mContext;
     private final int PORTRAIT = 0;
     private final int LANDSCAPE = 1;
 
-    public MovieListAdapter(List<Movies> moviesList, Context context) {
+    public MovieListAdapter(List<Results> moviesList, Context context) {
         mMoviesList = new ArrayList<>(moviesList);
         mContext = new WeakReference<>(context);
     }
@@ -78,13 +78,13 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return viewHolder;
     }
 
-    public void updateMovieList(Movies movies) {
-        mMoviesList.add(movies);
+    public void updateMovieList(List<Results> movies) {
+        mMoviesList.addAll(movies);
         notifyDataSetChanged();
     }
 
     public int getMovieId(int position) {
-        return mMoviesList.get(position).getResults().get(0).getId();
+        return mMoviesList.get(position).getId();
     }
 
     /* Clean all items for a refresh */
@@ -94,7 +94,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     /* All fresh movies */
-    public void addFreshMovies(List<Movies> movies) {
+    public void addFreshMovies(List<Results> movies) {
         mMoviesList.addAll(movies);
         notifyDataSetChanged();
     }
@@ -116,11 +116,11 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     /* Change layout to display in portrait mode */
     private void bindPortraitMode(MovieViewHolderPortrait viewHolderPortrait, int position) {
-        viewHolderPortrait.mTvMovieTitle.setText(mMoviesList.get(position).getResults().get(0).getTitle());
+        viewHolderPortrait.mTvMovieTitle.setText(mMoviesList.get(position).getTitle());
         //     holder.mTvMovieOverview.setText(mMoviesList.getResults().get(position).getOverview());
 
         Glide.with(mContext.get())
-                .load(ImageBuilder.buildImagePath(0, mMoviesList.get(position).getResults().get(0).getPoster_path()))
+                .load(ImageBuilder.buildImagePath(0, mMoviesList.get(position).getPoster_path()))
                 .placeholder(R.drawable.placeholder_poster)
                 .centerCrop()
                 .crossFade()
@@ -129,15 +129,15 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     /* Change layout to display in landscape mode */
     private void bindLandscapeMode(MovieViewHolderLandscape viewHolderLandscape, int position) {
-        viewHolderLandscape.mTvMovieTitle.setText(mMoviesList.get(position).getResults().get(0).getTitle());
-        viewHolderLandscape.mTvMovieOverview.setText(mMoviesList.get(position).getResults().get(0).getOverview());
-        viewHolderLandscape.mTvTagline.setText(mMoviesList.get(position).getResults().get(0).getRelease_date());
+        viewHolderLandscape.mTvMovieTitle.setText(mMoviesList.get(position).getTitle());
+        viewHolderLandscape.mTvMovieOverview.setText(mMoviesList.get(position).getOverview());
+        viewHolderLandscape.mTvTagline.setText(mMoviesList.get(position).getRelease_date());
 
         /* Build image path to display associated image */
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(Constants.CONFIGURATION);
         stringBuilder.append(Constants.W300);
-        stringBuilder.append(mMoviesList.get(position).getResults().get(0).getBackdrop_path());
+        stringBuilder.append(mMoviesList.get(position).getBackdrop_path());
 
         Glide.with(mContext.get())
                 .load(stringBuilder.toString())
