@@ -42,13 +42,29 @@ public class MovieListPresenterImp implements
         mMovieListView = null;
     }
 
+
+    @Override
+    public void onLoadNowPlayingMoviesFailure(String errorMessage) {
+
+    }
+
+    @Override
+    public void onGetNowPlayingSuccess(Pages pages) {
+       mMovieListView.loadNowPlayingMovies(pages.getResults());
+    }
+
     @Override
     public void onGetNowPlayingFailed() {
 
     }
 
     @Override
-    public void onGetNowPlayingSuccess(Pages pages) {
+    public void onLoadNowPlayingMovies(List<Results> movieList) {
+
+    }
+
+    @Override
+    public void loadNowPlayingMovies() {
 
     }
 

@@ -10,4 +10,5 @@ import me.androidbox.flicks.model.Results;
 
 public interface MovieListViewContract {
     void loadUpcomingMovies(List<Results> moviesList);
+    void loadNowPlayingMovies(List<Results> movieList);
 }

@@ -15,11 +15,14 @@ public interface MovieListPresenterContract {
         void attachView(MovieListView view);
         void detachView();
         void loadUpcomingMovies();
+        void loadNowPlayingMovies();
     }
 
     /* Model -->> Presenter */
     interface MovieListPresenterEvents {
         void onLoadUpComingMoviesSuccess(List<Results> moviesList);
         void onLoadUpComingMoviesFailure();
+        void onLoadNowPlayingMovies(List<Results> movieList);
+        void onLoadNowPlayingMoviesFailure(String errorMessage);
     }
 }

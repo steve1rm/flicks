@@ -3,6 +3,7 @@ package me.androidbox.flicks.movielist;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,7 +81,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public void updateMovieList(List<Results> movies) {
         mMoviesList.addAll(movies);
-        notifyDataSetChanged();
+        notifyItemRangeInserted(0, movies.size());
     }
 
     public int getMovieId(int position) {

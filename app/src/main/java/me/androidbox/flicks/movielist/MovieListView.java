@@ -172,6 +172,12 @@ public class MovieListView extends Fragment implements MovieListViewContract {
     }
 
     @Override
+    public void loadNowPlayingMovies(List<Results> movieList) {
+        Timber.d("loadNowPlayingMovies: " + movieList.size());
+        mMovieListAdapter.updateMovieList(movieList);
+    }
+
+    @Override
     public void loadUpcomingMovies(List<Results> moviesList) {
         Timber.d("LoadUpcomingMovies");
         mMovieListAdapter.updateMovieList(moviesList);
