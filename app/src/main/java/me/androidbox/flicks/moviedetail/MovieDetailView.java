@@ -41,6 +41,7 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
     @BindView(R.id.tvReleaseDate) TextView mTvReleaseDate;
     @BindView(R.id.tvMovieOverview) TextView mTvMovieOverview;
     @BindView(R.id.ivMovieDetailThumbnail) ImageView mIvMovieDetailThumbnail;
+    @BindView(R.id.tvRunningTime) TextView mTvRunningTime;
 
     private Unbinder mUnbinder;
     private int mMovieId;
@@ -148,6 +149,12 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
     @Override
     public void displayReleasedate(String releasedate) {
         mTvReleaseDate.setText(releasedate);
+    }
+
+    @Override
+    public void displayRunningTime(int runningtime) {
+        String minutes = String.valueOf(runningtime).concat(" mintues");
+        mTvRunningTime.setText(minutes);
     }
 
     @Override

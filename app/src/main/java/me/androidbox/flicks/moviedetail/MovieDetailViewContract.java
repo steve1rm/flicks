@@ -14,4 +14,5 @@ public interface MovieDetailViewContract {
     void displayFailureMessage();
     void playMovieTrailer(String videoCode);
     void playMovieTrailerFailure();
+    void displayRunningTime(int runningtime);
 }

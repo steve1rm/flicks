@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,6 +37,7 @@ import me.androidbox.flicks.di.DaggerInjector;
 import me.androidbox.flicks.model.Movies;
 import me.androidbox.flicks.model.Results;
 import me.androidbox.flicks.utils.DividerItemDecorator;
+import me.androidbox.flicks.utils.Network;
 import timber.log.Timber;
 
 /**
@@ -64,6 +66,7 @@ public class MovieListView extends Fragment implements MovieListViewContract {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        /* Create a translucent status bar */
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
@@ -158,10 +161,27 @@ public class MovieListView extends Fragment implements MovieListViewContract {
 
         DaggerInjector.getsAppComponent().inject(MovieListView.this);
 
-        if(mMovieListPresenterImp != null) {
-            Timber.d("mMovieListPresenterImp != null");
-            mMovieListPresenterImp.attachView(MovieListView.this);
-            mMovieListPresenterImp.loadUpcomingMovies();
+        /* If there is no network connect available don't request movies */
+        if(Network.isNetworkAvailable(getActivity())) {
+
+            /* Check that we can connect to the moviedb website */
+            if(Network.isOnline()) {
+                if (mMovieListPresenterImp != null) {
+                    Timber.d("mMovieListPresenterImp != null");
+                    mMovieListPresenterImp.attachView(MovieListView.this);
+                    mMovieListPresenterImp.loadUpcomingMovies();
+                }
+            }
+            else {
+                Toast.makeText(getActivity(), "Cannot reach the moviedb website", Toast.LENGTH_LONG).show();
+            }
+        }
+        else {
+            Toast.makeText(getActivity(),
+                    "There is no network connection available\n check you are connected to the internet",
+                    Toast.LENGTH_LONG).show();
+
+            /* Load data from storage */
         }
     }
 
@@ -173,7 +193,7 @@ public class MovieListView extends Fragment implements MovieListViewContract {
 
     @Override
     public void loadNowPlayingMovies(List<Results> movieList) {
-        Timber.d("loadNowPlayingMovies: " + movieList.size());
+        Timber.d("loadNowPlayingMovies: %s", movieList.size());
         mMovieListAdapter.updateMovieList(movieList);
     }
 
