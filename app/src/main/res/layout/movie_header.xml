@@ -2,8 +2,8 @@
 <ImageView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ivMovieHeader"
-    android:layout_width="match_parent"
-    android:layout_height="300dp"
+    android:layout_width="185dp"
+    android:layout_height="wrap_content"
     android:src="@drawable/placeholder_poster"
     android:scaleType="fitXY"
     android:adjustViewBounds="true">

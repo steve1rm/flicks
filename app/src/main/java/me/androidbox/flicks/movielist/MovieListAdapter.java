@@ -159,9 +159,10 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         };
 
         Picasso.with(mContext.get()).
-                load(ImageBuilder.buildImagePath(0, mMoviesList.get(position).
+                load(ImageBuilder.buildImagePath(Constants.W185, mMoviesList.get(position).
                         getPoster_path()))
                 .placeholder(R.drawable.placeholder_poster)
+                .error(R.drawable.placeholder_poster)
                 .into(target);
 
     }

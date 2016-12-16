@@ -25,6 +25,7 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import me.androidbox.flicks.R;
 import me.androidbox.flicks.di.DaggerInjector;
 import me.androidbox.flicks.movielist.MovieViewHolderPortrait;
+import me.androidbox.flicks.utils.Constants;
 import me.androidbox.flicks.utils.ImageBuilder;
 import timber.log.Timber;
 
@@ -131,7 +132,7 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
     @Override
     public void displayMovieThumbnail(String imageUrl) {
         Glide.with(getActivity())
-                .load(ImageBuilder.buildImagePath(0, imageUrl))
+                .load(ImageBuilder.buildImagePath(Constants.W92, imageUrl))
                 .bitmapTransform(new RoundedCornersTransformation(getActivity(), 8, 0))
                 .into(mIvMovieDetailThumbnail);
     }
