@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,6 +27,7 @@ public class MovieViewHolderPortrait extends RecyclerView.ViewHolder {
     @BindView(R.id.tvMovieTitle) TextView mTvMovieTitle;
     @BindView(R.id.tvMovieOverview) TextView mTvMovieOverview;
     @BindView(R.id.ivMovieHeader) ImageView mIvMovieHeader;
+    @BindView(R.id.flFooterBackground) FrameLayout mFlFooterBackground;
 
     @Inject ApplicationModule applicationModule;
 
