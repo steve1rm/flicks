@@ -75,7 +75,7 @@ public class MovieDetailPresenterImp implements
     @Override
     public void onGetMovieTrailerFailure(String errMessage) {
         if(mMovieDetailViewContract != null) {
-            mMovieDetailViewContract.playMovieTrailerFailure();
+      //      mMovieDetailViewContract.playMovieTrailerFailure();
         }
         else {
             Timber.e("mMovieDetailViewContract == null, check attachView as been called");
