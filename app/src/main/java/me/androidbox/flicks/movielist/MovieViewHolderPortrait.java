@@ -22,11 +22,6 @@ import timber.log.Timber;
  */
 
 public class MovieViewHolderPortrait extends RecyclerView.ViewHolder {
-    public interface GetMovieImageListener {
-        void onGetMovieImage(ImageView imageView);
-    }
-    private GetMovieImageListener mGetMovieImageListener;
-
     public static final String MOVIEID_KEY = "movieid_key";
     public static final String IMAGE_ID_KEY = "image_id_key";
 
@@ -39,7 +34,6 @@ public class MovieViewHolderPortrait extends RecyclerView.ViewHolder {
 
     public MovieViewHolderPortrait(View itemView, final MovieListAdapter movieListAdapter, final Context context) {
         super(itemView);
-        mGetMovieImageListener = (GetMovieImageListener)context;
         ButterKnife.bind(MovieViewHolderPortrait.this, itemView);
 
         itemView.setOnClickListener(new View.OnClickListener() {
@@ -53,7 +47,6 @@ public class MovieViewHolderPortrait extends RecyclerView.ViewHolder {
                         .putExtra(MOVIEID_KEY, movieListAdapter.getMovieId(getAdapterPosition()))
                         .putExtra(IMAGE_ID_KEY, R.id.ivMovieHeader);
 
-                mGetMovieImageListener.onGetMovieImage(mIvMovieHeader);
                 context.startActivity(intent);
             }
         });
