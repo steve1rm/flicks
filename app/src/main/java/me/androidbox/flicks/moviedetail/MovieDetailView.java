@@ -1,7 +1,6 @@
 package me.androidbox.flicks.moviedetail;
 
 import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -29,19 +28,18 @@ import me.androidbox.flicks.utils.Constants;
 import me.androidbox.flicks.utils.ImageBuilder;
 import timber.log.Timber;
 
-import static android.view.KeyCharacterMap.load;
-
 /**
  * A simple {@link Fragment} subclass.
  */
 public class MovieDetailView extends Fragment implements MovieDetailViewContract {
+    private static final String MOVIEID_KEY = "movieid_key";
 
     @Inject MovieDetailPresenterImp mMovieDetailPresenterImp;
 
     @BindView(R.id.tvMovieTitle) TextView mTvMovieTitle;
     @BindView(R.id.tvReleaseDate) TextView mTvReleaseDate;
     @BindView(R.id.tvMovieOverview) TextView mTvMovieOverview;
-    @BindView(R.id.ivMovieDetailThumbnail) ImageView mIvMovieDetailThumbnail;
+    @BindView(R.id.ivMovieDetailPoster) ImageView mIvMovieDetailPoster;
     @BindView(R.id.tvRunningTime) TextView mTvRunningTime;
 
     private Unbinder mUnbinder;
@@ -55,7 +53,7 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
     public static MovieDetailView getNewInstance(int data) {
         MovieDetailView movieDetailView = new MovieDetailView();
         Bundle bundle = new Bundle();
-        bundle.putInt(MovieViewHolderPortrait.MOVIEID_KEY, data);
+        bundle.putInt(MOVIEID_KEY, data);
         movieDetailView.setArguments(bundle);
 
         return movieDetailView;
@@ -78,10 +76,22 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
             Timber.d("movieId: %d", mMovieId);
         }
 
+        mIvMovieDetailPoster.setImageResource(R.drawable.contact_one);
+
+/*
+        Glide.with(getActivity())
+                .load(R.drawable.contact_one)
+                .bitmapTransform(new RoundedCornersTransformation(getActivity(), 8, 0))
+                .into(mIvMovieDetailPoster);
+*/
+
+/*
+
         mYouTubePlayerFragment = YouTubePlayerFragment.newInstance();
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.youtubePlayerFragment, mYouTubePlayerFragment);
         fragmentTransaction.commit();
+*/
 
         return view;
     }
@@ -109,7 +119,7 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
                 Timber.d("onInitializationSuccess %s", videoCode);
-                youTubePlayer.loadVideo(videoCode);
+      //          youTubePlayer.loadVideo(videoCode);
             }
 
             @Override
@@ -131,10 +141,12 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
 
     @Override
     public void displayMovieThumbnail(String imageUrl) {
+
         Glide.with(getActivity())
                 .load(ImageBuilder.buildImagePath(Constants.W92, imageUrl))
                 .bitmapTransform(new RoundedCornersTransformation(getActivity(), 8, 0))
-                .into(mIvMovieDetailThumbnail);
+                .into(mIvMovieDetailPoster);
+
     }
 
     @Override

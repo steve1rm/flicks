@@ -127,10 +127,11 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         viewHolderPortrait.mTvMovieTitle.setText(mMoviesList.get(position).getTitle());
         //     holder.mTvMovieOverview.setText(mMoviesList.getResults().get(position).getOverview());
 
+/*
         final com.squareup.picasso.Target target = new com.squareup.picasso.Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                viewHolderPortrait.mIvMovieHeader.setImageBitmap(bitmap);
+                viewHolderPortrait.mIvMoviePoster.setImageBitmap(bitmap);
                 Palette palette = Palette.from(bitmap).generate();
                 Palette.Swatch vibrant = palette.getVibrantSwatch();
 
@@ -138,13 +139,15 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     viewHolderPortrait.mFlFooterBackground.setBackgroundColor(vibrant.getRgb());
                     viewHolderPortrait.mTvMovieTitle.setTextColor(vibrant.getTitleTextColor());
                 }
- /*                   Glide.with(mContext.get())
-                            .load(ImageBuilder.buildImagePath(0, mMoviesList.get(position).getPoster_path()))
+ */
+                   Glide.with(mContext.get())
+                            .load(ImageBuilder.buildImagePath(Constants.W185, mMoviesList.get(position).getPoster_path()))
                             .placeholder(R.drawable.placeholder_poster)
                             .centerCrop()
                             .crossFade()
-                            .into(viewHolderPortrait.mIvMovieHeader);
-*/
+                            .into(viewHolderPortrait.mIvMoviePoster);
+/*
+
             }
 
             @Override
@@ -164,6 +167,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 .placeholder(R.drawable.placeholder_poster)
                 .error(R.drawable.placeholder_poster)
                 .into(target);
+*/
 
     }
 

@@ -9,7 +9,7 @@ import static me.androidbox.flicks.utils.Constants.W185;
 public final class ImageBuilder {
 
     public static String buildImagePath(String size, String posterPath) {
-                /* Build image path to display associated image */
+        /* Build image path to display associated image */
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(Constants.CONFIGURATION);
 

@@ -14,7 +14,7 @@ import me.androidbox.flicks.R;
 import me.androidbox.flicks.movielist.MovieListView;
 import me.androidbox.flicks.movielist.MovieViewHolderPortrait;
 
-public class MovieDetailActivity extends AppCompatActivity implements MovieViewHolderPortrait.GetMovieImageListener {
+public class MovieDetailActivity extends AppCompatActivity {
     private ImageView mImageView;
 
     @Override
@@ -36,41 +36,40 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieViewH
             getIntent().hasExtra(MovieViewHolderPortrait.MOVIEID_KEY);
 
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                Transition transition = TransitionInflater.from(MovieDetailActivity.this)
+                Transition changeTransform = TransitionInflater.from(MovieDetailActivity.this)
                         .inflateTransition(R.transition.change_image);
 
                 Transition explodeTranform = TransitionInflater.from(MovieDetailActivity.this)
                         .inflateTransition(android.R.transition.explode);
 
+                /* Get the fragments */
                 MovieListView movieListView = MovieListView.getNewInstance();
                 MovieDetailView movieDetailView = MovieDetailView.getNewInstance(movieId);
 
-                movieListView.setSharedElementReturnTransition(transition);
-                movieListView.setEnterTransition(explodeTranform);
+                /* Setup the exit transition on the list (first) fragment */
+                movieListView.setSharedElementReturnTransition(changeTransform);
+                movieListView.setExitTransition(explodeTranform);
 
-                movieDetailView.setSharedElementEnterTransition(transition);
+                /* Setup enter transition on the detail (second) fragment */
+                movieDetailView.setSharedElementEnterTransition(changeTransform);
                 movieDetailView.setEnterTransition(explodeTranform);
 
-                final int viewId = getIntent().getIntExtra(MovieViewHolderPortrait.IMAGE_ID_KEY, -1);
-                ImageView ivMovieImage = (ImageView)findViewById(R.id.ivMovieHeader);
-
+/*
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.add(R.id.activity_detail_container, movieDetailView, "moviedetailview");
                 fragmentTransaction.addToBackStack("moviedetailview");
                 fragmentTransaction.addSharedElement(mImageView, "image");
                 fragmentTransaction.commit();
+*/
             }
             else {
                 /* Transitions are not supported just load the fragment as normal */
+/*
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.add(R.id.activity_detail_container, MovieDetailView.getNewInstance(movieId), "moviedetailview");
                 fragmentTransaction.commit();
+*/
             }
         }
-    }
-
-    @Override
-    public void onGetMovieImage(ImageView imageView) {
-        mImageView = imageView;
     }
 }
