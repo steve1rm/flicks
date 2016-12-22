@@ -7,5 +7,5 @@
     android:src="@drawable/placeholder_poster"
     android:scaleType="fitXY"
     android:adjustViewBounds="true"
-    android:transitionName="image">
+    android:transitionName="@string/image_transition">
 </ImageView>

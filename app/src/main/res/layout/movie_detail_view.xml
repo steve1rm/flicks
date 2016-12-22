@@ -82,7 +82,7 @@
                 android:layout_marginTop="16dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
-                android:transitionName="image"/>
+                android:transitionName="@string/image_transition"/>
 
             <TextView
                 android:id="@+id/tvRunningTime"

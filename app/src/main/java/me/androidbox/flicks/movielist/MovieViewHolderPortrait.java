@@ -1,7 +1,9 @@
 package me.androidbox.flicks.movielist;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -42,12 +44,14 @@ public class MovieViewHolderPortrait extends RecyclerView.ViewHolder {
                 Timber.d("MovieId: %d", movieListAdapter.getMovieId(getAdapterPosition()));
 
                 /* Start activity passing the movie ID */
-                /* for the shared element transition pass in the id of the view that will be shared */
-                final Intent intent = new Intent(context, MovieDetailActivity.class)
-                        .putExtra(MOVIEID_KEY, movieListAdapter.getMovieId(getAdapterPosition()))
-                        .putExtra(IMAGE_ID_KEY, R.id.ivMovieHeader);
 
-                context.startActivity(intent);
+                final Intent intent = new Intent(context, MovieDetailActivity.class)
+                        .putExtra(MOVIEID_KEY, movieListAdapter.getMovieId(getAdapterPosition()));
+
+                ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat
+                                .makeSceneTransitionAnimation((Activity)context, mIvMovieHeader, context.getString(R.string.image_transition));
+
+                context.startActivity(intent, activityOptionsCompat.toBundle());
             }
         });
     }
