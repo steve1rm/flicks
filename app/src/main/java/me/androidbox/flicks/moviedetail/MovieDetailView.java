@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -15,6 +16,11 @@ import com.bumptech.glide.Glide;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerFragment;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -28,8 +34,6 @@ import me.androidbox.flicks.movielist.MovieViewHolderPortrait;
 import me.androidbox.flicks.utils.Constants;
 import me.androidbox.flicks.utils.ImageBuilder;
 import timber.log.Timber;
-
-import static android.view.KeyCharacterMap.load;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -64,6 +68,7 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -105,11 +110,11 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
 
     @Override
     public void playMovieTrailer(final String videoCode) {
-        mYouTubePlayerFragment.initialize("AIzaSyBKQN1qEQAouJ-xUgtbyLg433VrlqD_pxo", new YouTubePlayer.OnInitializedListener() {
+        mYouTubePlayerFragment.initialize(Constants.YOUTUBE_KEY, new YouTubePlayer.OnInitializedListener() {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
                 Timber.d("onInitializationSuccess %s", videoCode);
-                youTubePlayer.loadVideo(videoCode);
+                //youTubePlayer.loadVideo(videoCode);
             }
 
             @Override
@@ -149,7 +154,16 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
 
     @Override
     public void displayReleasedate(String releasedate) {
-        mTvReleaseDate.setText(releasedate);
+        SimpleDateFormat inputDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        SimpleDateFormat outputDate = new SimpleDateFormat("MMM dd yyyy", Locale.getDefault());
+
+        try {
+            Date date = inputDate.parse(releasedate);
+            mTvReleaseDate.setText(outputDate.format(date));
+        }
+        catch(ParseException ex) {
+            mTvReleaseDate.setText(releasedate);
+        }
     }
 
     @Override
@@ -167,5 +181,15 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
     public void onDestroyView() {
         super.onDestroyView();
         mUnbinder.unbind();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case android.R.id.home:
+//                getActivity().supportFinishAfterTransition();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
