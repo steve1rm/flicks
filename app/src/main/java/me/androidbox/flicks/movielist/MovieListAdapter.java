@@ -135,7 +135,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 Palette.from(bitmap).maximumColorCount(12).generate(new Palette.PaletteAsyncListener() {
                     @Override
                     public void onGenerated(Palette palette) {
-                        Palette.Swatch vibrant = palette.getVibrantSwatch();
+                        Palette.Swatch vibrant = palette.getDarkVibrantSwatch();
                         if(vibrant != null) {
                             viewHolderPortrait.mFlFooterBackground.setBackgroundColor(vibrant.getRgb());
                             viewHolderPortrait.mTvMovieTitle.setTextColor(vibrant.getTitleTextColor());
