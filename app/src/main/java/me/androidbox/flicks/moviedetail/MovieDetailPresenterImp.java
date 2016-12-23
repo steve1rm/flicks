@@ -65,6 +65,7 @@ public class MovieDetailPresenterImp implements
             mMovieDetailViewContract.displayTagline(movieDetail.getTagline());
             mMovieDetailViewContract.displayTitle(movieDetail.getTitle());
             mMovieDetailViewContract.displayMovieThumbnail(movieDetail.getPoster_path());
+            mMovieDetailViewContract.displayMovieBackdropPoster(movieDetail.getBackdrop_path());
             mMovieDetailViewContract.displayRunningTime(movieDetail.getRuntime());
         }
         else {

@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import javax.inject.Inject;
+import javax.microedition.khronos.opengles.GL;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,6 +47,7 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
     @BindView(R.id.tvReleaseDate) TextView mTvReleaseDate;
     @BindView(R.id.tvMovieOverview) TextView mTvMovieOverview;
     @BindView(R.id.ivMovieDetailThumbnail) ImageView mIvMovieDetailThumbnail;
+    @BindView(R.id.ivBackdropPoster) ImageView mIvBackdropPoster;
     @BindView(R.id.tvRunningTime) TextView mTvRunningTime;
 
     private Unbinder mUnbinder;
@@ -83,12 +85,17 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
             Timber.d("movieId: %d", mMovieId);
         }
 
+    //    setupYoutube();
+
+        return view;
+    }
+
+    /* Setup youtube fragment in container */
+    private void setupYoutube() {
         mYouTubePlayerFragment = YouTubePlayerFragment.newInstance();
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.youtubePlayerFragment, mYouTubePlayerFragment);
         fragmentTransaction.commit();
-
-        return view;
     }
 
     @Override
@@ -103,7 +110,7 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
             if(mMovieId != -1) {
                 /* Ask the presenter to get the movie detail */
                 mMovieDetailPresenterImp.loadMovieDetail(mMovieId);
-                mMovieDetailPresenterImp.loadMovieTrailer(mMovieId);
+         //       mMovieDetailPresenterImp.loadMovieTrailer(mMovieId);
             }
         }
     }
@@ -140,6 +147,13 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
                 .load(ImageBuilder.buildImagePath(Constants.W92, imageUrl))
                 .bitmapTransform(new RoundedCornersTransformation(getActivity(), 8, 0))
                 .into(mIvMovieDetailThumbnail);
+    }
+
+    @Override
+    public void displayMovieBackdropPoster(String imageUri) {
+        Glide.with(getActivity())
+                .load(ImageBuilder.buildImagePath(Constants.W300, imageUri))
+                .into(mIvBackdropPoster);
     }
 
     @Override
