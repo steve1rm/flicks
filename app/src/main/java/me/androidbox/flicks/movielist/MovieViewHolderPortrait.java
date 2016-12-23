@@ -44,7 +44,6 @@ public class MovieViewHolderPortrait extends RecyclerView.ViewHolder {
                 Timber.d("MovieId: %d", movieListAdapter.getMovieId(getAdapterPosition()));
 
                 /* Start activity passing the movie ID */
-
                 final Intent intent = new Intent(context, MovieDetailActivity.class)
                         .putExtra(MOVIEID_KEY, movieListAdapter.getMovieId(getAdapterPosition()));
 

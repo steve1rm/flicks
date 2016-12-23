@@ -131,13 +131,19 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                 viewHolderPortrait.mIvMovieHeader.setImageBitmap(bitmap);
-                Palette palette = Palette.from(bitmap).generate();
-                Palette.Swatch vibrant = palette.getVibrantSwatch();
+                
+                Palette.from(bitmap).maximumColorCount(12).generate(new Palette.PaletteAsyncListener() {
+                    @Override
+                    public void onGenerated(Palette palette) {
+                        Palette.Swatch vibrant = palette.getVibrantSwatch();
+                        if(vibrant != null) {
+                            viewHolderPortrait.mFlFooterBackground.setBackgroundColor(vibrant.getRgb());
+                            viewHolderPortrait.mTvMovieTitle.setTextColor(vibrant.getTitleTextColor());
+                        }
+                    }
+                });
 
-                if(vibrant != null) {
-                    viewHolderPortrait.mFlFooterBackground.setBackgroundColor(vibrant.getRgb());
-                    viewHolderPortrait.mTvMovieTitle.setTextColor(vibrant.getTitleTextColor());
-                }
+
  /*                   Glide.with(mContext.get())
                             .load(ImageBuilder.buildImagePath(0, mMoviesList.get(position).getPoster_path()))
                             .placeholder(R.drawable.placeholder_poster)
