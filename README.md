@@ -37,6 +37,7 @@ The following **additional** features are implemented:
 * [X] Uses dependency injection with Dagger2
 * [X] Archtecture used is MVP
 * [X] Replaces android logging with Timber and OKHttp logging intecepter for logging the http body messages (Debug build only)
+* [X] Uses palette to create dynamically vibrant colors for the movies in the list
 
 ## Video Walkthrough
 
