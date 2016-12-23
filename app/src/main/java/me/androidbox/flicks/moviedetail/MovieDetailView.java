@@ -27,6 +27,7 @@ import javax.microedition.khronos.opengles.GL;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import me.androidbox.flicks.R;
@@ -85,9 +86,13 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
             Timber.d("movieId: %d", mMovieId);
         }
 
-    //    setupYoutube();
-
         return view;
+    }
+
+    @SuppressWarnings("unused")
+    @OnClick(R.id.ivPlayMediaImage)
+    public void playTrailer() {
+        mMovieDetailPresenterImp.loadMovieTrailer(mMovieId);
     }
 
     /* Setup youtube fragment in container */
@@ -110,13 +115,14 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
             if(mMovieId != -1) {
                 /* Ask the presenter to get the movie detail */
                 mMovieDetailPresenterImp.loadMovieDetail(mMovieId);
-         //       mMovieDetailPresenterImp.loadMovieTrailer(mMovieId);
             }
         }
     }
 
     @Override
     public void playMovieTrailer(final String videoCode) {
+        setupYoutube();
+
         mYouTubePlayerFragment.initialize(Constants.YOUTUBE_KEY, new YouTubePlayer.OnInitializedListener() {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {

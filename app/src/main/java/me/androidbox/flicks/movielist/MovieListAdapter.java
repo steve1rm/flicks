@@ -131,7 +131,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                 viewHolderPortrait.mIvMovieHeader.setImageBitmap(bitmap);
-                
+
                 Palette.from(bitmap).maximumColorCount(12).generate(new Palette.PaletteAsyncListener() {
                     @Override
                     public void onGenerated(Palette palette) {
