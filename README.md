@@ -25,11 +25,11 @@ The following **bonus** features are implemented:
 * [X] Allow user to view details of the movie including ratings and popularity within a separate activity or dialog fragment.
 * [ ] When viewing a popular movie (i.e. a movie voted for more than 5 stars) the video should show the full backdrop image as the layout.  Uses [Heterogenous ListViews](http://guides.codepath.com/android/Implementing-a-Heterogenous-ListView) or [Heterogenous RecyclerView](http://guides.codepath.com/android/Heterogenous-Layouts-inside-RecyclerView) to show different layouts.
 * [X] Allow video trailers to be played in full-screen using the YouTubePlayerView.
-    * [ ] Overlay a play icon for videos that can be played.
+    * [X] Overlay a play icon for videos that can be played.
     * [ ] More popular movies should start a separate activity that plays the video immediately.
     * [X] Less popular videos rely on the detail page should show ratings and a YouTube preview.
 * [X] Apply the popular [Butterknife annotation library](http://guides.codepath.com/android/Reducing-View-Boilerplate-with-Butterknife) to reduce boilerplate code.
-* [ ] Apply rounded corners for the poster or background images using [Picasso transformations](https://guides.codepath.com/android/Displaying-Images-with-the-Picasso-Library#other-transformations)
+* [X] Apply rounded corners for the poster or background images using Glide for thumbnail on detail screen
 * [X] Replaced android-async-http network client with the popular [OkHttp](http://guides.codepath.com/android/Using-OkHttp) or [Volley](http://guides.codepath.com/android/Networking-with-the-Volley-Library) networking libraries. Replaced with retrofit2 library
 
 The following **additional** features are implemented:
@@ -38,6 +38,7 @@ The following **additional** features are implemented:
 * [X] Archtecture used is MVP
 * [X] Replaces android logging with Timber and OKHttp logging intecepter for logging the http body messages (Debug build only)
 * [X] Uses palette to create dynamically vibrant colors for the movies in the list
+* [X] Uses shared elment tranistions to create smooth animation when going from the list to detail view
 
 ## Video Walkthrough
 
