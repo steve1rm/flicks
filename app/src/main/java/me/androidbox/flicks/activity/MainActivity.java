@@ -9,6 +9,7 @@ import android.transition.TransitionInflater;
 import android.widget.ImageView;
 
 import me.androidbox.flicks.R;
+import me.androidbox.flicks.model.MovieDetail;
 import me.androidbox.flicks.moviedetail.MovieDetailView;
 import me.androidbox.flicks.movielist.MovieListView;
 import me.androidbox.flicks.movielist.MovieViewHolderPortrait;
@@ -37,11 +38,17 @@ public class MainActivity extends AppCompatActivity implements MovieViewHolderPo
                     .inflateTransition(R.transition.change_image);
 
             Transition explodeTranform = TransitionInflater.from(MainActivity.this)
-                    .inflateTransition(android.R.transition.explode);
+                    .inflateTransition(android.R.transition.slide_left);
 
-            /* Get the fragments */
-            MovieListView movieListView = MovieListView.getNewInstance();
-            MovieDetailView movieDetailView = MovieDetailView.getNewInstance(movieId);
+            /* Get the MovieListView fragment as this has already been created */
+            MovieListView movieListView = (MovieListView)getFragmentManager().findFragmentById(R.id.activity_main);
+
+            /* Create a new MovieDetail as this has not been created yet */
+            MovieDetailView movieDetailView =
+                    (MovieDetailView)getFragmentManager().findFragmentByTag(MovieDetailView.class.getSimpleName());
+            if(movieDetailView == null) {
+                movieDetailView = MovieDetailView.getNewInstance(movieId);
+            }
 
             /* Setup the exit transition on the list (first) fragment */
             movieListView.setSharedElementReturnTransition(changeTransform);
@@ -56,16 +63,14 @@ public class MainActivity extends AppCompatActivity implements MovieViewHolderPo
 
             /* replace the fragments */
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.activity_main, MovieDetailView.getNewInstance(movieId), "moviedetailview");
-            fragmentTransaction.addToBackStack("moviedetailview");
+            fragmentTransaction.replace(R.id.activity_main, movieDetailView, MovieDetailView.class.getSimpleName());
+            fragmentTransaction.addToBackStack(MovieDetailView.class.getSimpleName());
             fragmentTransaction.addSharedElement(ivThumbnail, getResources().getString(R.string.transition_poster_image));
             fragmentTransaction.commit();
-
-            Timber.d("onGetMovie %d", movieId);
         }
         else {
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.activity_main, MovieDetailView.getNewInstance(movieId), "moviedetailview");
+            fragmentTransaction.replace(R.id.activity_main, MovieDetailView.getNewInstance(movieId), MovieDetailView.class.getSimpleName());
             fragmentTransaction.commit();
         }
     }

@@ -76,7 +76,7 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
             Timber.d("movieId: %d", mMovieId);
         }
 
-        mIvMovieDetailPoster.setImageResource(R.drawable.contact_one);
+  //      mIvMovieDetailPoster.setImageResource(R.drawable.contact_one);
 
 /*
         Glide.with(getActivity())
