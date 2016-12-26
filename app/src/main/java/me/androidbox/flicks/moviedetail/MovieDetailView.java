@@ -1,9 +1,11 @@
 package me.androidbox.flicks.moviedetail;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -15,10 +17,17 @@ import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerFragment;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import javax.inject.Inject;
+import javax.microedition.khronos.opengles.GL;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import me.androidbox.flicks.R;
@@ -39,7 +48,8 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
     @BindView(R.id.tvMovieTitle) TextView mTvMovieTitle;
     @BindView(R.id.tvReleaseDate) TextView mTvReleaseDate;
     @BindView(R.id.tvMovieOverview) TextView mTvMovieOverview;
-    @BindView(R.id.ivMovieDetailPoster) ImageView mIvMovieDetailPoster;
+    @BindView(R.id.ivMovieDetailThumbnail) ImageView mIvMovieDetailPoster;
+    @BindView(R.id.ivBackdropPoster) ImageView mIvBackdropPoster;
     @BindView(R.id.tvRunningTime) TextView mTvRunningTime;
 
     private Unbinder mUnbinder;
@@ -62,6 +72,7 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -75,25 +86,21 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
             mMovieId = bundle.getInt(MovieViewHolderPortrait.MOVIEID_KEY, -1);
             Timber.d("movieId: %d", mMovieId);
         }
+        return view;
+    }
 
-  //      mIvMovieDetailPoster.setImageResource(R.drawable.contact_one);
+    @SuppressWarnings("unused")
+    @OnClick(R.id.ivPlayMediaImage)
+    public void playTrailer() {
+        mMovieDetailPresenterImp.loadMovieTrailer(mMovieId);
+    }
 
-/*
-        Glide.with(getActivity())
-                .load(R.drawable.contact_one)
-                .bitmapTransform(new RoundedCornersTransformation(getActivity(), 8, 0))
-                .into(mIvMovieDetailPoster);
-*/
-
-/*
-
+    /* Setup youtube fragment in container */
+    private void setupYoutube() {
         mYouTubePlayerFragment = YouTubePlayerFragment.newInstance();
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.youtubePlayerFragment, mYouTubePlayerFragment);
         fragmentTransaction.commit();
-*/
-
-        return view;
     }
 
     @Override
@@ -108,14 +115,15 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
             if(mMovieId != -1) {
                 /* Ask the presenter to get the movie detail */
                 mMovieDetailPresenterImp.loadMovieDetail(mMovieId);
-                mMovieDetailPresenterImp.loadMovieTrailer(mMovieId);
             }
         }
     }
 
     @Override
     public void playMovieTrailer(final String videoCode) {
-        mYouTubePlayerFragment.initialize("AIzaSyBKQN1qEQAouJ-xUgtbyLg433VrlqD_pxo", new YouTubePlayer.OnInitializedListener() {
+        setupYoutube();
+
+        mYouTubePlayerFragment.initialize(Constants.YOUTUBE_KEY, new YouTubePlayer.OnInitializedListener() {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
                 Timber.d("onInitializationSuccess %s", videoCode);
@@ -150,6 +158,13 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
     }
 
     @Override
+    public void displayMovieBackdropPoster(String imageUri) {
+        Glide.with(getActivity())
+                .load(ImageBuilder.buildImagePath(Constants.W300, imageUri))
+                .into(mIvBackdropPoster);
+    }
+
+    @Override
     public void displayTagline(String tagline) {
 
     }
@@ -161,7 +176,16 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
 
     @Override
     public void displayReleasedate(String releasedate) {
-        mTvReleaseDate.setText(releasedate);
+        SimpleDateFormat inputDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        SimpleDateFormat outputDate = new SimpleDateFormat("MMM dd yyyy", Locale.getDefault());
+
+        try {
+            Date date = inputDate.parse(releasedate);
+            mTvReleaseDate.setText(outputDate.format(date));
+        }
+        catch(ParseException ex) {
+            mTvReleaseDate.setText(releasedate);
+        }
     }
 
     @Override
@@ -179,5 +203,15 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
     public void onDestroyView() {
         super.onDestroyView();
         mUnbinder.unbind();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case android.R.id.home:
+//                getActivity().supportFinishAfterTransition();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

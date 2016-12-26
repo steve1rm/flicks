@@ -11,10 +11,18 @@
         android:layout_height="180dp">
 
         <ImageView
+            android:id="@+id/ivBackdropPoster"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <ImageView
+            android:id="@+id/ivPlayMediaImage"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_gravity="center"
-            android:src="@drawable/arrow_right_drop_circle_outline_white" />
+            android:src="@drawable/ic_play_circle_outline_white_48dp" />
+
     </FrameLayout>
 
     <ScrollView
@@ -34,19 +42,16 @@
                 android:layout_marginRight="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_toLeftOf="@+id/ivMovieDetailPoster"
-                android:layout_toStartOf="@+id/ivMovieDetailPoster"
-
+                android:layout_toLeftOf="@+id/ivMovieDetailThumbnail"
+                android:layout_toStartOf="@+id/ivMovieDetailThumbnail"
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-light"
-                android:lines="2"
-                android:text="title"
+                android:maxLines="2"
                 android:textColor="@android:color/white"
                 android:textSize="20sp" />
 
-            <RatingBar
-                android:id="@+id/rbMovieRatings"
-                style="?android:attr/ratingBarStyleIndicator"
+            <TextView
+                android:id="@+id/tvReleaseDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvMovieTitle"
@@ -54,27 +59,28 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="4dp"
+                android:fontFamily="sans-serif"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/tvReleaseDate"
-                android:layout_width="match_parent"
+            <RatingBar
+                android:id="@+id/rbMovieRatings"
+                style="?android:attr/ratingBarStyleIndicator"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/rbMovieRatings"
+                android:layout_below="@id/tvReleaseDate"
                 android:layout_marginEnd="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:fontFamily="sans-serif"
-                android:text="releasedatae"
-                android:textColor="@android:color/white"
-                android:textSize="16sp" />
+                android:layout_marginTop="16dp" />
+
 
             <ImageView
-                android:id="@+id/ivMovieDetailPoster"
-                android:layout_width="140dp"
-                android:layout_height="160dp"
+                android:id="@+id/ivMovieDetailThumbnail"
+                android:layout_width="92dp"
+                android:layout_height="138dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginEnd="16dp"
@@ -82,8 +88,7 @@
                 android:layout_marginTop="16dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
-                android:transitionName="@string/transition_poster_image"/>
-
+                android:transitionName="@string/image_transition"/>
             <TextView
                 android:id="@+id/tvRunningTime"
                 android:layout_width="wrap_content"
@@ -93,8 +98,7 @@
                 android:layout_marginRight="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_alignBottom="@id/ivMovieDetailPoster"
-                android:text="runningtime"
+                android:layout_below="@id/rbMovieRatings"
                 android:fontFamily="sans-serif"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"/>
@@ -103,14 +107,14 @@
                 android:id="@+id/tvMovieOverview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ivMovieDetailPoster"
+                android:layout_below="@id/tvRunningTime"
                 android:layout_marginEnd="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
                 android:fontFamily="sans-serif"
-                android:text="Overview"
                 android:textColor="@android:color/white"
                 android:textSize="18sp" />
         </RelativeLayout>

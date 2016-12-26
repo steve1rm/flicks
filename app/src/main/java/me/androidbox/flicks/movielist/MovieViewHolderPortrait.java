@@ -26,10 +26,8 @@ public class MovieViewHolderPortrait extends RecyclerView.ViewHolder {
     private GetMovieListener mGetMovieImageListener;
 
     public static final String MOVIEID_KEY = "movieid_key";
-    public static final String IMAGE_ID_KEY = "image_id_key";
 
     @BindView(R.id.tvMovieTitle) TextView mTvMovieTitle;
- //   @BindView(R.id.tvMovieOverview) TextView mTvMovieOverview;
     @BindView(R.id.ivMoviePoster) ImageView mIvMoviePoster;
     @BindView(R.id.flFooterBackground) FrameLayout mFlFooterBackground;
 
@@ -37,6 +35,7 @@ public class MovieViewHolderPortrait extends RecyclerView.ViewHolder {
 
     public MovieViewHolderPortrait(View itemView, final MovieListAdapter movieListAdapter, final Context context) {
         super(itemView);
+
         mGetMovieImageListener = (GetMovieListener)context;
         ButterKnife.bind(MovieViewHolderPortrait.this, itemView);
 
@@ -45,17 +44,7 @@ public class MovieViewHolderPortrait extends RecyclerView.ViewHolder {
             public void onClick(View v) {
                 Timber.d("MovieId: %d", movieListAdapter.getMovieId(getAdapterPosition()));
                 mGetMovieImageListener.onGetMovie(movieListAdapter.getMovieId(getAdapterPosition()));
-
-                /* Start activity passing the movie ID */
-                /* for the shared element transition pass in the id of the view that will be shared */
-  /*              final Intent intent = new Intent(context, MovieDetailActivity.class)
-                        .putExtra(MOVIEID_KEY, movieListAdapter.getMovieId(getAdapterPosition()))
-                        .putExtra(IMAGE_ID_KEY, R.id.ivMovieHeader);
-
-//                mGetMovieImageListener.onGetMovieImage(mIvMovieHeader);
-                context.startActivity(intent);
-
-  */          }
+            }
         });
     }
 }
