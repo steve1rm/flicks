@@ -207,7 +207,6 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case android.R.id.home:
-//                getActivity().supportFinishAfterTransition();
                 return true;
         }
         return super.onOptionsItemSelected(item);

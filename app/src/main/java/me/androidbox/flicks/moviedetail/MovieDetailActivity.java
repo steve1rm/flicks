@@ -2,6 +2,7 @@ package me.androidbox.flicks.moviedetail;
 
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ public class MovieDetailActivity extends AppCompatActivity {
             return;
         }
 
+
         if(savedInstanceState == null) {
             getIntent().hasExtra(MovieViewHolderPortrait.MOVIEID_KEY);
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
@@ -33,5 +35,7 @@ public class MovieDetailActivity extends AppCompatActivity {
             fragmentTransaction.commit();
         }
     }
+
+
 }
 

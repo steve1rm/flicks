@@ -21,6 +21,11 @@ public class Results {
     private int vote_count;
     private boolean video;
     private float vote_average;
+    private String tagline;
+
+    public String getTagline() {
+        return tagline;
+    }
 
     public boolean isAdult() {
         return adult;

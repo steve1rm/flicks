@@ -22,7 +22,7 @@ public class DividerItemDecorator extends RecyclerView.ItemDecoration {
             outRect.top = mDivider;
         }
 
-        /**
+        /*
          * Create a divider between columns 0 and 1
          * Even column 0 - Odd column 1 */
         if(parent.getChildAdapterPosition(view) % 2 != 0) {

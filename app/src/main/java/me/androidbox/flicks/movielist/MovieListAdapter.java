@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ import me.androidbox.flicks.R;
 import me.androidbox.flicks.model.Results;
 import me.androidbox.flicks.utils.Constants;
 import me.androidbox.flicks.utils.ImageBuilder;
+import timber.log.Timber;
 
 import static android.R.attr.bitmap;
 
@@ -124,8 +126,16 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     /* Change layout to display in portrait mode */
     private void bindPortraitMode(final MovieViewHolderPortrait viewHolderPortrait, int position) {
-        viewHolderPortrait.mTvMovieTitle.setText(mMoviesList.get(position).getTitle());
-        //     holder.mTvMovieOverview.setText(mMoviesList.getResults().get(position).getOverview());
+
+        /* if the tagline line is empty to avoid displaying an empty space use the title instead */
+        if(!TextUtils.isEmpty(mMoviesList.get(position).getTagline())) {
+            viewHolderPortrait.mTvMovieTitle.setText(mMoviesList.get(position).getTagline());
+            Timber.d(mMoviesList.get(position).getTagline());
+        }
+        else {
+            viewHolderPortrait.mTvMovieTitle.setText(mMoviesList.get(position).getTitle());
+            Timber.d(mMoviesList.get(position).getTitle());
+        }
 
         final com.squareup.picasso.Target target = new com.squareup.picasso.Target() {
             @Override

@@ -25,10 +25,8 @@ import timber.log.Timber;
 
 public class MovieViewHolderPortrait extends RecyclerView.ViewHolder {
     public static final String MOVIEID_KEY = "movieid_key";
-    public static final String IMAGE_ID_KEY = "image_id_key";
 
     @BindView(R.id.tvMovieTitle) TextView mTvMovieTitle;
-    @BindView(R.id.tvMovieOverview) TextView mTvMovieOverview;
     @BindView(R.id.ivMovieHeader) ImageView mIvMovieHeader;
     @BindView(R.id.flFooterBackground) FrameLayout mFlFooterBackground;
 
@@ -50,7 +48,8 @@ public class MovieViewHolderPortrait extends RecyclerView.ViewHolder {
                 ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat
                                 .makeSceneTransitionAnimation((Activity)context, mIvMovieHeader, context.getString(R.string.image_transition));
 
-                context.startActivity(intent, activityOptionsCompat.toBundle());
+                // context.startActivity(intent, activityOptionsCompat.toBundle());
+                context.startActivity(intent);
             }
         });
     }
