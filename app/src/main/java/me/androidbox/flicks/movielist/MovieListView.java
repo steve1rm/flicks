@@ -1,16 +1,14 @@
 package me.androidbox.flicks.movielist;
 
 
+import android.app.Fragment;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import android.app.Fragment;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -30,11 +27,9 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Optional;
 import butterknife.Unbinder;
 import me.androidbox.flicks.R;
 import me.androidbox.flicks.di.DaggerInjector;
-import me.androidbox.flicks.model.Movies;
 import me.androidbox.flicks.model.Results;
 import me.androidbox.flicks.utils.DividerItemDecorator;
 import me.androidbox.flicks.utils.Network;

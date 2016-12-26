@@ -88,7 +88,7 @@ public class MovieDetailPresenterImp implements
     public void onGetMovieTrailerSuccess(Videos videos) {
         if(mMovieDetailViewContract != null) {
             if(videos.getResults().size() > 0) {
-                mMovieDetailViewContract.playMovieTrailer(videos.getResults().get(0).getKey());
+      //          mMovieDetailViewContract.playMovieTrailer(videos.getResults().get(0).getKey());
             }
             else {
                 mMovieDetailViewContract.playMovieTrailerFailure();

@@ -41,13 +41,14 @@ import timber.log.Timber;
  * A simple {@link Fragment} subclass.
  */
 public class MovieDetailView extends Fragment implements MovieDetailViewContract {
+    private static final String MOVIEID_KEY = "movieid_key";
 
     @Inject MovieDetailPresenterImp mMovieDetailPresenterImp;
 
     @BindView(R.id.tvMovieTitle) TextView mTvMovieTitle;
     @BindView(R.id.tvReleaseDate) TextView mTvReleaseDate;
     @BindView(R.id.tvMovieOverview) TextView mTvMovieOverview;
-    @BindView(R.id.ivMovieDetailThumbnail) ImageView mIvMovieDetailThumbnail;
+    @BindView(R.id.ivMovieDetailThumbnail) ImageView mIvMovieDetailPoster;
     @BindView(R.id.ivBackdropPoster) ImageView mIvBackdropPoster;
     @BindView(R.id.tvRunningTime) TextView mTvRunningTime;
 
@@ -62,7 +63,7 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
     public static MovieDetailView getNewInstance(int data) {
         MovieDetailView movieDetailView = new MovieDetailView();
         Bundle bundle = new Bundle();
-        bundle.putInt(MovieViewHolderPortrait.MOVIEID_KEY, data);
+        bundle.putInt(MOVIEID_KEY, data);
         movieDetailView.setArguments(bundle);
 
         return movieDetailView;
@@ -85,7 +86,6 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
             mMovieId = bundle.getInt(MovieViewHolderPortrait.MOVIEID_KEY, -1);
             Timber.d("movieId: %d", mMovieId);
         }
-
         return view;
     }
 
@@ -127,7 +127,7 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
                 Timber.d("onInitializationSuccess %s", videoCode);
-                youTubePlayer.loadVideo(videoCode);
+      //          youTubePlayer.loadVideo(videoCode);
             }
 
             @Override
@@ -149,10 +149,12 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
 
     @Override
     public void displayMovieThumbnail(String imageUrl) {
+
         Glide.with(getActivity())
                 .load(ImageBuilder.buildImagePath(Constants.W92, imageUrl))
                 .bitmapTransform(new RoundedCornersTransformation(getActivity(), 8, 0))
-                .into(mIvMovieDetailThumbnail);
+                .into(mIvMovieDetailPoster);
+
     }
 
     @Override

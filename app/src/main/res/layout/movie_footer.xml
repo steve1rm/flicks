@@ -22,4 +22,20 @@
         android:textSize="16sp"
         android:textColor="@android:color/white"
         android:fontFamily="sans-serif"/>
+<!--
+    <TextView
+        android:id="@+id/tvMovieOverview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:ellipsize="end"
+        android:textSize="14sp"
+        android:textColor="@android:color/white"
+        android:fontFamily="sans-serif-condensed"/>-->
+
+   <!-- <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|end"
+        android:src="@drawable/ic_more_vert_white_36dp"/>-->
 </FrameLayout>

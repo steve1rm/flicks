@@ -31,7 +31,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         if(savedInstanceState == null) {
             getIntent().hasExtra(MovieViewHolderPortrait.MOVIEID_KEY);
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.add(R.id.activity_detail_container, MovieDetailView.getNewInstance(movieId), "moviedetailview");
+            fragmentTransaction.add(R.id.activity_detail_container, MovieDetailView.getNewInstance(movieId), MovieDetailView.class.getSimpleName());
             fragmentTransaction.commit();
         }
     }

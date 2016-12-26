@@ -47,7 +47,6 @@
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-light"
                 android:maxLines="2"
-                android:text="title"
                 android:textColor="@android:color/white"
                 android:textSize="20sp" />
 
@@ -62,7 +61,6 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="4dp"
                 android:fontFamily="sans-serif"
-                android:text="releasedatae"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
 
@@ -91,7 +89,6 @@
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
                 android:transitionName="@string/image_transition"/>
-
             <TextView
                 android:id="@+id/tvRunningTime"
                 android:layout_width="wrap_content"
@@ -102,7 +99,6 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_below="@id/rbMovieRatings"
-                android:text="runningtime"
                 android:fontFamily="sans-serif"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"/>
@@ -119,7 +115,6 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="8dp"
                 android:fontFamily="sans-serif"
-                android:text="Overview"
                 android:textColor="@android:color/white"
                 android:textSize="18sp" />
         </RelativeLayout>

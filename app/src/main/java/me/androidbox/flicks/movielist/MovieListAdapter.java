@@ -6,14 +6,11 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.Target;
 import com.squareup.picasso.Picasso;
 
 import java.lang.ref.WeakReference;
@@ -26,8 +23,6 @@ import me.androidbox.flicks.model.Results;
 import me.androidbox.flicks.utils.Constants;
 import me.androidbox.flicks.utils.ImageBuilder;
 import timber.log.Timber;
-
-import static android.R.attr.bitmap;
 
 /**
  * Created by steve on 10/15/16.
@@ -126,21 +121,12 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     /* Change layout to display in portrait mode */
     private void bindPortraitMode(final MovieViewHolderPortrait viewHolderPortrait, int position) {
-
-        /* if the tagline line is empty to avoid displaying an empty space use the title instead */
-        if(!TextUtils.isEmpty(mMoviesList.get(position).getTagline())) {
-            viewHolderPortrait.mTvMovieTitle.setText(mMoviesList.get(position).getTagline());
-            Timber.d(mMoviesList.get(position).getTagline());
-        }
-        else {
-            viewHolderPortrait.mTvMovieTitle.setText(mMoviesList.get(position).getTitle());
-            Timber.d(mMoviesList.get(position).getTitle());
-        }
+        viewHolderPortrait.mTvMovieTitle.setText(mMoviesList.get(position).getTitle());
 
         final com.squareup.picasso.Target target = new com.squareup.picasso.Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                viewHolderPortrait.mIvMovieHeader.setImageBitmap(bitmap);
+                viewHolderPortrait.mIvMoviePoster.setImageBitmap(bitmap);
 
                 Palette.from(bitmap).maximumColorCount(12).generate(new Palette.PaletteAsyncListener() {
                     @Override
@@ -152,15 +138,6 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         }
                     }
                 });
-
-
- /*                   Glide.with(mContext.get())
-                            .load(ImageBuilder.buildImagePath(0, mMoviesList.get(position).getPoster_path()))
-                            .placeholder(R.drawable.placeholder_poster)
-                            .centerCrop()
-                            .crossFade()
-                            .into(viewHolderPortrait.mIvMovieHeader);
-*/
             }
 
             @Override
@@ -180,6 +157,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 .placeholder(R.drawable.placeholder_poster)
                 .error(R.drawable.placeholder_poster)
                 .into(target);
+
 
     }
 
