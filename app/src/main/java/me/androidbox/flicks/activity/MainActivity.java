@@ -80,7 +80,6 @@ public class MainActivity extends AppCompatActivity implements MovieViewHolderPo
         /* If there are fragments on the backstack */
         if(getFragmentManager().getBackStackEntryCount() > 0) {
             getFragmentManager().popBackStackImmediate();
-            getFragmentManager().popBackStack();
         }
         else {
             super.onBackPressed();
