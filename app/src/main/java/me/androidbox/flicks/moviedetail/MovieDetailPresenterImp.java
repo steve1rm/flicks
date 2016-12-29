@@ -57,6 +57,11 @@ public class MovieDetailPresenterImp implements
         }
     }
 
+    /* Calculate the vote average by averaging with 50 to get a scale of 0 to 5 */
+    private float calculateAverage(float voteAverage) {
+        return (voteAverage / 10) * 5;
+    }
+
     @Override
     public void onGetMovieDetailSuccess(MovieDetail movieDetail) {
         if(mMovieDetailViewContract != null) {
@@ -67,11 +72,14 @@ public class MovieDetailPresenterImp implements
             mMovieDetailViewContract.displayMovieThumbnail(movieDetail.getPoster_path());
             mMovieDetailViewContract.displayMovieBackdropPoster(movieDetail.getBackdrop_path());
             mMovieDetailViewContract.displayRunningTime(movieDetail.getRuntime());
+            mMovieDetailViewContract.displayGetMovieRating(calculateAverage(movieDetail.getVote_average()));
         }
         else {
             Timber.e("mMovieDetailViewContract == null, check attachView as been called");
         }
     }
+
+
 
     @Override
     public void onGetMovieTrailerFailure(String errMessage) {
