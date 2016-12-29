@@ -2,6 +2,7 @@ package me.androidbox.flicks.movielist;
 
 import java.util.List;
 
+import me.androidbox.flicks.model.Latest;
 import me.androidbox.flicks.model.Results;
 
 /**
@@ -11,4 +12,5 @@ import me.androidbox.flicks.model.Results;
 public interface MovieListViewContract {
     void loadUpcomingMovies(List<Results> moviesList);
     void loadNowPlayingMovies(List<Results> movieList);
+    void loadLatestMovie(Latest latest);
 }

@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import me.androidbox.flicks.di.DaggerInjector;
 import me.androidbox.flicks.model.FlicksMovieService;
+import me.androidbox.flicks.model.Latest;
 import me.androidbox.flicks.model.Movies;
 import me.androidbox.flicks.model.Pages;
 import me.androidbox.flicks.model.Results;
@@ -94,6 +95,32 @@ public class MovieListModelImp implements MovieListModelContract {
                     public void onNext(List<Results> movies) {
                         upComingMovieListener.onGetMovieSuccess(movies);
                         Timber.d("onNext %d", movies.size());
+                    }
+                });
+    }
+
+    @Override
+    public void getLatestMovie(final LatestMovieListener latestMovieListener) {
+        Timber.d("getLatestMovie");
+
+        mSubscription = mFlicksMoveService.getLatestMovie(Constants.API_KEY)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Latest>() {
+                    @Override
+                    public void onCompleted() {
+                        Timber.d("onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Timber.e(e, "onError");
+                        latestMovieListener.onGetLatestMovieFailed();
+                    }
+
+                    @Override
+                    public void onNext(Latest latest) {
+                        latestMovieListener.onGetLatestMovieSuccess(latest);
                     }
                 });
     }
