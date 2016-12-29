@@ -31,24 +31,24 @@ public class MainActivity extends AppCompatActivity implements MovieViewHolderPo
 
     @Override
     public void onGetMovie(int movieId) {
+        /* Create a new MovieDetail as this has not been created yet */
+        MovieDetailView movieDetailView =
+                (MovieDetailView)getFragmentManager().findFragmentByTag(MovieDetailView.class.getSimpleName());
+        if(movieDetailView == null) {
+            movieDetailView = MovieDetailView.getNewInstance(movieId);
+        }
 
         /* Replace the fragment with the detail view */
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            /* Get the MovieListView fragment as this has already been created */
+            MovieListView movieListView = (MovieListView)getFragmentManager().findFragmentById(R.id.activity_main);
+
             Transition changeTransform = TransitionInflater.from(MainActivity.this)
                     .inflateTransition(R.transition.change_image);
 
             Transition explodeTranform = TransitionInflater.from(MainActivity.this)
-                    .inflateTransition(android.R.transition.slide_left);
+                    .inflateTransition(android.R.transition.explode);
 
-            /* Get the MovieListView fragment as this has already been created */
-            MovieListView movieListView = (MovieListView)getFragmentManager().findFragmentById(R.id.activity_main);
-
-            /* Create a new MovieDetail as this has not been created yet */
-            MovieDetailView movieDetailView =
-                    (MovieDetailView)getFragmentManager().findFragmentByTag(MovieDetailView.class.getSimpleName());
-            if(movieDetailView == null) {
-                movieDetailView = MovieDetailView.getNewInstance(movieId);
-            }
 
             /* Setup the exit transition on the list (first) fragment */
             movieListView.setSharedElementReturnTransition(changeTransform);
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements MovieViewHolderPo
         }
         else {
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.activity_main, MovieDetailView.getNewInstance(movieId), MovieDetailView.class.getSimpleName());
+            fragmentTransaction.replace(R.id.activity_main, movieDetailView, MovieDetailView.class.getSimpleName());
             fragmentTransaction.commit();
         }
     }
