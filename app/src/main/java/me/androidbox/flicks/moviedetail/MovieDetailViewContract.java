@@ -16,4 +16,5 @@ public interface MovieDetailViewContract {
     void playMovieTrailer(String videoCode);
     void playMovieTrailerFailure();
     void displayRunningTime(int runningtime);
+    void displayGetMovieRating(float rating);
 }

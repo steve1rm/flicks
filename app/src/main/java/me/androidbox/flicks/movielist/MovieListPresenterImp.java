@@ -5,6 +5,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import me.androidbox.flicks.di.DaggerInjector;
+import me.androidbox.flicks.model.Latest;
 import me.androidbox.flicks.model.Pages;
 import me.androidbox.flicks.model.Results;
 import timber.log.Timber;
@@ -17,7 +18,8 @@ public class MovieListPresenterImp implements
         MovieListPresenterContract.MovieListPresenterOps<MovieListViewContract>,
         MovieListPresenterContract.MovieListPresenterEvents,
         MovieListModelContract.UpComingMovieListener,
-        MovieListModelContract.NowPlayingListener {
+        MovieListModelContract.NowPlayingListener,
+        MovieListModelContract.LatestMovieListener {
 
     @Inject
     MovieListModelImp mMovieListModelImp;
@@ -96,4 +98,18 @@ public class MovieListPresenterImp implements
     }
 
 
+    @Override
+    public void getLatestMovie() {
+        mMovieListModelImp.getLatestMovie(MovieListPresenterImp.this);
+    }
+
+    @Override
+    public void onGetLatestMovieFailed() {
+        Timber.e("onGetLatestMovieFailed");
+    }
+
+    @Override
+    public void onGetLatestMovieSuccess(Latest latest) {
+        mMovieListView.loadLatestMovie(latest);
+    }
 }

@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +52,7 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
     @BindView(R.id.ivMovieDetailThumbnail) ImageView mIvMovieDetailPoster;
     @BindView(R.id.ivBackdropPoster) ImageView mIvBackdropPoster;
     @BindView(R.id.tvRunningTime) TextView mTvRunningTime;
+    @BindView(R.id.rbMovieRatings) RatingBar mRbMovieRatings;
 
     private Unbinder mUnbinder;
     private int mMovieId;
@@ -172,6 +174,11 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
     @Override
     public void displayTitle(String title) {
         mTvMovieTitle.setText(title);
+    }
+
+    @Override
+    public void displayGetMovieRating(float rating) {
+        mRbMovieRatings.setRating(rating);
     }
 
     @Override

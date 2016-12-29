@@ -16,6 +16,7 @@ public interface MovieListPresenterContract {
         void detachView();
         void loadUpcomingMovies();
         void loadNowPlayingMovies();
+        void getLatestMovie();
     }
 
     /* Model -->> Presenter */

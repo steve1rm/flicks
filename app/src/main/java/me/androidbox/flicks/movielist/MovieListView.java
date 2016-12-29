@@ -30,6 +30,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import me.androidbox.flicks.R;
 import me.androidbox.flicks.di.DaggerInjector;
+import me.androidbox.flicks.model.Latest;
 import me.androidbox.flicks.model.Results;
 import me.androidbox.flicks.utils.DividerItemDecorator;
 import me.androidbox.flicks.utils.Network;
@@ -165,6 +166,7 @@ public class MovieListView extends Fragment implements MovieListViewContract {
                     Timber.d("mMovieListPresenterImp != null");
                     mMovieListPresenterImp.attachView(MovieListView.this);
                     mMovieListPresenterImp.loadUpcomingMovies();
+                    mMovieListPresenterImp.getLatestMovie();
                 }
             }
             else {
@@ -196,5 +198,10 @@ public class MovieListView extends Fragment implements MovieListViewContract {
     public void loadUpcomingMovies(List<Results> moviesList) {
         Timber.d("LoadUpcomingMovies");
         mMovieListAdapter.updateMovieList(moviesList);
+    }
+
+    @Override
+    public void loadLatestMovie(Latest latest) {
+        Timber.d("loadLatestMovie: %s", latest.getTitle());
     }
 }

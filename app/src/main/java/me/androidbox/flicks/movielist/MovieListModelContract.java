@@ -2,6 +2,7 @@ package me.androidbox.flicks.movielist;
 
 import java.util.List;
 
+import me.androidbox.flicks.model.Latest;
 import me.androidbox.flicks.model.Pages;
 import me.androidbox.flicks.model.Results;
 
@@ -14,13 +15,19 @@ public interface MovieListModelContract {
         void onGetMovieFailed();
         void onGetMovieSuccess(List<Results> movieList);
     }
+    void getUpComingMovies(UpComingMovieListener upComingMovieListener);
 
     interface NowPlayingListener {
         void onGetNowPlayingFailed();
         void onGetNowPlayingSuccess(Pages pages);
     }
-
     void getNowPlayingMovies(NowPlayingListener nowPlayingListener);
-    void getUpComingMovies(UpComingMovieListener upComingMovieListener);
+
+    interface LatestMovieListener {
+        void onGetLatestMovieFailed();
+        void onGetLatestMovieSuccess(Latest latest);
+    }
+    void getLatestMovie(LatestMovieListener latestMovieListener);
+
     void releaseResources();
 }

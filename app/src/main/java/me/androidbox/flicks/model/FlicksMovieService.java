@@ -24,4 +24,7 @@ public interface FlicksMovieService {
 
     @GET("movie/{movie_id}/videos")
     Call<Videos> getMovieVideos(@Path("movie_id") int movieId, @Query("api_key") String apiKey);
+
+    @GET("movie/latest")
+    Observable<Latest> getLatestMovie(@Query("api_key") String apiKey);
 }
