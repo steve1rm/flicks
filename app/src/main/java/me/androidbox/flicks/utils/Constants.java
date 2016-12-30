@@ -14,4 +14,8 @@ public final class Constants {
     public static final String W185 = "w185";
     public static final String W300 = "w300";
     public static final String W500 = "w500";
+
+    /*
+    https://image.tmdb.org/t/p/w300/lxo1FELMRIZuNy8KSdXB3KmhCT9.jpg
+    */
 }
