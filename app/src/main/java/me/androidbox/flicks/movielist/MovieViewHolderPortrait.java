@@ -1,6 +1,7 @@
 package me.androidbox.flicks.movielist;
 
 import android.content.Context;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -21,7 +22,7 @@ import timber.log.Timber;
 
 public class MovieViewHolderPortrait extends RecyclerView.ViewHolder {
     public interface GetMovieListener {
-        void onGetMovie(int movieId);
+        void onGetMovie(ImageView imageView, int movieId);
     }
     private GetMovieListener mGetMovieImageListener;
 
@@ -43,7 +44,8 @@ public class MovieViewHolderPortrait extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View v) {
                 Timber.d("MovieId: %d", movieListAdapter.getMovieId(getAdapterPosition()));
-                mGetMovieImageListener.onGetMovie(movieListAdapter.getMovieId(getAdapterPosition()));
+                ViewCompat.setTransitionName(mIvMoviePoster,  "image_" + movieListAdapter.getMovieId(getAdapterPosition()));
+                mGetMovieImageListener.onGetMovie(mIvMoviePoster, movieListAdapter.getMovieId(getAdapterPosition()));
             }
         });
     }

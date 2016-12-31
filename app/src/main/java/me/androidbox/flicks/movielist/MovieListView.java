@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -40,6 +41,8 @@ import timber.log.Timber;
  * A simple {@link Fragment} subclass.
  */
 public class MovieListView extends Fragment implements MovieListViewContract {
+    private static final String RESTORE_RECYCLER_POSITION_KEY = "restore_recycler_postion";
+
     @Inject MovieListPresenterImp mMovieListPresenterImp;
 
     @BindView(R.id.tool_bar) Toolbar mToolBar;
@@ -52,15 +55,18 @@ public class MovieListView extends Fragment implements MovieListViewContract {
 
     public MovieListView() {
         // Required empty public constructor
+        setArguments(new Bundle());
     }
 
     public static MovieListView getNewInstance() {
+
         return new MovieListView();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Timber.d("onCreate");
 
         /* Create a translucent status bar */
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -69,8 +75,49 @@ public class MovieListView extends Fragment implements MovieListViewContract {
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Timber.d("onSavedInstanceState");
+        outState.putParcelable(RESTORE_RECYCLER_POSITION_KEY, mRvMovieList.getLayoutManager().onSaveInstanceState());
+    }
+
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if(savedInstanceState != null) {
+            Timber.d("onViewStateRestored");
+            mRvMovieList.getLayoutManager().onRestoreInstanceState(savedInstanceState.getParcelable(RESTORE_RECYCLER_POSITION_KEY));
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Timber.d("onPause");
+        Parcelable parcelable = mRvMovieList.getLayoutManager().onSaveInstanceState();
+
+        getArguments().putParcelable(RESTORE_RECYCLER_POSITION_KEY, parcelable);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Timber.d("onResume");
+        if(getArguments() != null) {
+            Timber.d("getArguments() != null");
+            Parcelable parcelable = getArguments().getParcelable(RESTORE_RECYCLER_POSITION_KEY);
+         //   mRvMovieList.smoothScrollToPosition(6);
+            mRvMovieList.getLayoutManager().smoothScrollToPosition(mRvMovieList, null, 8);
+
+       //     mRvMovieList.getLayoutManager().onRestoreInstanceState(parcelable);
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        Timber.d("onCreateView");
+
         final View view = inflater.inflate(R.layout.movie_list_view, container, false);
 
         /* View Injection */
@@ -88,8 +135,6 @@ public class MovieListView extends Fragment implements MovieListViewContract {
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             setupSwipeRefresh();
         }
-
-
 
         return view;
     }
@@ -166,7 +211,7 @@ public class MovieListView extends Fragment implements MovieListViewContract {
                     Timber.d("mMovieListPresenterImp != null");
                     mMovieListPresenterImp.attachView(MovieListView.this);
                     mMovieListPresenterImp.loadUpcomingMovies();
-                    mMovieListPresenterImp.getLatestMovie();
+                 //   mMovieListPresenterImp.getLatestMovie();
                 }
             }
             else {
@@ -180,6 +225,12 @@ public class MovieListView extends Fragment implements MovieListViewContract {
 
             /* Load data from storage */
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Timber.d("onDestroyView");
     }
 
     @Override

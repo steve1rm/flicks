@@ -2,6 +2,7 @@ package me.androidbox.flicks.activity;
 
 import android.app.FragmentTransaction;
 import android.os.Build;
+import android.transition.Fade;
 import android.transition.Transition;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,14 +24,15 @@ public class MainActivity extends AppCompatActivity implements MovieViewHolderPo
         setContentView(R.layout.activity_main);
 
         if(savedInstanceState == null) {
-            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.add(R.id.activity_main, MovieListView.getNewInstance(), "movielistview");
-            fragmentTransaction.commit();
+            getFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.activity_main, MovieListView.getNewInstance(), MovieListView.class.getSimpleName())
+                    .commit();
         }
     }
 
     @Override
-    public void onGetMovie(int movieId) {
+    public void onGetMovie(ImageView imageView, int movieId) {
         /* Create a new MovieDetail as this has not been created yet */
         MovieDetailView movieDetailView =
                 (MovieDetailView)getFragmentManager().findFragmentByTag(MovieDetailView.class.getSimpleName());
@@ -52,37 +54,42 @@ public class MainActivity extends AppCompatActivity implements MovieViewHolderPo
 
             /* Setup the exit transition on the list (first) fragment */
             movieListView.setSharedElementReturnTransition(changeTransform);
-            movieListView.setExitTransition(explodeTranform);
+            movieListView.setExitTransition(new Fade());
 
             /* Setup enter transition on the detail (second) fragment */
             movieDetailView.setSharedElementEnterTransition(changeTransform);
-            movieDetailView.setEnterTransition(explodeTranform);
+            movieDetailView.setEnterTransition(new Fade());
 
             /* Find the shared element in list (first) fragment */
-            final ImageView ivThumbnail = (ImageView)findViewById(R.id.ivMoviePoster);
+    //        final ImageView ivThumbnail = (ImageView)findViewById(R.id.ivMoviePoster);
+            /* Set the movieId as the transition name to make it unique amoung the others in the recyclerview */
+      //      ivThumbnail.setTransitionName("image_" + movieId);
 
             /* replace the fragments */
-            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.activity_main, movieDetailView, MovieDetailView.class.getSimpleName());
-            fragmentTransaction.addToBackStack(MovieDetailView.class.getSimpleName());
-            fragmentTransaction.addSharedElement(ivThumbnail, getResources().getString(R.string.transition_poster_image));
-            fragmentTransaction.commit();
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.activity_main, movieDetailView, MovieDetailView.class.getSimpleName())
+                    .addToBackStack(MovieDetailView.class.getSimpleName())
+                    .addSharedElement(imageView, getResources().getString(R.string.image_transition))
+                    .commit();
         }
         else {
-            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.activity_main, movieDetailView, MovieDetailView.class.getSimpleName());
-            fragmentTransaction.commit();
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.activity_main, movieDetailView, MovieDetailView.class.getSimpleName())
+                    .commit();
         }
     }
 
-    @Override
+   /* @Override
     public void onBackPressed() {
-        /* If there are fragments on the backstack */
+        *//* If there are fragments on the backstack *//*
         if(getFragmentManager().getBackStackEntryCount() > 0) {
+            Timber.d("onBackPressed");
             getFragmentManager().popBackStackImmediate();
         }
         else {
             super.onBackPressed();
         }
-    }
+    }*/
 }

@@ -76,7 +76,6 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp" />
 
-
             <ImageView
                 android:id="@+id/ivMovieDetailThumbnail"
                 android:layout_width="92dp"
@@ -89,6 +88,7 @@
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
                 android:transitionName="@string/image_transition"/>
+
             <TextView
                 android:id="@+id/tvRunningTime"
                 android:layout_width="wrap_content"
