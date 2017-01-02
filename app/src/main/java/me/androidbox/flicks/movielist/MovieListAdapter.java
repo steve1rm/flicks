@@ -123,6 +123,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private void bindPortraitMode(final MovieViewHolderPortrait viewHolderPortrait, int position) {
         viewHolderPortrait.mTvMovieTitle.setText(mMoviesList.get(position).getTitle());
 
+/*
         final com.squareup.picasso.Target target = new com.squareup.picasso.Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
@@ -150,14 +151,14 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             }
         };
+*/
 
         Picasso.with(mContext.get()).
                 load(ImageBuilder.buildImagePath(Constants.W185, mMoviesList.get(position).
                         getPoster_path()))
                 .placeholder(R.drawable.placeholder_poster)
                 .error(R.drawable.placeholder_poster)
-                .into(target);
-
+                .into(viewHolderPortrait.mIvMoviePoster);
 
     }
 

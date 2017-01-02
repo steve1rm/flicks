@@ -23,6 +23,7 @@ public class MovieListPresenterImp implements
 
     @Inject
     MovieListModelImp mMovieListModelImp;
+    private Object mState;
 
     private MovieListViewContract mMovieListView;
 
@@ -44,6 +45,20 @@ public class MovieListPresenterImp implements
         mMovieListView = null;
     }
 
+    @Override
+    public boolean isAttached() {
+        return mMovieListView != null;
+    }
+
+    @Override
+    public void setState(Object obj) {
+        mState = obj;
+    }
+
+    @Override
+    public Object getState() {
+        return mState;
+    }
 
     @Override
     public void onLoadNowPlayingMoviesFailure(String errorMessage) {

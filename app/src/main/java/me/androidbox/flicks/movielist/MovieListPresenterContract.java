@@ -12,11 +12,14 @@ public interface MovieListPresenterContract {
 
     /* Presenter <<-- view */
     interface MovieListPresenterOps<MovieListView> {
+        boolean isAttached();
         void attachView(MovieListView view);
         void detachView();
         void loadUpcomingMovies();
         void loadNowPlayingMovies();
         void getLatestMovie();
+        void setState(Object obj);
+        Object getState();
     }
 
     /* Model -->> Presenter */

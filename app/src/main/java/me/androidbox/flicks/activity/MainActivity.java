@@ -21,6 +21,8 @@ public class MainActivity extends AppCompatActivity implements MovieViewHolderPo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Timber.d("onCreate");
+
         setContentView(R.layout.activity_main);
 
         if(savedInstanceState == null) {
@@ -32,7 +34,27 @@ public class MainActivity extends AppCompatActivity implements MovieViewHolderPo
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        Timber.d("onPause");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Timber.d("onResume");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Timber.d("onDestroy");
+    }
+
+    @Override
     public void onGetMovie(ImageView imageView, int movieId) {
+        Timber.d("onGetMovie");
+
         /* Create a new MovieDetail as this has not been created yet */
         MovieDetailView movieDetailView =
                 (MovieDetailView)getFragmentManager().findFragmentByTag(MovieDetailView.class.getSimpleName());
@@ -48,22 +70,13 @@ public class MainActivity extends AppCompatActivity implements MovieViewHolderPo
             Transition changeTransform = TransitionInflater.from(MainActivity.this)
                     .inflateTransition(R.transition.change_image);
 
-            Transition explodeTranform = TransitionInflater.from(MainActivity.this)
-                    .inflateTransition(android.R.transition.explode);
-
-
             /* Setup the exit transition on the list (first) fragment */
-            movieListView.setSharedElementReturnTransition(changeTransform);
+            movieDetailView.setSharedElementReturnTransition(changeTransform);
             movieListView.setExitTransition(new Fade());
 
             /* Setup enter transition on the detail (second) fragment */
             movieDetailView.setSharedElementEnterTransition(changeTransform);
             movieDetailView.setEnterTransition(new Fade());
-
-            /* Find the shared element in list (first) fragment */
-    //        final ImageView ivThumbnail = (ImageView)findViewById(R.id.ivMoviePoster);
-            /* Set the movieId as the transition name to make it unique amoung the others in the recyclerview */
-      //      ivThumbnail.setTransitionName("image_" + movieId);
 
             /* replace the fragments */
             getFragmentManager()
@@ -81,9 +94,9 @@ public class MainActivity extends AppCompatActivity implements MovieViewHolderPo
         }
     }
 
-   /* @Override
+    @Override
     public void onBackPressed() {
-        *//* If there are fragments on the backstack *//*
+        /* If there are fragments on the backstack */
         if(getFragmentManager().getBackStackEntryCount() > 0) {
             Timber.d("onBackPressed");
             getFragmentManager().popBackStackImmediate();
@@ -91,5 +104,5 @@ public class MainActivity extends AppCompatActivity implements MovieViewHolderPo
         else {
             super.onBackPressed();
         }
-    }*/
+    }
 }

@@ -129,7 +129,7 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
                 Timber.d("onInitializationSuccess %s", videoCode);
-      //          youTubePlayer.loadVideo(videoCode);
+                youTubePlayer.loadVideo(videoCode);
             }
 
             @Override

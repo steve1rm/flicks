@@ -22,7 +22,6 @@
             android:layout_height="80dp"
             android:layout_gravity="center"
             android:src="@drawable/ic_play_circle_outline_white_48dp" />
-
     </FrameLayout>
 
     <ScrollView

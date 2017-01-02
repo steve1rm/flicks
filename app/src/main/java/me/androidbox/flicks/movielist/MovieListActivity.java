@@ -14,10 +14,12 @@ public class MovieListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
+/*
         if(savedInstanceState == null) {
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
             fragmentTransaction.add(R.id.activity_list_container, MovieListView.getNewInstance(), "MovieListView");
             fragmentTransaction.commit();
         }
+*/
     }
 }

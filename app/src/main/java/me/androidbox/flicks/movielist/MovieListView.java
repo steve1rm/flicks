@@ -68,6 +68,8 @@ public class MovieListView extends Fragment implements MovieListViewContract {
         super.onCreate(savedInstanceState);
         Timber.d("onCreate");
 
+        setRetainInstance(true);
+
         /* Create a translucent status bar */
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -79,15 +81,24 @@ public class MovieListView extends Fragment implements MovieListViewContract {
         super.onSaveInstanceState(outState);
         Timber.d("onSavedInstanceState");
         outState.putParcelable(RESTORE_RECYCLER_POSITION_KEY, mRvMovieList.getLayoutManager().onSaveInstanceState());
+        mMovieListPresenterImp.setState(mRvMovieList.getLayoutManager().onSaveInstanceState());
     }
 
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
+        Timber.d("onViewStateRestored");
+
         if(savedInstanceState != null) {
-            Timber.d("onViewStateRestored");
+            Timber.d("onViewStateRestored != null");
             mRvMovieList.getLayoutManager().onRestoreInstanceState(savedInstanceState.getParcelable(RESTORE_RECYCLER_POSITION_KEY));
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Timber.d("onStart");
     }
 
     @Override
@@ -97,6 +108,8 @@ public class MovieListView extends Fragment implements MovieListViewContract {
         Parcelable parcelable = mRvMovieList.getLayoutManager().onSaveInstanceState();
 
         getArguments().putParcelable(RESTORE_RECYCLER_POSITION_KEY, parcelable);
+
+        mMovieListPresenterImp.setState(mRvMovieList.getLayoutManager().onSaveInstanceState());
     }
 
     @Override
@@ -107,10 +120,12 @@ public class MovieListView extends Fragment implements MovieListViewContract {
             Timber.d("getArguments() != null");
             Parcelable parcelable = getArguments().getParcelable(RESTORE_RECYCLER_POSITION_KEY);
          //   mRvMovieList.smoothScrollToPosition(6);
-            mRvMovieList.getLayoutManager().smoothScrollToPosition(mRvMovieList, null, 8);
+        //    mRvMovieList.getLayoutManager().smoothScrollToPosition(mRvMovieList, null, 8);
 
-       //     mRvMovieList.getLayoutManager().onRestoreInstanceState(parcelable);
+     //       mRvMovieList.getLayoutManager().onRestoreInstanceState(parcelable);
         }
+
+        mRvMovieList.getLayoutManager().onRestoreInstanceState((Parcelable)mMovieListPresenterImp.getState());
     }
 
     @Override
@@ -199,6 +214,7 @@ public class MovieListView extends Fragment implements MovieListViewContract {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        Timber.d("onActivityCreated");
 
         DaggerInjector.getsAppComponent().inject(MovieListView.this);
 
@@ -209,9 +225,16 @@ public class MovieListView extends Fragment implements MovieListViewContract {
             if(Network.isOnline()) {
                 if (mMovieListPresenterImp != null) {
                     Timber.d("mMovieListPresenterImp != null");
-                    mMovieListPresenterImp.attachView(MovieListView.this);
-                    mMovieListPresenterImp.loadUpcomingMovies();
-                 //   mMovieListPresenterImp.getLatestMovie();
+                    /* Don't get movies if we are already attached to prevent constant network requests */
+                    if(!mMovieListPresenterImp.isAttached()) {
+                        Timber.d("Lets get some movies");
+                        mMovieListPresenterImp.attachView(MovieListView.this);
+                        mMovieListPresenterImp.loadUpcomingMovies();
+                        //   mMovieListPresenterImp.getLatestMovie();
+                    }
+                    else {
+                        Timber.d("Already attached no need for another network request");
+                    }
                 }
             }
             else {
@@ -236,7 +259,13 @@ public class MovieListView extends Fragment implements MovieListViewContract {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Timber.d("onDestroy");
         mUnbinder.unbind();
+
+        if(mMovieListPresenterImp.isAttached()) {
+            Timber.d("detach view");
+            mMovieListPresenterImp.detachView();
+        }
     }
 
     @Override
