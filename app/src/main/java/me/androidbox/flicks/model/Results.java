@@ -1,11 +1,13 @@
 package me.androidbox.flicks.model;
 
+import org.parceler.Parcel;
+
 import java.util.List;
 
 /**
  * Created by steve on 12/2/16.
  */
-
+@Parcel
 public class Results {
     private String poster_path;
     private boolean adult;

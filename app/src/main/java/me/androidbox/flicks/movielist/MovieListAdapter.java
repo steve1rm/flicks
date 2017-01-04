@@ -92,6 +92,10 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return mMoviesList.get(position).getId();
     }
 
+    public List<Results> getAllMovies() {
+        return mMoviesList;
+    }
+
     /* Clean all items for a refresh */
     public void clearMovies() {
         mMoviesList.clear();

@@ -2,12 +2,15 @@ package me.androidbox.flicks.movielist;
 
 
 import android.app.Fragment;
+import android.content.AsyncTaskLoader;
+import android.content.Loader;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.app.LoaderManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -19,6 +22,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Toast;
+
+import org.parceler.Parcel;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,7 +46,8 @@ import timber.log.Timber;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MovieListView extends Fragment implements MovieListViewContract {
+public class MovieListView extends Fragment implements MovieListViewContract,
+        LoaderManager.LoaderCallbacks<List<Results>> {
     private static final String RESTORE_RECYCLER_POSITION_KEY = "restore_recycler_postion";
 
     @Inject MovieListPresenterImp mMovieListPresenterImp;
@@ -52,6 +59,8 @@ public class MovieListView extends Fragment implements MovieListViewContract {
     private Unbinder mUnbinder;
     private MovieListAdapter mMovieListAdapter;
     private List<Results> mMoviesList = Collections.emptyList();
+    private static final int LOADER_ID = 1;
+    private static final String LOADER_MOVIE_KEY = "loader_movie_key";
 
     public MovieListView() {
         // Required empty public constructor
@@ -64,11 +73,38 @@ public class MovieListView extends Fragment implements MovieListViewContract {
     }
 
     @Override
+    public void onLoadFinished(Loader<List<Results>> loader, List<Results> results) {
+        Timber.d("onLoadFinished size: %d", results.size());
+
+        if(loader.getId() == LOADER_ID) {
+            mMovieListAdapter.addFreshMovies(results);
+        }
+    }
+
+    @Override
+    public Loader<List<Results>> onCreateLoader(int i, Bundle bundle) {
+        Timber.d("onCreateLoader %d", i);
+        List<Results> movieResults = Collections.emptyList();
+
+        if(bundle != null) {
+            movieResults = Parcels.unwrap(bundle.getParcelable(LOADER_MOVIE_KEY));
+        }
+
+        return new MovieListLoader(getActivity(), movieResults);
+    }
+
+    @Override
+    public void onLoaderReset(Loader loader) {
+        Timber.d("onLoaderReset");
+        if(loader.getId() == LOADER_ID) {
+            mMovieListAdapter.clearMovies();
+        }
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Timber.d("onCreate");
-
-        setRetainInstance(true);
 
         /* Create a translucent status bar */
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -80,8 +116,10 @@ public class MovieListView extends Fragment implements MovieListViewContract {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         Timber.d("onSavedInstanceState");
+/*
         outState.putParcelable(RESTORE_RECYCLER_POSITION_KEY, mRvMovieList.getLayoutManager().onSaveInstanceState());
         mMovieListPresenterImp.setState(mRvMovieList.getLayoutManager().onSaveInstanceState());
+*/
     }
 
     @Override
@@ -89,10 +127,12 @@ public class MovieListView extends Fragment implements MovieListViewContract {
         super.onViewStateRestored(savedInstanceState);
         Timber.d("onViewStateRestored");
 
+/*
         if(savedInstanceState != null) {
             Timber.d("onViewStateRestored != null");
             mRvMovieList.getLayoutManager().onRestoreInstanceState(savedInstanceState.getParcelable(RESTORE_RECYCLER_POSITION_KEY));
         }
+*/
     }
 
     @Override
@@ -105,17 +145,35 @@ public class MovieListView extends Fragment implements MovieListViewContract {
     public void onPause() {
         super.onPause();
         Timber.d("onPause");
-        Parcelable parcelable = mRvMovieList.getLayoutManager().onSaveInstanceState();
 
-        getArguments().putParcelable(RESTORE_RECYCLER_POSITION_KEY, parcelable);
+/*
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(LOADER_MOVIE_KEY, mRvMovieList.getLayoutManager().onSaveInstanceState());
+        getLoaderManager().initLoader(LOADER_ID, bundle, MovieListView.this);
+*/
 
-        mMovieListPresenterImp.setState(mRvMovieList.getLayoutManager().onSaveInstanceState());
+//        Parcelable parcelable = mRvMovieList.getLayoutManager().onSaveInstanceState();
+
+ /*       getArguments().putParcelable(RESTORE_RECYCLER_POSITION_KEY, parcelable);
+
+        //mMovieListPresenterImp.setState(mRvMovieList.getLayoutManager().onSaveInstanceState());
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("MOVIELIST_KEY", parcelable);
+*/
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Timber.d("onResume");
+        Timber.d("onResume %d", mMovieListAdapter.getItemCount());
+
+/*
+        if(mResults != null) {
+            mRvMovieList.getLayoutManager().onRestoreInstanceState(mResults);
+        }
+*/
+
+/*
         if(getArguments() != null) {
             Timber.d("getArguments() != null");
             Parcelable parcelable = getArguments().getParcelable(RESTORE_RECYCLER_POSITION_KEY);
@@ -126,6 +184,7 @@ public class MovieListView extends Fragment implements MovieListViewContract {
         }
 
         mRvMovieList.getLayoutManager().onRestoreInstanceState((Parcelable)mMovieListPresenterImp.getState());
+*/
     }
 
     @Override
@@ -152,6 +211,51 @@ public class MovieListView extends Fragment implements MovieListViewContract {
         }
 
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Timber.d("onActivityCreated");
+
+        DaggerInjector.getsAppComponent().inject(MovieListView.this);
+
+        /* If there is no network connect available don't request movies */
+        if(Network.isNetworkAvailable(getActivity())) {
+
+            /* Check that we can connect to the moviedb website */
+            if(Network.isOnline()) {
+                if (mMovieListPresenterImp != null) {
+                    Timber.d("mMovieListPresenterImp != null");
+                    /* Don't get movies if we are already attached to prevent constant network requests */
+                    if(!mMovieListPresenterImp.isAttached()) {
+                        Timber.d("Lets get some movies");
+                        mMovieListPresenterImp.attachView(MovieListView.this);
+                        mMovieListPresenterImp.loadUpcomingMovies();
+                        //   mMovieListPresenterImp.getLatestMovie();
+
+/*
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable("movies", Parcels.wrap(movieList));
+*/
+                        getLoaderManager().initLoader(LOADER_ID, null, MovieListView.this);
+                    }
+                    else {
+                        Timber.d("Already attached no need for another network request");
+                    }
+                }
+            }
+            else {
+                Toast.makeText(getActivity(), "Cannot reach the moviedb website", Toast.LENGTH_LONG).show();
+            }
+        }
+        else {
+            Toast.makeText(getActivity(),
+                    "There is no network connection available\n check you are connected to the internet",
+                    Toast.LENGTH_LONG).show();
+
+            /* Load data from storage */
+        }
     }
 
     /** Setup swipe to refresh */
@@ -200,6 +304,7 @@ public class MovieListView extends Fragment implements MovieListViewContract {
         mMoviesList = new ArrayList<>();
         mMovieListAdapter = new MovieListAdapter(mMoviesList, getActivity());
         mRvMovieList.setAdapter(mMovieListAdapter);
+
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             final DividerItemDecorator dividerItemDecorator = new DividerItemDecorator(16);
             mRvMovieList.addItemDecoration(dividerItemDecorator);
@@ -208,45 +313,6 @@ public class MovieListView extends Fragment implements MovieListViewContract {
         }
         else {
             mRvMovieList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        }
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        Timber.d("onActivityCreated");
-
-        DaggerInjector.getsAppComponent().inject(MovieListView.this);
-
-        /* If there is no network connect available don't request movies */
-        if(Network.isNetworkAvailable(getActivity())) {
-
-            /* Check that we can connect to the moviedb website */
-            if(Network.isOnline()) {
-                if (mMovieListPresenterImp != null) {
-                    Timber.d("mMovieListPresenterImp != null");
-                    /* Don't get movies if we are already attached to prevent constant network requests */
-                    if(!mMovieListPresenterImp.isAttached()) {
-                        Timber.d("Lets get some movies");
-                        mMovieListPresenterImp.attachView(MovieListView.this);
-                        mMovieListPresenterImp.loadUpcomingMovies();
-                        //   mMovieListPresenterImp.getLatestMovie();
-                    }
-                    else {
-                        Timber.d("Already attached no need for another network request");
-                    }
-                }
-            }
-            else {
-                Toast.makeText(getActivity(), "Cannot reach the moviedb website", Toast.LENGTH_LONG).show();
-            }
-        }
-        else {
-            Toast.makeText(getActivity(),
-                    "There is no network connection available\n check you are connected to the internet",
-                    Toast.LENGTH_LONG).show();
-
-            /* Load data from storage */
         }
     }
 
@@ -272,6 +338,12 @@ public class MovieListView extends Fragment implements MovieListViewContract {
     public void loadNowPlayingMovies(List<Results> movieList) {
         Timber.d("loadNowPlayingMovies: %s", movieList.size());
         mMovieListAdapter.updateMovieList(movieList);
+
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(LOADER_MOVIE_KEY, Parcels.wrap(movieList));
+        getLoaderManager().restartLoader(LOADER_ID, bundle, MovieListView.this);
+
     }
 
     @Override
