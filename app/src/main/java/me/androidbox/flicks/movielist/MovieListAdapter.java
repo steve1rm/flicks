@@ -11,6 +11,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.facebook.common.references.CloseableReference;
+import com.facebook.datasource.DataSource;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.common.Priority;
+import com.facebook.imagepipeline.core.ImagePipeline;
+import com.facebook.imagepipeline.datasource.BaseBitmapDataSubscriber;
+import com.facebook.imagepipeline.image.CloseableImage;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.squareup.picasso.Picasso;
 
 import java.lang.ref.WeakReference;
@@ -126,6 +135,28 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     /* Change layout to display in portrait mode */
     private void bindPortraitMode(final MovieViewHolderPortrait viewHolderPortrait, int position) {
         viewHolderPortrait.mTvMovieTitle.setText(mMoviesList.get(position).getTitle());
+
+  /*      ImagePipeline imagePipeline = Fresco.getImagePipeline();
+        ImageRequest imageRequest = ImageRequestBuilder
+                .newBuilderWithSource(null)
+                .setRequestPriority(Priority.HIGH)
+                .setLowestPermittedRequestLevel(ImageRequest.RequestLevel.FULL_FETCH)
+                .build();
+
+        DataSource<CloseableReference<CloseableImage>> dataSource =
+                imagePipeline.fetchDecodedImage(imageRequest, mContext);
+
+        dataSource.subscribe(new BaseBitmapDataSubscriber() {
+            @Override
+            protected void onNewResultImpl(Bitmap bitmap) {
+
+            }
+
+            @Override
+            protected void onFailureImpl(DataSource<CloseableReference<CloseableImage>> dataSource) {
+
+            }
+        });*/
 
         final com.squareup.picasso.Target target = new com.squareup.picasso.Target() {
             @Override

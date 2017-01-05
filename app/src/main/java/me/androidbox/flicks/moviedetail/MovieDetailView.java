@@ -14,6 +14,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.interfaces.DraweeController;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerFragment;
@@ -52,10 +55,11 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
     @BindView(R.id.tvMovieTitle) TextView mTvMovieTitle;
     @BindView(R.id.tvReleaseDate) TextView mTvReleaseDate;
     @BindView(R.id.tvMovieOverview) TextView mTvMovieOverview;
-    @BindView(R.id.ivMovieDetailThumbnail) ImageView mIvMovieDetailPoster;
+    // @BindView(R.id.ivMovieDetailThumbnail) ImageView mIvMovieDetailPoster;
     @BindView(R.id.ivBackdropPoster) ImageView mIvBackdropPoster;
     @BindView(R.id.tvRunningTime) TextView mTvRunningTime;
     @BindView(R.id.rbMovieRatings) RatingBar mRbMovieRatings;
+    @BindView(R.id.sdvMovieDetailThumbnail) SimpleDraweeView mSdvMovieDetailThumbnail;
 
     private Unbinder mUnbinder;
     private int mMovieId;
@@ -154,16 +158,13 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
 
     @Override
     public void displayMovieThumbnail(String imageUrl) {
-
-        Glide.with(getActivity())
-                .load(ImageBuilder.buildImagePath(Constants.W92, imageUrl))
-                .bitmapTransform(new RoundedCornersTransformation(getActivity(), 8, 0))
-                .into(mIvMovieDetailPoster);
-
+        mSdvMovieDetailThumbnail.
+                setImageURI(ImageBuilder.buildImagePath(Constants.W92, imageUrl));
     }
 
     @Override
     public void displayMovieBackdropPoster(String imageUri) {
+
         Glide.with(getActivity())
                 .load(ImageBuilder.buildImagePath(Constants.W300, imageUri))
                 .into(mIvBackdropPoster);
