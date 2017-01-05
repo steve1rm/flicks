@@ -31,22 +31,22 @@ public class MovieListLoader extends Loader<List<Results>> {
     protected void onStartLoading() {
         Timber.d("onStartLoading");
 
+        /* If the data is greater than zero deliver that */
         if(mData.size() > 0) {
             Timber.d("onStartLoading size: %d", mData.size());
             deliverResult(mData);
         }
         else {
-            forceLoad();
+            if(isStarted()) {
+                forceLoad();
+            }
         }
     }
 
     @Override
     public void onForceLoad() {
         Timber.d("onForceLoad");
-
-     //   List<Results> data = new ArrayList<>();
-
-        /* Get more data from the impresenter */
+        /* Normally should get more data from the impresenter */
     }
 
     @Override
@@ -55,5 +55,4 @@ public class MovieListLoader extends Loader<List<Results>> {
 
         super.deliverResult(data);
     }
-
 }

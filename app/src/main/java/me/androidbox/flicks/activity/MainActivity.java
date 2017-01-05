@@ -1,16 +1,14 @@
 package me.androidbox.flicks.activity;
 
-import android.app.FragmentTransaction;
 import android.os.Build;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.transition.Fade;
 import android.transition.Transition;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.transition.TransitionInflater;
 import android.widget.ImageView;
 
 import me.androidbox.flicks.R;
-import me.androidbox.flicks.model.MovieDetail;
 import me.androidbox.flicks.moviedetail.MovieDetailView;
 import me.androidbox.flicks.movielist.MovieListView;
 import me.androidbox.flicks.movielist.MovieViewHolderPortrait;
@@ -28,7 +26,8 @@ public class MainActivity extends AppCompatActivity implements MovieViewHolderPo
         if(savedInstanceState == null) {
             getFragmentManager()
                     .beginTransaction()
-                    .add(R.id.activity_main, MovieListView.getNewInstance(), MovieListView.class.getSimpleName())
+                    .add(R.id.activity_main, MovieListView.getNewInstance(), MovieListView.TAG)
+                    .addToBackStack(MovieListView.TAG)
                     .commit();
         }
     }
@@ -89,20 +88,21 @@ public class MainActivity extends AppCompatActivity implements MovieViewHolderPo
         else {
             getFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.activity_main, movieDetailView, MovieDetailView.class.getSimpleName())
+                    .replace(R.id.activity_main, movieDetailView, MovieDetailView.TAG)
+                    .addToBackStack(MovieDetailView.TAG)
                     .commit();
         }
     }
-
+/*
     @Override
     public void onBackPressed() {
-        /* If there are fragments on the backstack */
+        *//* If there are fragments on the backstack *//*
         if(getFragmentManager().getBackStackEntryCount() > 0) {
             Timber.d("onBackPressed");
-            getFragmentManager().popBackStackImmediate();
+            getFragmentManager().popBackStack();
         }
         else {
             super.onBackPressed();
         }
-    }
+    }*/
 }

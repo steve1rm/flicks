@@ -33,6 +33,7 @@ import butterknife.Unbinder;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import me.androidbox.flicks.R;
 import me.androidbox.flicks.di.DaggerInjector;
+import me.androidbox.flicks.model.MovieDetail;
 import me.androidbox.flicks.movielist.MovieViewHolderPortrait;
 import me.androidbox.flicks.utils.Constants;
 import me.androidbox.flicks.utils.ImageBuilder;
@@ -42,6 +43,8 @@ import timber.log.Timber;
  * A simple {@link Fragment} subclass.
  */
 public class MovieDetailView extends Fragment implements MovieDetailViewContract {
+    public static final String TAG = MovieDetailView.class.getSimpleName();
+
     private static final String MOVIEID_KEY = "movieid_key";
 
     @Inject MovieDetailPresenterImp mMovieDetailPresenterImp;

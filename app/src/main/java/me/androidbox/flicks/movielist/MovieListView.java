@@ -46,8 +46,9 @@ import timber.log.Timber;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MovieListView extends Fragment implements MovieListViewContract,
-        LoaderManager.LoaderCallbacks<List<Results>> {
+public class MovieListView extends Fragment implements MovieListViewContract, LoaderManager.LoaderCallbacks<List<Results>> {
+    public static final String TAG = MovieListView.class.getSimpleName();
+
     private static final String RESTORE_RECYCLER_POSITION_KEY = "restore_recycler_postion";
 
     @Inject MovieListPresenterImp mMovieListPresenterImp;
@@ -77,7 +78,9 @@ public class MovieListView extends Fragment implements MovieListViewContract,
         Timber.d("onLoadFinished size: %d", results.size());
 
         if(loader.getId() == LOADER_ID) {
-            mMovieListAdapter.addFreshMovies(results);
+            if(mMovieListAdapter.getItemCount() == 0) {
+                mMovieListAdapter.addFreshMovies(results);
+            }
         }
     }
 
@@ -116,23 +119,12 @@ public class MovieListView extends Fragment implements MovieListViewContract,
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         Timber.d("onSavedInstanceState");
-/*
-        outState.putParcelable(RESTORE_RECYCLER_POSITION_KEY, mRvMovieList.getLayoutManager().onSaveInstanceState());
-        mMovieListPresenterImp.setState(mRvMovieList.getLayoutManager().onSaveInstanceState());
-*/
     }
 
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
         Timber.d("onViewStateRestored");
-
-/*
-        if(savedInstanceState != null) {
-            Timber.d("onViewStateRestored != null");
-            mRvMovieList.getLayoutManager().onRestoreInstanceState(savedInstanceState.getParcelable(RESTORE_RECYCLER_POSITION_KEY));
-        }
-*/
     }
 
     @Override
@@ -145,46 +137,12 @@ public class MovieListView extends Fragment implements MovieListViewContract,
     public void onPause() {
         super.onPause();
         Timber.d("onPause");
-
-/*
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(LOADER_MOVIE_KEY, mRvMovieList.getLayoutManager().onSaveInstanceState());
-        getLoaderManager().initLoader(LOADER_ID, bundle, MovieListView.this);
-*/
-
-//        Parcelable parcelable = mRvMovieList.getLayoutManager().onSaveInstanceState();
-
- /*       getArguments().putParcelable(RESTORE_RECYCLER_POSITION_KEY, parcelable);
-
-        //mMovieListPresenterImp.setState(mRvMovieList.getLayoutManager().onSaveInstanceState());
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("MOVIELIST_KEY", parcelable);
-*/
     }
 
     @Override
     public void onResume() {
         super.onResume();
         Timber.d("onResume %d", mMovieListAdapter.getItemCount());
-
-/*
-        if(mResults != null) {
-            mRvMovieList.getLayoutManager().onRestoreInstanceState(mResults);
-        }
-*/
-
-/*
-        if(getArguments() != null) {
-            Timber.d("getArguments() != null");
-            Parcelable parcelable = getArguments().getParcelable(RESTORE_RECYCLER_POSITION_KEY);
-         //   mRvMovieList.smoothScrollToPosition(6);
-        //    mRvMovieList.getLayoutManager().smoothScrollToPosition(mRvMovieList, null, 8);
-
-     //       mRvMovieList.getLayoutManager().onRestoreInstanceState(parcelable);
-        }
-
-        mRvMovieList.getLayoutManager().onRestoreInstanceState((Parcelable)mMovieListPresenterImp.getState());
-*/
     }
 
     @Override
@@ -234,10 +192,6 @@ public class MovieListView extends Fragment implements MovieListViewContract,
                         mMovieListPresenterImp.loadUpcomingMovies();
                         //   mMovieListPresenterImp.getLatestMovie();
 
-/*
-                        Bundle bundle = new Bundle();
-                        bundle.putParcelable("movies", Parcels.wrap(movieList));
-*/
                         getLoaderManager().initLoader(LOADER_ID, null, MovieListView.this);
                     }
                     else {
@@ -339,11 +293,10 @@ public class MovieListView extends Fragment implements MovieListViewContract,
         Timber.d("loadNowPlayingMovies: %s", movieList.size());
         mMovieListAdapter.updateMovieList(movieList);
 
-
+        /* We have new movies add this to the loader */
         Bundle bundle = new Bundle();
         bundle.putParcelable(LOADER_MOVIE_KEY, Parcels.wrap(movieList));
         getLoaderManager().restartLoader(LOADER_ID, bundle, MovieListView.this);
-
     }
 
     @Override
