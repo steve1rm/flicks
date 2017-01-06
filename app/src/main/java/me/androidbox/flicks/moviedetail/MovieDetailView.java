@@ -164,7 +164,6 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
 
     @Override
     public void displayMovieBackdropPoster(String imageUri) {
-
         Glide.with(getActivity())
                 .load(ImageBuilder.buildImagePath(Constants.W300, imageUri))
                 .into(mIvBackdropPoster);

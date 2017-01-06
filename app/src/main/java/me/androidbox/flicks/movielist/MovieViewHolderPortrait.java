@@ -1,6 +1,9 @@
 package me.androidbox.flicks.movielist;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -14,6 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.androidbox.flicks.R;
 import me.androidbox.flicks.di.ApplicationModule;
+import me.androidbox.flicks.moviedetail.MovieDetailActivity;
 import timber.log.Timber;
 
 /**
@@ -37,15 +41,28 @@ public class MovieViewHolderPortrait extends RecyclerView.ViewHolder {
     public MovieViewHolderPortrait(View itemView, final MovieListAdapter movieListAdapter, final Context context) {
         super(itemView);
 
-        mGetMovieImageListener = (GetMovieListener)context;
+//        mGetMovieImageListener = (GetMovieListener)context;
         ButterKnife.bind(MovieViewHolderPortrait.this, itemView);
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Timber.d("MovieId: %d", movieListAdapter.getMovieId(getAdapterPosition()));
+/*
                 ViewCompat.setTransitionName(mIvMoviePoster,  "image_" + movieListAdapter.getMovieId(getAdapterPosition()));
                 mGetMovieImageListener.onGetMovie(mIvMoviePoster, movieListAdapter.getMovieId(getAdapterPosition()));
+*/
+
+                Intent intent = new Intent(context, MovieDetailActivity.class);
+                intent.putExtra(MOVIEID_KEY, movieListAdapter.getMovieId(getAdapterPosition()));
+
+                ActivityOptionsCompat options = ActivityOptionsCompat
+                        .makeSceneTransitionAnimation(
+                                (Activity)context,
+                                mIvMoviePoster,
+                                context.getString(R.string.image_transition));
+
+                context.startActivity(intent, options.toBundle());
             }
         });
     }

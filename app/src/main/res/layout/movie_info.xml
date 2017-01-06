@@ -12,7 +12,8 @@
         android:layout_height="300dp"
         android:src="@drawable/placeholder_poster"
         android:scaleType="fitXY"
-        android:adjustViewBounds="true">
+        android:adjustViewBounds="true"
+        android:transitionName="@string/image_transition">
     </ImageView>
 
     <include layout="@layout/movie_footer"/>
