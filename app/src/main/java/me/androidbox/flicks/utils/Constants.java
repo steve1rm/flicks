@@ -16,6 +16,7 @@ public final class Constants {
     public static final String W500 = "w500";
 
     /*
+    https://image.tmdb.org/t/p/w300/h6O5OE3ueRVdCc7V7cwTiQocI7D.jpg
     https://image.tmdb.org/t/p/w300/lxo1FELMRIZuNy8KSdXB3KmhCT9.jpg
     */
 }

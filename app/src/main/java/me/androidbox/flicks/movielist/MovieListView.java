@@ -8,6 +8,7 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.app.LoaderManager;
@@ -37,6 +38,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import me.androidbox.flicks.R;
 import me.androidbox.flicks.di.DaggerInjector;
+import me.androidbox.flicks.model.Contact;
 import me.androidbox.flicks.model.Latest;
 import me.androidbox.flicks.model.Results;
 import me.androidbox.flicks.utils.DividerItemDecorator;
@@ -192,7 +194,7 @@ public class MovieListView extends Fragment implements MovieListViewContract, Lo
                         mMovieListPresenterImp.loadUpcomingMovies();
                         //   mMovieListPresenterImp.getLatestMovie();
 
-                        getLoaderManager().initLoader(LOADER_ID, null, MovieListView.this);
+          //              getLoaderManager().initLoader(LOADER_ID, null, MovieListView.this);
                     }
                     else {
                         Timber.d("Already attached no need for another network request");
@@ -257,6 +259,7 @@ public class MovieListView extends Fragment implements MovieListViewContract, Lo
     private void setRecyclerView() {
         mMoviesList = new ArrayList<>();
         mMovieListAdapter = new MovieListAdapter(mMoviesList, getActivity());
+//        ContactsAdapter mContactsAdapter = new ContactsAdapter(getActivity(), Contact.getContacts());
         mRvMovieList.setAdapter(mMovieListAdapter);
 
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {

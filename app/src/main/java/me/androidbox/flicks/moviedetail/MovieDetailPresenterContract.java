@@ -6,8 +6,8 @@ package me.androidbox.flicks.moviedetail;
 
 public interface MovieDetailPresenterContract {
     /* Presenter <<-- View */
-    interface MovieDetailPresneterOps<MovieDetailView> {
-        void attachView(MovieDetailView view);
+    interface MovieDetailPresneterOps<DetailFragment> {
+        void attachView(DetailFragment view);
         void detachView();
         void loadMovieDetail(int movieId);
         void loadMovieTrailer(int movieId);

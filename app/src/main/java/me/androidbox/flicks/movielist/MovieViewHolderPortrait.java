@@ -17,8 +17,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.androidbox.flicks.R;
 import me.androidbox.flicks.di.ApplicationModule;
+import me.androidbox.flicks.model.Contact;
+import me.androidbox.flicks.moviedetail.DetailsActivity;
 import me.androidbox.flicks.moviedetail.MovieDetailActivity;
+import me.androidbox.flicks.moviedetail.MovieDetailView;
 import timber.log.Timber;
+
+import static me.androidbox.flicks.R.id.ivProfile;
 
 /**
  * Created by steve on 10/15/16.
@@ -63,7 +68,20 @@ public class MovieViewHolderPortrait extends RecyclerView.ViewHolder {
                                 context.getString(R.string.image_transition));
 
                 context.startActivity(intent, options.toBundle());
+
+/*                final Intent intent = new Intent(context, MovieDetailActivity.class);
+                intent.putExtra(MovieDetailView.EXTRA_CONTACT, new Contact("steve", R.drawable.contact_eight, "123456789"));
+
+                ActivityOptionsCompat optionsCompat = ActivityOptionsCompat
+                        .makeSceneTransitionAnimation(
+                                (Activity)context,
+                                mIvMoviePoster,
+                                context.getString(R.string.image_transition));
+
+                context.startActivity(intent, optionsCompat.toBundle());
+*/
             }
+
         });
     }
 }

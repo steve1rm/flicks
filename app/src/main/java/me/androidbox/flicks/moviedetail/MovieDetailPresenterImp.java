@@ -12,7 +12,7 @@ import timber.log.Timber;
  */
 
 public class MovieDetailPresenterImp implements
-        MovieDetailPresenterContract.MovieDetailPresneterOps<MovieDetailView>,
+        MovieDetailPresenterContract.MovieDetailPresneterOps<DetailFragment>,
         MovieDetailModelContract.GetMovieDetailListener,
         MovieDetailModelContract.GetMovieTrailerListener {
 
@@ -28,7 +28,7 @@ public class MovieDetailPresenterImp implements
     }
 
     @Override
-    public void attachView(MovieDetailView movieDetailView) {
+    public void attachView(DetailFragment movieDetailView) {
         mMovieDetailViewContract = movieDetailView;
     }
 
@@ -65,11 +65,12 @@ public class MovieDetailPresenterImp implements
     @Override
     public void onGetMovieDetailSuccess(MovieDetail movieDetail) {
         if(mMovieDetailViewContract != null) {
+
+            mMovieDetailViewContract.displayMovieThumbnail(movieDetail.getPoster_path());
             mMovieDetailViewContract.displayOverview(movieDetail.getOverview());
             mMovieDetailViewContract.displayReleasedate(movieDetail.getRelease_date());
             mMovieDetailViewContract.displayTagline(movieDetail.getTagline());
             mMovieDetailViewContract.displayTitle(movieDetail.getTitle());
-            mMovieDetailViewContract.displayMovieThumbnail(movieDetail.getPoster_path());
             mMovieDetailViewContract.displayMovieBackdropPoster(movieDetail.getBackdrop_path());
             mMovieDetailViewContract.displayRunningTime(movieDetail.getRuntime());
             mMovieDetailViewContract.displayGetMovieRating(calculateAverage(movieDetail.getVote_average()));
@@ -78,8 +79,6 @@ public class MovieDetailPresenterImp implements
             Timber.e("mMovieDetailViewContract == null, check attachView as been called");
         }
     }
-
-
 
     @Override
     public void onGetMovieTrailerFailure(String errMessage) {

@@ -3,6 +3,7 @@ package me.androidbox.flicks.di;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import me.androidbox.flicks.moviedetail.DetailFragment;
 import me.androidbox.flicks.moviedetail.MovieDetailModelImp;
 import me.androidbox.flicks.moviedetail.MovieDetailPresenterImp;
 import me.androidbox.flicks.moviedetail.MovieDetailView;
@@ -20,6 +21,6 @@ public interface AppComponent {
     void inject(MovieListView target);
     void inject(MovieListPresenterImp target);
     void inject(MovieDetailPresenterImp target);
-    void inject(MovieDetailView target);
+    void inject(DetailFragment target);
     void inject(MovieDetailModelImp target);
 }

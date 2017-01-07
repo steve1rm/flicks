@@ -2,6 +2,7 @@ package me.androidbox.flicks.moviedetail;
 
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
@@ -16,26 +17,26 @@ public class MovieDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            postponeEnterTransition();
+        }
+
         final int movieId;
         final Intent intent = getIntent();
         if(intent.hasExtra(MovieViewHolderPortrait.MOVIEID_KEY)) {
             movieId = intent.getIntExtra(MovieViewHolderPortrait.MOVIEID_KEY, -1);
 
             if(savedInstanceState == null) {
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.add(R.id.activity_detail_container, MovieDetailView.getNewInstance(movieId), MovieDetailView.TAG);
-                fragmentTransaction.commit();
+                getFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.activity_detail_container, DetailFragment.newInstance(movieId), DetailFragment.class.getSimpleName())
+ /*                       .add(R.id.activity_detail_container, MovieDetailView.getNewInstance(movieId), MovieDetailView.TAG)*/
+                        .commit();
             }
         }
         else {
             Toast.makeText(MovieDetailActivity.this, "Failed to get movie id", Toast.LENGTH_LONG).show();
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        supportFinishAfterTransition();
     }
 }
 

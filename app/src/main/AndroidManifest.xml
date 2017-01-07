@@ -23,6 +23,13 @@
         <activity android:name=".moviedetail.MovieDetailActivity"></activity>
         <activity android:name=".activity.MainActivity">
         </activity>
+
+        <activity
+            android:name=".moviedetail.DetailsActivity"
+            android:label="activity_details"
+            android:parentActivityName=".movielist.MovieListActivity">
+        </activity>
+
     </application>
 
 </manifest>
