@@ -168,7 +168,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     public void onGenerated(Palette palette) {
                         Palette.Swatch vibrant = palette.getDarkVibrantSwatch();
                         if(vibrant != null) {
-                            viewHolderPortrait.mFlFooterBackground.setBackgroundColor(vibrant.getRgb());
+                            viewHolderPortrait.mVPalette.setBackgroundColor(vibrant.getRgb());
                             viewHolderPortrait.mTvMovieTitle.setTextColor(vibrant.getTitleTextColor());
                         }
                     }

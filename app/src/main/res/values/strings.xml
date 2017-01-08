@@ -4,5 +4,7 @@
     <string name="upcoming">Upcoming</string>
     <string name="transition_poster_image">imagePoster</string>
     <string name="image_transition">image_transition</string>
+    <string name="background_transition">background_transition</string>
+    <string name="title_transition">title_transition</string>
 </resources>
 

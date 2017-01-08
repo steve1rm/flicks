@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
+import android.support.v4.util.Pair;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -24,6 +25,7 @@ import me.androidbox.flicks.moviedetail.MovieDetailView;
 import timber.log.Timber;
 
 import static me.androidbox.flicks.R.id.ivProfile;
+import static me.androidbox.flicks.R.id.tvMovieTitle;
 
 /**
  * Created by steve on 10/15/16.
@@ -40,6 +42,7 @@ public class MovieViewHolderPortrait extends RecyclerView.ViewHolder {
     @BindView(R.id.tvMovieTitle) TextView mTvMovieTitle;
     @BindView(R.id.ivMoviePoster) ImageView mIvMoviePoster;
     @BindView(R.id.flFooterBackground) FrameLayout mFlFooterBackground;
+    @BindView(R.id.vPalette) View mVPalette;
 
     @Inject ApplicationModule applicationModule;
 
@@ -61,25 +64,16 @@ public class MovieViewHolderPortrait extends RecyclerView.ViewHolder {
                 Intent intent = new Intent(context, MovieDetailActivity.class);
                 intent.putExtra(MOVIEID_KEY, movieListAdapter.getMovieId(getAdapterPosition()));
 
+                /* Didn't add the title as it looks strange flying across the screen */
+                /* Pair<View, String> title = Pair.create((View)mTvMovieTitle, context.getString(R.string.title_transition)); */
+                Pair<View, String> image = Pair.create((View)mIvMoviePoster, context.getString(R.string.image_transition));
+                Pair<View, String> background = Pair.create(mVPalette, context.getString(R.string.background_transition));
+
                 ActivityOptionsCompat options = ActivityOptionsCompat
                         .makeSceneTransitionAnimation(
-                                (Activity)context,
-                                mIvMoviePoster,
-                                context.getString(R.string.image_transition));
+                                (Activity)context, image, background);
 
                 context.startActivity(intent, options.toBundle());
-
-/*                final Intent intent = new Intent(context, MovieDetailActivity.class);
-                intent.putExtra(MovieDetailView.EXTRA_CONTACT, new Contact("steve", R.drawable.contact_eight, "123456789"));
-
-                ActivityOptionsCompat optionsCompat = ActivityOptionsCompat
-                        .makeSceneTransitionAnimation(
-                                (Activity)context,
-                                mIvMoviePoster,
-                                context.getString(R.string.image_transition));
-
-                context.startActivity(intent, optionsCompat.toBundle());
-*/
             }
 
         });

@@ -2,9 +2,12 @@ package me.androidbox.flicks.moviedetail;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.graphics.Palette;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +23,7 @@ import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerFragment;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -56,6 +60,7 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
     @BindView(R.id.tvRunningTime) TextView mTvRunningTime;
     @BindView(R.id.rbMovieRatings) RatingBar mRbMovieRatings;
     @BindView(R.id.sdvMovieDetailThumbnail) SimpleDraweeView mSdvMovieDetailThumbnail;
+    @BindView(R.id.vPalette) View mVPalette;
 
     private Unbinder mUnbinder;
     private int mMovieId;
@@ -152,7 +157,33 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
     public void displayMovieThumbnail(String imageUrl) {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getActivity().startPostponedEnterTransition();
-            Picasso.with(getActivity()).load(ImageBuilder.buildImagePath(Constants.W92, imageUrl)).into(mSdvMovieDetailThumbnail);
+
+            final Target target = new Target() {
+                @Override
+                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                    mSdvMovieDetailThumbnail.setImageBitmap(bitmap);
+                    Palette palette = Palette.from(bitmap).generate();
+                    Palette.Swatch swatch = palette.getDarkVibrantSwatch();
+                    if(swatch != null) {
+                        mVPalette.setBackgroundColor(swatch.getRgb());
+                        mTvMovieTitle.setTextColor(swatch.getTitleTextColor());
+                        mTvMovieOverview.setTextColor(swatch.getTitleTextColor());
+                    }
+                }
+
+                @Override
+                public void onBitmapFailed(Drawable errorDrawable) {
+
+                }
+
+                @Override
+                public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                }
+            };
+
+            mVPalette.setTag(target);
+            Picasso.with(getActivity()).load(ImageBuilder.buildImagePath(Constants.W92, imageUrl)).into(target);
 /*
             mSdvMovieDetailThumbnail.
                     setImageURI(ImageBuilder.buildImagePath(Constants.W92, imageUrl));

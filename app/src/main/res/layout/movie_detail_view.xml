@@ -1,10 +1,9 @@
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     tools:context="me.androidbox.flicks.moviedetail.MovieDetailView">
 
     <FrameLayout
@@ -26,9 +25,17 @@
             android:src="@drawable/ic_play_circle_outline_white_48dp" />
     </FrameLayout>
 
+    <View
+        android:id="@+id/vPalette"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/youtubePlayerFragment"
+        android:transitionName="@string/background_transition"/>
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:layout_below="@id/youtubePlayerFragment">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -49,7 +56,8 @@
                 android:fontFamily="sans-serif-light"
                 android:maxLines="2"
                 android:textColor="@android:color/white"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:transitionName="@string/title_transition" />
 
             <TextView
                 android:id="@+id/tvReleaseDate"
@@ -121,4 +129,4 @@
                 android:textSize="18sp" />
         </RelativeLayout>
     </ScrollView>
-</LinearLayout>
+</RelativeLayout>
