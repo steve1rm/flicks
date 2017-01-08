@@ -2,6 +2,7 @@ package me.androidbox.flicks.moviedetail;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerFragment;
+import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -88,7 +90,19 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
             Bundle bundle = getArguments();
             mMovieId = bundle.getInt(MovieViewHolderPortrait.MOVIEID_KEY, -1);
             Timber.d("movieId: %d", mMovieId);
+
+            DaggerInjector.getsAppComponent().inject(MovieDetailView.this);
+
+            if(mMovieDetailPresenterImp != null) {
+                Timber.d("mMovieDetailPresenterImp != null");
+                mMovieDetailPresenterImp.attachView(MovieDetailView.this);
+                if(mMovieId != -1) {
+                /* Ask the presenter to get the movie detail */
+                    mMovieDetailPresenterImp.loadMovieDetail(mMovieId);
+                }
+            }
         }
+
         return view;
     }
 
@@ -107,24 +121,7 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-   //     DaggerInjector.getsAppComponent().inject(MovieDetailView.this);
-
-        if(mMovieDetailPresenterImp != null) {
-            Timber.d("mMovieDetailPresenterImp != null");
-   //         mMovieDetailPresenterImp.attachView(MovieDetailView.this);
-            if(mMovieId != -1) {
-                /* Ask the presenter to get the movie detail */
-                mMovieDetailPresenterImp.loadMovieDetail(mMovieId);
-            }
-        }
-    }
-
-    @Override
     public void playMovieTrailer(final String videoCode) {
-/*
         setupYoutube();
 
         mYouTubePlayerFragment.initialize(Constants.YOUTUBE_KEY, new YouTubePlayer.OnInitializedListener() {
@@ -139,7 +136,6 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
                 Timber.e("Youtube initialization failure: %s is recoverable: %b", youTubeInitializationResult.name(), youTubeInitializationResult.isUserRecoverableError());
             }
         });
-*/
     }
 
     @Override
@@ -154,8 +150,14 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
 
     @Override
     public void displayMovieThumbnail(String imageUrl) {
-        mSdvMovieDetailThumbnail.
-                setImageURI("https://image.tmdb.org/t/p/w92/h6O5OE3ueRVdCc7V7cwTiQocI7D.jpg");
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getActivity().startPostponedEnterTransition();
+            Picasso.with(getActivity()).load(ImageBuilder.buildImagePath(Constants.W92, imageUrl)).into(mSdvMovieDetailThumbnail);
+/*
+            mSdvMovieDetailThumbnail.
+                    setImageURI(ImageBuilder.buildImagePath(Constants.W92, imageUrl));
+*/
+        }
     }
 
     @Override

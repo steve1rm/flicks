@@ -21,6 +21,6 @@ public interface AppComponent {
     void inject(MovieListView target);
     void inject(MovieListPresenterImp target);
     void inject(MovieDetailPresenterImp target);
-    void inject(DetailFragment target);
+    void inject(MovieDetailView target);
     void inject(MovieDetailModelImp target);
 }

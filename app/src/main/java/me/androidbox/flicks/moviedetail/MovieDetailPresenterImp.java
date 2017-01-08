@@ -12,7 +12,7 @@ import timber.log.Timber;
  */
 
 public class MovieDetailPresenterImp implements
-        MovieDetailPresenterContract.MovieDetailPresneterOps<DetailFragment>,
+        MovieDetailPresenterContract.MovieDetailPresneterOps<MovieDetailView>,
         MovieDetailModelContract.GetMovieDetailListener,
         MovieDetailModelContract.GetMovieTrailerListener {
 
@@ -28,7 +28,7 @@ public class MovieDetailPresenterImp implements
     }
 
     @Override
-    public void attachView(DetailFragment movieDetailView) {
+    public void attachView(MovieDetailView movieDetailView) {
         mMovieDetailViewContract = movieDetailView;
     }
 
@@ -88,14 +88,13 @@ public class MovieDetailPresenterImp implements
         else {
             Timber.e("mMovieDetailViewContract == null, check attachView as been called");
         }
-
     }
 
     @Override
     public void onGetMovieTrailerSuccess(Videos videos) {
         if(mMovieDetailViewContract != null) {
             if(videos.getResults().size() > 0) {
-      //          mMovieDetailViewContract.playMovieTrailer(videos.getResults().get(0).getKey());
+                mMovieDetailViewContract.playMovieTrailer(videos.getResults().get(0).getKey());
             }
             else {
                 mMovieDetailViewContract.playMovieTrailerFailure();

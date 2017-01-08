@@ -83,11 +83,11 @@ public class DetailFragment extends Fragment implements MovieDetailViewContract 
             Timber.d("movieId: %d", mMovieId);
         }
 
-        DaggerInjector.getsAppComponent().inject(DetailFragment.this);
+       // DaggerInjector.getsAppComponent().inject(DetailFragment.this);
 
         if(mMovieDetailPresenterImp != null) {
             Timber.d("mMovieDetailPresenterImp != null");
-            mMovieDetailPresenterImp.attachView(DetailFragment.this);
+      //      mMovieDetailPresenterImp.attachView(DetailFragment.this);
             if(mMovieId != -1) {
                 /* Ask the presenter to get the movie detail */
                 mMovieDetailPresenterImp.loadMovieDetail(mMovieId);

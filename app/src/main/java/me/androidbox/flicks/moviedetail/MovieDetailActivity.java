@@ -29,8 +29,8 @@ public class MovieDetailActivity extends AppCompatActivity {
             if(savedInstanceState == null) {
                 getFragmentManager()
                         .beginTransaction()
-                        .add(R.id.activity_detail_container, DetailFragment.newInstance(movieId), DetailFragment.class.getSimpleName())
- /*                       .add(R.id.activity_detail_container, MovieDetailView.getNewInstance(movieId), MovieDetailView.TAG)*/
+/*                        .add(R.id.activity_detail_container, DetailFragment.newInstance(movieId), DetailFragment.class.getSimpleName())*/
+                        .add(R.id.activity_detail_container, MovieDetailView.getNewInstance(movieId), MovieDetailView.TAG)
                         .commit();
             }
         }
