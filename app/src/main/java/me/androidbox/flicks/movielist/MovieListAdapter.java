@@ -136,34 +136,12 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private void bindPortraitMode(final MovieViewHolderPortrait viewHolderPortrait, int position) {
         viewHolderPortrait.mTvMovieTitle.setText(mMoviesList.get(position).getTitle());
 
-  /*      ImagePipeline imagePipeline = Fresco.getImagePipeline();
-        ImageRequest imageRequest = ImageRequestBuilder
-                .newBuilderWithSource(null)
-                .setRequestPriority(Priority.HIGH)
-                .setLowestPermittedRequestLevel(ImageRequest.RequestLevel.FULL_FETCH)
-                .build();
-
-        DataSource<CloseableReference<CloseableImage>> dataSource =
-                imagePipeline.fetchDecodedImage(imageRequest, mContext);
-
-        dataSource.subscribe(new BaseBitmapDataSubscriber() {
-            @Override
-            protected void onNewResultImpl(Bitmap bitmap) {
-
-            }
-
-            @Override
-            protected void onFailureImpl(DataSource<CloseableReference<CloseableImage>> dataSource) {
-
-            }
-        });*/
-
         final com.squareup.picasso.Target target = new com.squareup.picasso.Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                 viewHolderPortrait.mIvMoviePoster.setImageBitmap(bitmap);
 
-                Palette.from(bitmap).maximumColorCount(12).generate(new Palette.PaletteAsyncListener() {
+                Palette.from(bitmap).maximumColorCount(6).generate(new Palette.PaletteAsyncListener() {
                     @Override
                     public void onGenerated(Palette palette) {
                         Palette.Swatch vibrant = palette.getDarkVibrantSwatch();

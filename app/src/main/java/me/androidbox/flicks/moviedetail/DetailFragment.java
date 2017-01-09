@@ -50,7 +50,7 @@ public class DetailFragment extends Fragment implements MovieDetailViewContract 
     @BindView(R.id.ivBackdropPoster) ImageView mIvBackdropPoster;
     @BindView(R.id.tvRunningTime) TextView mTvRunningTime;
     @BindView(R.id.rbMovieRatings) RatingBar mRbMovieRatings;
-    @BindView(R.id.sdvMovieDetailThumbnail) SimpleDraweeView mSdvMovieDetailThumbnail;
+    @BindView(R.id.ivDetailThumbnail) ImageView mSdvMovieDetailThumbnail;
 
     private Unbinder mUnbinder;
     private int mMovieId;

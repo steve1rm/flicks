@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v4.util.Pair;
 import android.view.View;
@@ -18,14 +17,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.androidbox.flicks.R;
 import me.androidbox.flicks.di.ApplicationModule;
-import me.androidbox.flicks.model.Contact;
-import me.androidbox.flicks.moviedetail.DetailsActivity;
 import me.androidbox.flicks.moviedetail.MovieDetailActivity;
-import me.androidbox.flicks.moviedetail.MovieDetailView;
 import timber.log.Timber;
-
-import static me.androidbox.flicks.R.id.ivProfile;
-import static me.androidbox.flicks.R.id.tvMovieTitle;
 
 /**
  * Created by steve on 10/15/16.
@@ -75,7 +68,6 @@ public class MovieViewHolderPortrait extends RecyclerView.ViewHolder {
 
                 context.startActivity(intent, options.toBundle());
             }
-
         });
     }
 }

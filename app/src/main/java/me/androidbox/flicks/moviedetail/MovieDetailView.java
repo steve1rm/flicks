@@ -7,11 +7,13 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.graphics.Palette;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -59,7 +61,7 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
     @BindView(R.id.ivBackdropPoster) ImageView mIvBackdropPoster;
     @BindView(R.id.tvRunningTime) TextView mTvRunningTime;
     @BindView(R.id.rbMovieRatings) RatingBar mRbMovieRatings;
-    @BindView(R.id.sdvMovieDetailThumbnail) SimpleDraweeView mSdvMovieDetailThumbnail;
+    @BindView(R.id.ivDetailThumbnail) ImageView mIvDetailThumbnail;
     @BindView(R.id.vPalette) View mVPalette;
 
     private Unbinder mUnbinder;
@@ -153,22 +155,40 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
         mTvMovieOverview.setText(overview);
     }
 
+    private void scheduledStartPostponedTransition(final View sharedElement) {
+        sharedElement.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                sharedElement.getViewTreeObserver().removeOnPreDrawListener(this);
+                ActivityCompat.startPostponedEnterTransition(getActivity());
+                Timber.d("scheduledStartPostponedTransition");
+                return true;
+            }
+        });
+    }
+
     @Override
     public void displayMovieThumbnail(String imageUrl) {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getActivity().startPostponedEnterTransition();
 
-            final Target target = new Target() {
+        final Target target = new Target() {
                 @Override
                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                    mSdvMovieDetailThumbnail.setImageBitmap(bitmap);
-                    Palette palette = Palette.from(bitmap).generate();
-                    Palette.Swatch swatch = palette.getDarkVibrantSwatch();
-                    if(swatch != null) {
-                        mVPalette.setBackgroundColor(swatch.getRgb());
-                        mTvMovieTitle.setTextColor(swatch.getTitleTextColor());
-                        mTvMovieOverview.setTextColor(swatch.getTitleTextColor());
-                    }
+                    mIvDetailThumbnail.setImageBitmap(bitmap);
+                    scheduledStartPostponedTransition(mIvDetailThumbnail);
+
+                    Palette.from(bitmap).maximumColorCount(6).generate(new Palette.PaletteAsyncListener() {
+                        @Override
+                        public void onGenerated(Palette palette) {
+                            Palette.Swatch swatch = palette.getDarkVibrantSwatch();
+                            if(swatch != null) {
+                                mVPalette.setBackgroundColor(swatch.getRgb());
+                                mTvMovieTitle.setTextColor(swatch.getTitleTextColor());
+                                mTvMovieOverview.setTextColor(swatch.getBodyTextColor());
+                                mTvReleaseDate.setTextColor(swatch.getTitleTextColor());
+                                mTvRunningTime.setTextColor(swatch.getTitleTextColor());
+                            }
+                        }
+                    });
                 }
 
                 @Override
@@ -184,11 +204,11 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
 
             mVPalette.setTag(target);
             Picasso.with(getActivity()).load(ImageBuilder.buildImagePath(Constants.W92, imageUrl)).into(target);
+
 /*
             mSdvMovieDetailThumbnail.
                     setImageURI(ImageBuilder.buildImagePath(Constants.W92, imageUrl));
 */
-        }
     }
 
     @Override
