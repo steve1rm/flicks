@@ -141,7 +141,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                 viewHolderPortrait.mIvMoviePoster.setImageBitmap(bitmap);
 
-                Palette.from(bitmap).maximumColorCount(6).generate(new Palette.PaletteAsyncListener() {
+                Palette.from(bitmap).maximumColorCount(10).generate(new Palette.PaletteAsyncListener() {
                     @Override
                     public void onGenerated(Palette palette) {
                         Palette.Swatch vibrant = palette.getDarkVibrantSwatch();

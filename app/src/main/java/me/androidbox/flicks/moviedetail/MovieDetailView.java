@@ -176,7 +176,7 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
                     mIvDetailThumbnail.setImageBitmap(bitmap);
                     scheduledStartPostponedTransition(mIvDetailThumbnail);
 
-                    Palette.from(bitmap).maximumColorCount(6).generate(new Palette.PaletteAsyncListener() {
+                    Palette.from(bitmap).maximumColorCount(10).generate(new Palette.PaletteAsyncListener() {
                         @Override
                         public void onGenerated(Palette palette) {
                             Palette.Swatch swatch = palette.getDarkVibrantSwatch();
@@ -186,6 +186,7 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
                                 mTvMovieOverview.setTextColor(swatch.getBodyTextColor());
                                 mTvReleaseDate.setTextColor(swatch.getTitleTextColor());
                                 mTvRunningTime.setTextColor(swatch.getTitleTextColor());
+                                Timber.d("onGenerated");
                             }
                         }
                     });

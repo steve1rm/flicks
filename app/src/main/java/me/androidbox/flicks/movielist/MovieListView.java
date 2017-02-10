@@ -161,9 +161,11 @@ public class MovieListView extends Fragment implements MovieListViewContract, Lo
         setRecyclerView();
 
         /* Don't display the tabs on the landscape for the space constaint, the tab selected on the portrait will display the match list of movies */
+/*
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             setupTabs(view);
         }
+*/
 
         /* We won't do pull to refresh in landscape mode */
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {

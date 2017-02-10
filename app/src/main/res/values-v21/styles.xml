@@ -4,7 +4,10 @@
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowContentTransitions">true</item>
 
+<!--
         <item name="android:windowEnterTransition">@transition/slide_right</item>
         <item name="android:windowExitTransition">@transition/slide_right</item>
+-->
+
     </style>
 </resources>
