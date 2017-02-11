@@ -62,8 +62,7 @@ public class MovieViewHolderPortrait extends RecyclerView.ViewHolder {
                 Pair<View, String> image = Pair.create((View)mIvMoviePoster, context.getString(R.string.image_transition));
                 Pair<View, String> background = Pair.create(mVPalette, context.getString(R.string.background_transition));
 
-                ActivityOptionsCompat options = ActivityOptionsCompat
-                        .makeSceneTransitionAnimation(
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                                 (Activity)context, image, background);
 
                 context.startActivity(intent, options.toBundle());
