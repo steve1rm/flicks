@@ -2,9 +2,9 @@ package me.androidbox.flicks;
 
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.IdlingResource;
+import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.app.Fragment;
 
 import org.junit.After;
 import org.junit.Before;
@@ -17,6 +17,7 @@ import me.androidbox.flicks.movielist.MovieListView;
 import me.androidbox.flicks.utils.RecyclerViewItemCountAssertion;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.greaterThan;
 
@@ -52,4 +53,8 @@ public class MovieListViewTest {
                 .check(new RecyclerViewItemCountAssertion(greaterThan(0)));
     }
 
+    @Test
+    public void shouldLoadDetailMovie() {
+       onView(withId(R.id.rvMovieList)).perform(RecyclerViewActions.actionOnItemAtPosition(10, click()));
+    }
 }
