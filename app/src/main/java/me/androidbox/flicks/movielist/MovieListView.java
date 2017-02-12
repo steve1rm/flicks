@@ -10,8 +10,10 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.TabLayout;
 import android.app.LoaderManager;
+import android.support.test.espresso.idling.CountingIdlingResource;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -52,6 +54,11 @@ public class MovieListView extends Fragment implements MovieListViewContract, Lo
     public static final String TAG = MovieListView.class.getSimpleName();
 
     private static final String RESTORE_RECYCLER_POSITION_KEY = "restore_recycler_postion";
+    /**
+     * Waits for the movies to be downloaded before espresso will start the test
+     */
+    private CountingIdlingResource mCountingIdlingResource;
+    private static final String IDLE_RES_WAIT_FOR_MOVIE_LOAD = "idle_res_wait_for_movie_load";
 
     @Inject MovieListPresenterImp mMovieListPresenterImp;
 
@@ -106,10 +113,17 @@ public class MovieListView extends Fragment implements MovieListViewContract, Lo
         }
     }
 
+    @VisibleForTesting
+    public CountingIdlingResource getIdingResource() {
+        return mCountingIdlingResource;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Timber.d("onCreate");
+
+        mCountingIdlingResource = new CountingIdlingResource(IDLE_RES_WAIT_FOR_MOVIE_LOAD);
 
         /* Create a translucent status bar */
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -193,10 +207,11 @@ public class MovieListView extends Fragment implements MovieListViewContract, Lo
                     if(!mMovieListPresenterImp.isAttached()) {
                         Timber.d("Lets get some movies");
                         mMovieListPresenterImp.attachView(MovieListView.this);
+                        /* Start the espresso idling resouce counter to indicate a background operation has started */
+                        mCountingIdlingResource.increment();
+
                         mMovieListPresenterImp.loadUpcomingMovies();
                         //   mMovieListPresenterImp.getLatestMovie();
-
-          //              getLoaderManager().initLoader(LOADER_ID, null, MovieListView.this);
                     }
                     else {
                         Timber.d("Already attached no need for another network request");
@@ -286,6 +301,7 @@ public class MovieListView extends Fragment implements MovieListViewContract, Lo
         super.onDestroy();
         Timber.d("onDestroy");
         mUnbinder.unbind();
+        mCountingIdlingResource = null;
 
         if(mMovieListPresenterImp.isAttached()) {
             Timber.d("detach view");
@@ -297,6 +313,8 @@ public class MovieListView extends Fragment implements MovieListViewContract, Lo
     public void loadNowPlayingMovies(List<Results> movieList) {
         Timber.d("loadNowPlayingMovies: %s", movieList.size());
         mMovieListAdapter.updateMovieList(movieList);
+        /* Decrement the espresso to indicate that the movies have loaded and espresso can start the UI test */
+        mCountingIdlingResource.decrement();
 
         /* We have new movies add this to the loader */
         Bundle bundle = new Bundle();
