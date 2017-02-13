@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.android.youtube.player.YouTubePlayerFragment;
 import com.squareup.picasso.Picasso;
 
@@ -28,7 +27,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import me.androidbox.flicks.R;
-import me.androidbox.flicks.di.DaggerInjector;
 import me.androidbox.flicks.movielist.MovieViewHolderPortrait;
 import me.androidbox.flicks.utils.Constants;
 import me.androidbox.flicks.utils.ImageBuilder;
@@ -44,7 +42,7 @@ public class DetailFragment extends Fragment implements MovieDetailViewContract 
 
     @Inject MovieDetailPresenterImp mMovieDetailPresenterImp;
 
-    @BindView(R.id.tvMovieTitle) TextView mTvMovieTitle;
+    @BindView(R.id.tvMovieDetailTitle) TextView mTvMovieTitle;
     @BindView(R.id.tvReleaseDate) TextView mTvReleaseDate;
     @BindView(R.id.tvMovieOverview) TextView mTvMovieOverview;
     @BindView(R.id.ivBackdropPoster) ImageView mIvBackdropPoster;

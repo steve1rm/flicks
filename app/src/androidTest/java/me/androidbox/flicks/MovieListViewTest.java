@@ -18,8 +18,11 @@ import me.androidbox.flicks.utils.RecyclerViewItemCountAssertion;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.is;
 
 /**
  * Created by steve on 2/11/17.
@@ -54,7 +57,13 @@ public class MovieListViewTest {
     }
 
     @Test
-    public void shouldLoadDetailMovie() {
-       onView(withId(R.id.rvMovieList)).perform(RecyclerViewActions.actionOnItemAtPosition(10, click()));
+    public void shouldLoadDetailMovieWithCorrectTitle() {
+        onView(withId(R.id.rvMovieList))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+
+        /* tvMovieTitle */
+        onView(withId(R.id.tvMovieDetailTitle))
+                .check(matches(withText("Rings")));
+
     }
 }

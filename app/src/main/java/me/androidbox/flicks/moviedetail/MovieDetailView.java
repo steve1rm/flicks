@@ -4,9 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.graphics.Palette;
 import android.view.LayoutInflater;
@@ -20,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerFragment;
@@ -55,7 +52,7 @@ public class MovieDetailView extends Fragment implements MovieDetailViewContract
 
     @Inject MovieDetailPresenterImp mMovieDetailPresenterImp;
 
-    @BindView(R.id.tvMovieTitle) TextView mTvMovieTitle;
+    @BindView(R.id.tvMovieDetailTitle) TextView mTvMovieTitle;
     @BindView(R.id.tvReleaseDate) TextView mTvReleaseDate;
     @BindView(R.id.tvMovieOverview) TextView mTvMovieOverview;
     @BindView(R.id.ivBackdropPoster) ImageView mIvBackdropPoster;

@@ -14,7 +14,7 @@ import me.androidbox.flicks.R;
  */
 
 public class MovieViewHolderLandscape extends RecyclerView.ViewHolder {
-    @BindView(R.id.tvMovieTitle) TextView mTvMovieTitle;
+    @BindView(R.id.tvMovieDetailTitle) TextView mTvMovieTitle;
     @BindView(R.id.tvMovieOverview) TextView mTvMovieOverview;
     @BindView(R.id.ivBackDropImage) ImageView mIvBackdropImage;
     @BindView(R.id.tvTagLine) TextView mTvTagline;
