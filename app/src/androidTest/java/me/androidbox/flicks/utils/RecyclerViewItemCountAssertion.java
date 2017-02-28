@@ -44,6 +44,8 @@ public class RecyclerViewItemCountAssertion implements ViewAssertion {
         }
     }
 
+
+
     public static String getText(final Matcher<View> matcher) {
         final String[] text = new String[]{""};
 
